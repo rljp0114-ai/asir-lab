@@ -7,4 +7,4 @@ He instalado Debian 13 Server en VirtualBox sin entorno gráfico, con las utilid
 - sudo ip link set enp0s8 up<br>
 El primero asigna a Debian la IP 192.168.34.10 con máscara /24.<br>
 El segundo activa la interfaz de red.<br>
-Comprobé con `ip -br addr` que el enp0s8 tenía asignada una IP, luego con un ping comprobé que todo esta conectado. Hasta ahora, hay conectividad a Internet y la red interna de `asir_lab`
+Comprobé con ip -br addr que el enp0s8 tenía asignada una IP, luego con un ping comprobé que todo esta conectado. Hasta ahora, hay conectividad a Internet y la red interna de asir_lab
