@@ -125,3 +125,335 @@ La red interna utiliza provisionalmente el rango `192.168.34.0/24`. Debian utili
 Estas direcciones todavía no son definitivas, ya que primero debo diseñar el direccionamiento completo del laboratorio para reservar direcciones para los futuros servidores, routers y clientes.
 
 La configuración de la dirección IP de Debian se ha realizado de forma temporal, mientras que la de Ubuntu se ha establecido mediante Netplan. Más adelante revisaré la configuración permanente de Debian y adaptaré las direcciones cuando haya decidido el diseño definitivo de la red.
+## 8. Modificación del direccionamiento de la red interna
+
+Después de realizar las primeras pruebas, decidí modificar las direcciones IP para organizar mejor el direccionamiento del laboratorio y reservar direcciones para los diferentes equipos.
+
+La nueva distribución quedó de la siguiente manera:
+
+| Máquina virtual | Dirección IP | Función |
+|---|---|---|
+| Ubuntu Server | `192.168.34.3/24` | Router y cortafuegos con nftables |
+| Debian Server | `192.168.34.4/24` | Servidor conectado a la red interna |
+
+En Ubuntu modifiqué el archivo de configuración de Netplan para establecer la dirección `192.168.34.3/24` en la interfaz `enp0s8`.
+
+En Debian asigné la dirección `192.168.34.4/24` a la interfaz correspondiente a la red interna.
+
+Para realizar esta última operación utilicé:
+
+```bash
+sudo ip addr add 192.168.34.4/24 dev enp0s8
+```
+
+También eliminé una dirección automática anterior del rango `169.254.0.0/16`, que había aparecido al no obtener la interfaz una configuración de red válida.
+
+Esta situación puede producirse cuando una interfaz no consigue obtener una dirección mediante DHCP y el sistema se asigna automáticamente una dirección local.
+
+Hay que tener en cuenta que la asignación realizada mediante `ip addr add` es temporal y puede perderse al reiniciar la máquina.
+
+## 9. Adaptación de los adaptadores de red de Debian
+
+Hasta este momento, Debian tenía dos adaptadores de red: uno configurado en modo NAT y otro conectado a la red interna `asir_lab`.
+
+Sin embargo, para comprobar que Ubuntu podía funcionar como router, era necesario evitar que Debian utilizase directamente su propia conexión NAT para acceder a Internet.
+
+Por ello, modifiqué la configuración de red de Debian en VirtualBox:
+
+- Adaptador 1: conectado a la red interna `asir_lab`.
+- Adaptador 2: desactivado.
+
+De esta manera, Debian dependería de Ubuntu para acceder a otras redes y a Internet.
+
+Esta modificación permite comprobar realmente la función de encaminamiento de Ubuntu, en lugar de utilizar una conexión directa proporcionada por VirtualBox.
+
+## 10. Preparación de Ubuntu Server como router
+
+Una vez definido el direccionamiento, decidí utilizar Ubuntu Server como gateway provisional del laboratorio doméstico.
+
+Esta adaptación permite practicar las funciones de encaminamiento y cortafuegos que aparecen en la arquitectura de clase, aunque en dicha arquitectura el gateway principal es el MikroTik físico.
+
+Ubuntu dispone de dos interfaces:
+
+| Interfaz | Función | Dirección |
+|---|---|---|
+| `enp0s3` | WAN, conexión NAT de VirtualBox | `10.0.2.15/24` |
+| `enp0s8` | LAN, red interna `asir_lab` | `192.168.34.3/24` |
+
+La interfaz WAN obtiene su dirección automáticamente mediante DHCP y utiliza `10.0.2.2` como puerta de enlace hacia Internet.
+
+La interfaz LAN utiliza una dirección estática para comunicarse con Debian.
+
+### 10.1. Habilitación del reenvío IPv4
+
+Para que Ubuntu pueda actuar como router, es necesario habilitar el reenvío de paquetes IPv4.
+
+Comprobé su estado mediante:
+
+```bash
+sysctl net.ipv4.ip_forward
+```
+
+El valor `1` indica que el reenvío está habilitado, mientras que el valor `0` indica que está deshabilitado.
+
+Para habilitarlo temporalmente utilicé:
+
+```bash
+sudo sysctl -w net.ipv4.ip_forward=1
+```
+
+Después preparé una configuración permanente creando el archivo:
+
+```bash
+sudo nano /etc/sysctl.d/99-ip-forward.conf
+```
+
+Dentro añadí:
+
+```ini
+net.ipv4.ip_forward=1
+```
+
+Finalmente, apliqué la configuración:
+
+```bash
+sudo sysctl --system
+```
+
+Con esto, Ubuntu puede recibir paquetes por una interfaz de red y reenviarlos por otra, una función necesaria para actuar como router.
+
+## 11. Instalación y configuración de nftables
+
+Una vez preparado el reenvío IPv4, continué con la configuración del cortafuegos mediante nftables.
+
+nftables es una herramienta de Linux que permite controlar el tráfico de red mediante reglas. Estas reglas determinan qué conexiones se permiten y cuáles se bloquean.
+
+En esta práctica lo utilizo para controlar el tráfico entre la red interna y el exterior.
+
+Antes de modificar la configuración comprobé que nftables estaba instalado correctamente.
+
+### 11.1. Copia inicial del archivo de configuración
+
+Antes de realizar cambios, guardé una copia del archivo original:
+
+```bash
+sudo cp /etc/nftables.conf /etc/nftables.conf.backup
+```
+
+Esto permite disponer de una copia de seguridad del archivo anterior por si fuera necesario recuperarlo.
+
+### 11.2. Edición del archivo de reglas
+
+Para configurar el cortafuegos abrí:
+
+```bash
+sudo nano /etc/nftables.conf
+```
+
+En este archivo establecí dos tablas principales:
+
+- `inet filter`: contiene las reglas de filtrado del tráfico.
+- `ip nat`: contiene las reglas de traducción de direcciones de red.
+
+Dentro de la tabla `inet filter` configuré tres cadenas:
+
+**INPUT:** controla el tráfico que llega directamente al propio Ubuntu.
+
+**FORWARD:** controla el tráfico que atraviesa Ubuntu, por ejemplo, los paquetes que Debian envía hacia Internet.
+
+**OUTPUT:** controla el tráfico que genera el propio Ubuntu.
+
+También configuré la cadena `postrouting` dentro de la tabla NAT, que permite modificar la dirección IP de origen de los paquetes antes de que salgan hacia otra red.
+
+Entre las reglas configuradas destacan:
+
+- Permitir el tráfico local mediante la interfaz `lo`.
+- Permitir conexiones que ya están establecidas o relacionadas.
+- Permitir conexiones SSH y solicitudes de ping desde la red interna hacia Ubuntu.
+- Permitir que los equipos de la LAN envíen tráfico hacia Internet.
+- Bloquear por defecto el tráfico que no coincida con las reglas permitidas.
+- Aplicar `masquerade` para que los equipos de la red interna puedan salir a Internet utilizando la dirección WAN de Ubuntu.
+
+La regla `masquerade` es especialmente importante porque permite que Debian utilice la conexión de Ubuntu sin necesitar una dirección IP pública propia.
+
+### 11.3. Comprobación de la sintaxis
+
+Antes de aplicar las reglas utilicé:
+
+```bash
+sudo nft -c -f /etc/nftables.conf
+```
+
+Este comando comprueba que el archivo tenga una sintaxis válida sin aplicar todavía los cambios al cortafuegos.
+
+Durante esta comprobación apareció un error relacionado con la declaración de la tabla `ip nat`.
+
+El problema estaba relacionado con la estructura del archivo y el cierre de los bloques de configuración. En nftables es importante cerrar correctamente cada cadena y cada tabla mediante las llaves correspondientes.
+
+Una vez corregida la estructura, volví a ejecutar la comprobación y la configuración fue aceptada sin errores.
+
+### 11.4. Aplicación de las reglas
+
+Después de comprobar la sintaxis, apliqué las reglas mediante:
+
+```bash
+sudo nft -f /etc/nftables.conf
+```
+
+Para comprobar las reglas que estaban cargadas utilicé:
+
+```bash
+sudo nft list ruleset
+```
+
+Finalmente, habilité el servicio para que nftables se iniciase automáticamente al arrancar el sistema:
+
+```bash
+sudo systemctl enable --now nftables
+```
+
+## 12. Configuración de Debian para utilizar Ubuntu como gateway
+
+Una vez configurado Ubuntu, era necesario indicar a Debian que debía utilizarlo como puerta de enlace para acceder a otras redes.
+
+Para ello utilicé:
+
+```bash
+sudo ip route replace default via 192.168.34.3 dev enp0s8
+```
+
+Este comando establece como ruta predeterminada la dirección `192.168.34.3`, que corresponde a Ubuntu Server.
+
+De esta manera, cuando Debian necesita comunicarse con una dirección que no pertenece a su propia red, envía los paquetes a Ubuntu para que este los reenvíe.
+
+Comprobé la configuración mediante:
+
+```bash
+ip route
+```
+
+La ruta que necesitaba encontrar era:
+
+```text
+default via 192.168.34.3 dev enp0s8
+```
+
+Durante esta configuración también apareció una ruta asociada al rango `169.254.0.0/16`. Esta ruta está relacionada con las direcciones automáticas y no constituye la puerta de enlace que estamos utilizando.
+
+## 13. Comprobación del funcionamiento del router
+
+Una vez configuradas las direcciones IP, el reenvío IPv4, las reglas de nftables y la puerta de enlace de Debian, realicé diferentes pruebas de conectividad.
+
+### 13.1. Comunicación entre Debian y Ubuntu
+
+Desde Debian ejecuté:
+
+```bash
+ping -c 4 192.168.34.3
+```
+
+La prueba respondió correctamente, confirmando que Debian podía comunicarse con Ubuntu a través de la red interna.
+
+### 13.2. Comprobación del acceso a Internet
+
+Después probé la conectividad con una dirección IP externa:
+
+```bash
+ping -c 4 1.1.1.1
+```
+
+La prueba funcionó correctamente, lo que permitió comprobar que los paquetes podían atravesar Ubuntu y llegar a Internet.
+
+Esto demuestra que el reenvío IPv4 y la traducción NAT estaban funcionando.
+
+### 13.3. Comprobación de la resolución DNS
+
+Por último, probé la resolución de nombres de dominio:
+
+```bash
+ping -c 4 google.com
+```
+
+Para realizar esta comprobación configuré temporalmente servidores DNS externos en Debian mediante el archivo:
+
+```bash
+sudo nano /etc/resolv.conf
+```
+
+Añadí las siguientes direcciones:
+
+```text
+nameserver 8.8.8.8
+nameserver 1.1.1.1
+```
+
+Estas direcciones corresponden a servidores DNS públicos de Google y Cloudflare.
+
+La prueba respondió correctamente, confirmando que Debian podía resolver nombres de dominio y acceder a servicios mediante sus nombres.
+
+Es importante diferenciar las dos funciones: Ubuntu actúa como gateway y se encarga del encaminamiento, mientras que los servidores DNS traducen los nombres de dominio a direcciones IP.
+
+## 14. Prueba de tráfico bloqueado mediante nftables
+
+Una vez comprobado que Debian podía acceder a Internet, realicé una prueba para verificar que nftables también era capaz de bloquear tráfico.
+
+Para ello añadí temporalmente una regla al principio de la cadena `forward` de Ubuntu:
+
+```bash
+sudo nft insert rule inet filter forward ip saddr 192.168.34.4 ip protocol icmp counter log prefix "PRUEBA-BLOQUEO: " drop
+```
+
+Esta regla identifica los paquetes ICMP que proceden de Debian (`192.168.34.4`) y los bloquea.
+
+Sus elementos principales son:
+
+- `ip saddr`: identifica la dirección IP de origen.
+- `ip protocol icmp`: selecciona el tráfico ICMP, utilizado por ejemplo por el comando `ping`.
+- `counter`: cuenta los paquetes que coinciden con la regla.
+- `log`: registra los paquetes en el sistema.
+- `drop`: descarta los paquetes.
+
+La regla se insertó al principio de la cadena para que se evaluase antes de la regla general que permite el tráfico desde la LAN hacia la WAN.
+
+### 14.1. Comprobación del bloqueo
+
+Desde Debian ejecuté:
+
+```bash
+ping -c 4 1.1.1.1
+```
+
+En esta ocasión, el ping no obtuvo respuesta, por lo que se comprobó que nftables estaba bloqueando correctamente el tráfico ICMP procedente de Debian.
+
+También consulté el contador de paquetes mediante:
+
+```bash
+sudo nft list chain inet filter forward
+```
+
+El contador permitió comprobar que la regla había recibido paquetes.
+
+Con esta prueba pude demostrar que Ubuntu no solamente permite el acceso a Internet, sino que también puede controlar y bloquear determinados tipos de tráfico.
+
+## 15. Estado actual y próximos pasos
+
+En este punto he conseguido configurar Ubuntu Server como router provisional y cortafuegos para la red interna de mi laboratorio.
+
+La situación actual es la siguiente:
+
+- Ubuntu dispone de una interfaz WAN conectada mediante NAT y otra interfaz LAN conectada a `asir_lab`.
+- Ubuntu tiene habilitado el reenvío IPv4.
+- nftables está instalado y tiene configuradas reglas de filtrado y NAT.
+- Debian utiliza Ubuntu (`192.168.34.3`) como puerta de enlace.
+- Debian puede comunicarse con Ubuntu y acceder a Internet.
+- Se ha comprobado que nftables puede bloquear el tráfico ICMP procedente de Debian.
+
+Quedan pendientes las siguientes tareas:
+
+1. Comprobar e interpretar los registros de los paquetes bloqueados.
+2. Retirar la regla temporal de bloqueo y verificar que Debian recupera el acceso a Internet.
+3. Realizar una copia de seguridad de la configuración definitiva de nftables.
+4. Comprobar el comportamiento del cortafuegos ante un fallo controlado y realizar su recuperación.
+5. Revisar qué configuraciones deben hacerse permanentes en Debian, especialmente la dirección IP, la puerta de enlace y los servidores DNS.
+
+Estas tareas se realizarán posteriormente para completar las pruebas de funcionamiento y recuperación del servidor de comunicaciones.
