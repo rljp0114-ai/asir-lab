@@ -457,3 +457,125 @@ Quedan pendientes las siguientes tareas:
 5. Revisar qué configuraciones deben hacerse permanentes en Debian, especialmente la dirección IP, la puerta de enlace y los servidores DNS.
 
 Estas tareas se realizarán posteriormente para completar las pruebas de funcionamiento y recuperación del servidor de comunicaciones.
+## 16. Comprobación de los registros del cortafuegos
+
+Después de comprobar que la regla temporal bloqueaba correctamente los paquetes ICMP enviados desde Debian, se revisaron los registros del sistema Ubuntu Server para verificar que `nftables` estaba registrando los paquetes bloqueados.
+
+Para consultar los registros se utilizó:
+
+```bash
+sudo journalctl -k -g "PRUEBA-BLOQUEO"
+```
+
+El comando permite consultar los mensajes del registro del kernel que contienen el texto `PRUEBA-BLOQUEO`, que es el prefijo configurado en la regla de bloqueo.
+
+**Resultado obtenido:**
+
+Se encontraron 4 registros correspondientes a los paquetes ICMP bloqueados durante la prueba.
+
+Esto permite comprobar que el cortafuegos no solamente está bloqueando el tráfico indicado, sino que también está generando información que puede utilizarse para analizar posibles problemas de conectividad o intentos de comunicación no permitidos.
+
+## 17. Eliminación de la regla temporal y recuperación de la conectividad
+
+Una vez finalizada la prueba, se procedió a eliminar la regla temporal que bloqueaba los paquetes ICMP procedentes de Debian.
+
+Para ello, primero se consultaron las reglas de la cadena `forward` con sus identificadores (*handles*):
+
+```bash
+sudo nft -a list chain inet filter forward
+```
+
+Los *handles* permiten identificar individualmente las reglas existentes en una cadena de `nftables`.
+
+A continuación, se eliminaron las reglas temporales utilizando el identificador correspondiente:
+
+```bash
+sudo nft delete rule inet filter forward handle NUMERO
+```
+
+Se debe sustituir `NUMERO` por el identificador real de la regla que se quiere eliminar.
+
+**Resultado obtenido:**
+
+Después de eliminar las reglas temporales, se volvió a realizar una prueba de conectividad desde Debian:
+
+```bash
+ping -c 4 1.1.1.1
+```
+
+Debian volvió a recibir respuestas correctamente.
+
+Con esta comprobación se verificó que la regla temporal había dejado de bloquear el tráfico y que la comunicación con Internet a través de Ubuntu Server se había recuperado.
+
+## 18. Conclusiones de las pruebas de nftables
+
+Las pruebas realizadas han permitido comprobar el funcionamiento básico del cortafuegos configurado en Ubuntu Server.
+
+Se han verificado los siguientes aspectos:
+
+- **Enrutamiento:** Ubuntu Server permite que Debian utilice su conexión de red para acceder a Internet.
+- **Reenvío de paquetes:** la opción `net.ipv4.ip_forward` permite reenviar tráfico entre la interfaz interna y la interfaz de salida.
+- **NAT:** la regla `masquerade` permite que los equipos de la red interna accedan a Internet utilizando la dirección de la interfaz de salida de Ubuntu.
+- **Filtrado:** se ha comprobado que una regla de `nftables` puede bloquear un tipo concreto de tráfico.
+- **Registro de eventos:** se han localizado 4 registros generados por la regla temporal de bloqueo.
+- **Recuperación:** después de eliminar la regla mediante su *handle*, Debian recuperó la conectividad.
+
+Estas pruebas demuestran que Ubuntu Server está realizando correctamente las funciones de encaminamiento y filtrado previstas para esta parte del laboratorio.
+
+## 19. Tareas pendientes
+
+Aunque el funcionamiento básico del cortafuegos ya está comprobado, todavía quedan algunas tareas por realizar para completar la configuración y documentar la práctica.
+
+### 19.1. Comprobar la persistencia de la configuración
+
+Se debe verificar que las reglas de `nftables` continúan activas después de reiniciar Ubuntu Server.
+
+También habrá que comprobar que el servicio se encuentra habilitado para iniciarse automáticamente:
+
+```bash
+sudo systemctl is-enabled nftables
+```
+
+Y consultar su estado:
+
+```bash
+sudo systemctl status nftables
+```
+
+### 19.2. Realizar una copia de seguridad de la configuración
+
+Se debe guardar una copia de la configuración definitiva del cortafuegos para poder recuperarla en caso de modificación incorrecta o pérdida de las reglas.
+
+El archivo principal de configuración es:
+
+```bash
+/etc/nftables.conf
+```
+
+La copia de seguridad permitirá restaurar las reglas sin tener que configurarlas nuevamente desde cero.
+
+### 19.3. Realizar una prueba controlada de fallo y recuperación
+
+Se realizará una prueba controlada para comprobar qué sucede cuando se interrumpe temporalmente alguna de las comunicaciones o reglas necesarias para el funcionamiento de la red.
+
+Después se restaurará la configuración original y se comprobará que Debian vuelve a tener conectividad con Ubuntu Server y con Internet.
+
+Esta prueba permitirá documentar el procedimiento de detección del problema y su recuperación.
+
+### 19.4. Hacer persistente la configuración de red de Debian
+
+Actualmente, la dirección IP, la ruta predeterminada y los servidores DNS de Debian se han configurado durante las pruebas.
+
+Queda pendiente comprobar y configurar su persistencia para que Debian conserve los parámetros de red después de reiniciar la máquina virtual.
+
+Los parámetros que se deben mantener son:
+
+| Parámetro | Configuración |
+|---|---|
+| Dirección IP | `192.168.34.4/24` |
+| Puerta de enlace | `192.168.34.3` |
+| DNS principal | `8.8.8.8` |
+| DNS secundario | `1.1.1.1` |
+| Interfaz de red | `enp0s8` |
+
+Una vez configurados, se reiniciará Debian y se comprobará que sigue teniendo conectividad con Ubuntu Server y con Internet.
