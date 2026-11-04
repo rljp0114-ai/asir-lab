@@ -579,3 +579,162 @@ Los parámetros que se deben mantener son:
 | Interfaz de red | `enp0s8` |
 
 Una vez configurados, se reiniciará Debian y se comprobará que sigue teniendo conectividad con Ubuntu Server y con Internet.
+
+## MikroTik CHR: Instalación y configuración inicial
+
+### 1. Instalación de MikroTik CHR
+
+Se instaló MikroTik CHR (Cloud Hosted Router) en una máquina virtual de VirtualBox.
+
+Una vez finalizada la instalación, se retiró la imagen ISO para que la máquina arrancase directamente desde el disco virtual.
+
+Se accedió al sistema mediante el usuario `admin` y se estableció la contraseña correspondiente.
+
+Posteriormente, se modificó el nombre del dispositivo para identificarlo dentro del laboratorio:
+
+- **Nombre:** `MikroTik-ThinkLab`
+
+### 2. Configuración de los adaptadores de red
+
+Se configuraron dos interfaces de red en VirtualBox:
+
+| Interfaz MikroTik | Adaptador VirtualBox | Función |
+|---|---|---|
+| `ether1` | Adaptador puente | Conexión WAN hacia la red doméstica |
+| `ether2` | Red interna `asir_lab` | Conexión LAN con Debian |
+
+Se utilizó el modo puente en el primer adaptador para poder acceder a WebFig desde el ordenador anfitrión.
+
+### 3. Configuración de las direcciones IP
+
+Se asignaron las siguientes direcciones:
+
+| Dispositivo | Interfaz | Dirección IP |
+|---|---|---|
+| MikroTik | `ether1` | `192.168.30.193` |
+| MikroTik | `ether2` | `192.168.34.3/24` |
+| Debian | Interfaz LAN | `192.168.34.4/24` |
+
+La interfaz WAN obtuvo su configuración mediante DHCP, mientras que la interfaz LAN se configuró con una dirección estática.
+
+### 4. Configuración de DNS
+
+Desde WebFig, en `IP → DNS`, se configuraron los siguientes servidores DNS:
+
+- `8.8.8.8`
+- `1.1.1.1`
+
+También se activó la opción **Allow Remote Requests**.
+
+### 5. Configuración del cliente DHCP
+
+En `IP → DHCP Client` se creó una entrada asociada a `ether1`.
+
+El estado obtenido fue:
+
+- **Status:** `bound`
+
+Esto confirmó que MikroTik recibió correctamente la configuración de red de la red doméstica.
+
+### 6. Configuración de la ruta predeterminada
+
+En `IP → Routes` se comprobó la existencia de una ruta predeterminada:
+
+- **Dst. Address:** `0.0.0.0/0`
+- **Gateway:** dirección del router doméstico.
+- **Routing Table:** `main`.
+
+Esta ruta permite enviar hacia el router doméstico el tráfico destinado a redes externas.
+
+### 7. Configuración de NAT
+
+Se creó una regla en `IP → Firewall → NAT` para permitir que los dispositivos de la red interna pudieran salir a Internet utilizando la dirección WAN de MikroTik.
+
+Configuración:
+
+| Parámetro | Valor |
+|---|---|
+| Chain | `srcnat` |
+| Action | `masquerade` |
+| Out. Interface | `ether1` |
+
+La acción `masquerade` permite traducir las direcciones IP privadas de la red interna a la dirección IP de salida del router.
+
+### 8. Problema encontrado: error en la regla NAT
+
+Durante las pruebas de conectividad se comprobó que Debian podía comunicarse con MikroTik, pero no tenía acceso a Internet.
+
+Se revisaron los siguientes elementos:
+
+- Estado del cliente DHCP.
+- Dirección IP de WAN y LAN.
+- Gateway doméstico.
+- Ruta predeterminada.
+- Servidores DNS.
+- Tabla ARP.
+- Reglas del firewall.
+- Tabla de conexiones.
+
+Aunque la configuración parecía correcta, los contadores de la regla NAT permanecían a cero.
+
+Finalmente, se utilizó el terminal de RouterOS para consultar la configuración detallada:
+
+```routeros
+/ip firewall nat print detail
+```
+
+El resultado mostró:
+
+```routeros
+chain=srcnat action=masquerade out-interface=!ether1
+```
+
+El símbolo `!` indica una negación. Por tanto, la regla estaba aplicando NAT a las conexiones que salían por cualquier interfaz excepto `ether1`.
+
+Esto era incorrecto porque `ether1` es la interfaz WAN.
+
+### 9. Solución del problema
+
+Se corrigió la regla existente mediante el siguiente comando:
+
+```routeros
+/ip firewall nat set 0 out-interface=ether1
+```
+
+Después se volvió a consultar la configuración:
+
+```routeros
+/ip firewall nat print
+```
+
+La regla quedó correctamente configurada:
+
+```routeros
+chain=srcnat action=masquerade out-interface=ether1
+```
+
+### 10. Pruebas de conectividad
+
+Una vez corregida la regla NAT, se realizaron pruebas desde Debian:
+
+```bash
+ping -c 4 1.1.1.1
+```
+
+Esta prueba permitió comprobar la conectividad con una dirección IP externa.
+
+Posteriormente:
+
+```bash
+ping -c 4 google.com
+```
+
+Esta segunda prueba permitió comprobar tanto la resolución DNS como la conectividad hacia Internet.
+
+**Resultado:** ambas pruebas funcionaron correctamente y Debian consiguió acceder a Internet a través de MikroTik.
+
+### 11. Estado actual
+
+La configuración básica de MikroTik CHR y la conexión entre la red interna y la red doméstica funcionan correctamente.
+
+Queda pendiente continuar con la configuración de seguridad del router, restringir el acceso de administración y guardar una copia de seguridad de la configuración.
