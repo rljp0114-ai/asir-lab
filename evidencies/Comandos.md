@@ -737,4 +737,42 @@ Esta segunda prueba permitió comprobar tanto la resolución DNS como la conecti
 
 La configuración básica de MikroTik CHR y la conexión entre la red interna y la red doméstica funcionan correctamente.
 
-Queda pendiente continuar con la configuración de seguridad del router, restringir el acceso de administración y guardar una copia de seguridad de la configuración.
+Queda pendiente guardar una copia de seguridad de la configuración y hacer una prueba.
+### 12. Prueba de fallo y recuperación
+
+Una vez completada la configuración de MikroTik, se realizó una prueba para comprobar el comportamiento de la red ante un fallo controlado.
+
+**Objetivo:** verificar que la regla NAT es necesaria para proporcionar acceso a Internet a los equipos de la red interna.
+
+#### Procedimiento
+
+1. Se accedió al terminal de RouterOS desde WebFig.
+2. Se deshabilitó temporalmente la regla NAT:
+
+```routeros
+/ip firewall nat disable 0
+```
+
+3. Desde Debian se comprobó la conectividad:
+
+```bash
+ping -c 4 1.1.1.1
+```
+
+El equipo perdió la salida a Internet, tal como se esperaba.
+
+4. Se volvió a habilitar la regla NAT:
+
+```routeros
+/ip firewall nat enable 0
+```
+
+5. Se repitió la prueba de conectividad desde Debian.
+
+#### Resultado
+
+La conexión a Internet se recuperó correctamente después de habilitar de nuevo la regla `masquerade`.
+
+La prueba permitió comprobar que la traducción NAT es necesaria para que Debian pueda acceder a redes externas a través de MikroTik.
+
+La regla quedó habilitada al finalizar la prueba.
