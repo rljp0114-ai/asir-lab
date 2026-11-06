@@ -776,3 +776,74 @@ La conexión a Internet se recuperó correctamente después de habilitar de nuev
 La prueba permitió comprobar que la traducción NAT es necesaria para que Debian pueda acceder a redes externas a través de MikroTik.
 
 La regla quedó habilitada al finalizar la prueba.
+
+# OPNsense: instalación y configuración inicial
+
+## 1. Instalación de OPNsense
+
+Se instaló OPNsense como una de las soluciones de router y firewall del laboratorio ASIR.
+
+Para su instalación se creó una máquina virtual en VirtualBox con las siguientes características:
+
+- Sistema operativo: FreeBSD 64-bit.
+- Memoria RAM: 5 GB.
+- Procesadores: 2.
+- Disco virtual: 20 GB.
+- Adaptadores de red: 2.
+
+Se utilizaron dos adaptadores de red Intel PRO/1000 MT Desktop para asegurar la compatibilidad y la detección de las interfaces de red.
+
+## 2. Configuración de los adaptadores de red
+
+Se configuraron los adaptadores de VirtualBox de la siguiente manera:
+
+| Adaptador | Conexión | Función |
+|---|---|---|
+| Adaptador 1 | Adaptador puente | WAN: conexión con la red doméstica |
+| Adaptador 2 | Red interna `asir_lab` | LAN: conexión con la red del laboratorio |
+
+De esta forma, OPNsense dispone de una interfaz para comunicarse con la red exterior y otra para gestionar el tráfico de la red interna.
+
+## 3. Asignación de interfaces
+
+Durante la configuración inicial, OPNsense no detectaba correctamente las interfaces de red.
+
+Se revisó la configuración de VirtualBox y se modificó el tipo de adaptador de red para utilizar Intel PRO/1000 MT Desktop en ambas tarjetas.
+
+Después de este cambio, OPNsense consiguió detectar las dos interfaces:
+
+- `em0`: WAN.
+- `em1`: LAN.
+
+Se asignaron las interfaces correspondientes desde el menú de consola de OPNsense.
+
+## 4. Configuración del direccionamiento IP
+
+Se estableció el siguiente direccionamiento:
+
+| Interfaz | Dirección IP | Configuración |
+|---|---|---|
+| WAN (`em0`) | Automática | DHCP |
+| LAN (`em1`) | `192.168.34.2/24` | Estática |
+
+La dirección LAN pertenece a la red interna `192.168.34.0/24`, utilizada por los equipos del laboratorio.
+
+La dirección WAN se obtiene automáticamente mediante DHCP desde el router de la red doméstica.
+
+## 5. Comprobación de conectividad
+
+Se realizaron pruebas de conectividad para comprobar el funcionamiento de OPNsense:
+
+- Se comprobó la comunicación entre Debian y la interfaz LAN de OPNsense.
+- Se comprobó la salida a Internet desde el laboratorio.
+- Se verificó la resolución de nombres mediante DNS.
+
+Posteriormente, tras un reinicio, OPNsense dejó de detectar temporalmente las interfaces de red y perdió la configuración operativa de la WAN.
+
+Se revisaron los adaptadores virtuales y se reinició la máquina. Después se recuperó la detección de las interfaces, se volvió a configurar la dirección LAN y se restableció la obtención automática de la dirección WAN mediante DHCP.
+
+## 6. Estado actual
+
+La instalación y configuración inicial de OPNsense están realizadas.
+
+Queda pendiente completar las pruebas específicas del firewall, comprobar las reglas de filtrado y documentar el comportamiento del tráfico permitido y bloqueado.
