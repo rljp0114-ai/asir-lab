@@ -1085,5 +1085,3 @@ Se ha comprobado:
 - Comprobación de los contadores del firewall.
 - Copia de seguridad de la configuración.
 - Recuperación del filtrado después de una prueba controlada.
-
-Queda pendiente mejorar la visualización de los registros en Live View y almacenar la copia de seguridad en el servidor dedicado previsto para ello.
