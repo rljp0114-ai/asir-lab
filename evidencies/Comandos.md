@@ -899,3 +899,191 @@ Las pruebas de resolución DNS y conexión HTTPS finalizaron correctamente.
 Se confirmó que Debian puede acceder a Internet utilizando OPNsense como puerta de enlace, sin depender de su adaptador NAT auxiliar.
 
 Queda pendiente completar las pruebas específicas de filtrado del firewall de OPNsense.
+# OPNsense: configuración del servidor de comunicaciones
+
+## 1. Objetivo
+
+Instalar y configurar OPNsense como router y firewall del laboratorio doméstico. Su función es conectar la red interna con el exterior, permitir la salida a Internet y controlar el tráfico mediante reglas de firewall.
+
+## 2. Recursos de la máquina virtual
+
+- Sistema operativo: OPNsense.
+- Hipervisor: Oracle VirtualBox.
+- Memoria RAM: 5 GB.
+- Procesadores: 2 CPU.
+- Disco virtual: 20 GB.
+- Adaptadores de red: 3.
+
+## 3. Configuración de red
+
+Se han configurado tres interfaces:
+
+| Interfaz | Adaptador VirtualBox | Función | Dirección |
+|---|---|---|---|
+| WAN (`em0`) | Adaptador puente | Conexión con la red exterior | DHCP |
+| LAN (`em1`) | Red interna `asir_lab` | Red del laboratorio | `192.168.34.2/24` |
+| OPT1 (`em2`) | Host-Only `vboxnet1` | Administración desde el equipo anfitrión | `192.168.56.2/24` |
+
+La red interna utilizada es `192.168.34.0/24`.
+
+La interfaz WAN obtiene su dirección mediante DHCP. La LAN utiliza una dirección estática para que los clientes puedan utilizar OPNsense como puerta de enlace.
+
+OPT1 se ha añadido para poder acceder a la interfaz web de administración desde Linux Mint, ya que la red interna de VirtualBox no permite el acceso directo desde el anfitrión.
+
+La interfaz OPT1 utiliza la red Host-Only `192.168.56.0/24`, con el equipo anfitrión en `192.168.56.1`.
+
+## 4. Acceso de administración
+
+La administración se realiza desde la interfaz web HTTPS:
+
+`https://192.168.56.2`
+
+Se ha creado una regla en OPT1 para permitir el acceso HTTPS desde el equipo anfitrión (`192.168.56.1`), utilizando el puerto TCP 443.
+
+Esta regla permite administrar OPNsense sin tener que desactivar el firewall.
+
+## 5. Conectividad con Internet
+
+Se ha comprobado que OPNsense dispone de salida al exterior.
+
+Se utilizaron las siguientes pruebas desde la consola:
+
+```sh
+route -n get default
+```
+
+Permite consultar la ruta predeterminada y comprobar por qué interfaz sale el tráfico.
+
+```sh
+drill example.com
+```
+
+Comprueba la resolución DNS.
+
+```sh
+fetch -T 10 -o /dev/null https://google.com
+```
+
+Comprueba que se puede establecer una conexión HTTPS con el exterior.
+
+También se utilizó:
+
+```sh
+traceroute -n 1.1.1.1
+```
+
+Para observar los saltos que atraviesa el tráfico hacia el exterior.
+
+La conectividad HTTPS y DNS funcionó correctamente. En la red del instituto algunas peticiones ICMP pueden estar filtradas, por lo que no se utiliza únicamente el ping para comprobar la salida a Internet.
+
+## 6. Prueba desde Debian
+
+Se ha utilizado Debian como cliente de la red interna:
+
+- IP: `192.168.34.4/24`.
+- Puerta de enlace: `192.168.34.2`.
+- Router: OPNsense.
+
+Se comprobó que Debian podía acceder a Internet a través de OPNsense.
+
+Esto permite verificar que el router no solo tiene conectividad WAN, sino que también proporciona salida a los equipos de la LAN.
+
+## 7. Configuración del firewall
+
+Se creó una regla en:
+
+**Firewall → Rules → LAN**
+
+La regla permite comprobar el filtrado del tráfico ICMP:
+
+| Parámetro | Configuración |
+|---|---|
+| Acción | Block |
+| Interfaz | LAN |
+| Protocolo | ICMP |
+| Tipo ICMP | Echo request |
+| Origen | LAN net |
+| Destino | `1.1.1.1` |
+| Registro | Activado |
+
+La regla se colocó por encima de la regla general de permiso para que se aplique antes.
+
+### Prueba de funcionamiento
+
+Se realizaron dos pruebas desde Debian:
+
+**Primera prueba: regla desactivada**
+
+```bash
+ping -c 4 1.1.1.1
+```
+
+El ping funcionó correctamente.
+
+**Segunda prueba: regla activada**
+
+Se volvió a ejecutar el mismo comando y el ping dejó de responder.
+
+De esta forma se comprobó que OPNsense bloquea el tráfico ICMP indicado por la regla.
+
+### Comprobación de los contadores
+
+Desde la consola de OPNsense se utilizó:
+
+```sh
+pfctl -vvsr
+```
+
+Este comando permite consultar las reglas activas del firewall y sus contadores.
+
+La regla de bloqueo mostró:
+
+```text
+block drop in quick on em1 inet proto icmp
+from (em1:network:1) to 1.1.1.1
+icmp-type echoreq
+Packets: 8
+Bytes: 672
+```
+
+Esto confirma que la regla procesó y bloqueó ocho paquetes ICMP.
+
+Aunque se activó el registro de la regla, no conseguimos visualizar el evento esperado en Live View. Por tanto, el filtrado está comprobado mediante los contadores de PF, pero queda pendiente resolver la visualización de ese registro.
+
+## 8. Copia de seguridad
+
+Se descargó una copia de seguridad de la configuración desde:
+
+**System → Configuration → Backups**
+
+El archivo XML contiene la configuración necesaria para recuperar el estado del firewall.
+
+La copia se guardó en el equipo anfitrión.
+
+## 9. Prueba de fallo y recuperación
+
+Se realizó una prueba controlada modificando temporalmente el estado de la regla ICMP:
+
+1. Se desactivó la regla de bloqueo.
+2. Se comprobó que Debian podía realizar ping a `1.1.1.1`.
+3. Se volvió a activar la regla.
+4. Se comprobó que el ping dejaba de funcionar.
+
+Con esta prueba se verificó que es posible retirar el bloqueo y recuperar posteriormente el filtrado.
+
+## 10. Resultado
+
+OPNsense queda configurado como router y firewall del laboratorio.
+
+Se ha comprobado:
+
+- Configuración de las interfaces WAN, LAN y OPT1.
+- Acceso web de administración mediante HTTPS.
+- Conectividad con el exterior.
+- Salida a Internet desde un cliente de la red interna.
+- Filtrado de tráfico ICMP mediante reglas.
+- Comprobación de los contadores del firewall.
+- Copia de seguridad de la configuración.
+- Recuperación del filtrado después de una prueba controlada.
+
+Queda pendiente mejorar la visualización de los registros en Live View y almacenar la copia de seguridad en el servidor dedicado previsto para ello.
