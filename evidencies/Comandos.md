@@ -847,3 +847,55 @@ Se revisaron los adaptadores virtuales y se reinició la máquina. Después se r
 La instalación y configuración inicial de OPNsense están realizadas.
 
 Queda pendiente completar las pruebas específicas del firewall, comprobar las reglas de filtrado y documentar el comportamiento del tráfico permitido y bloqueado.
+## 7. Comprobación de conectividad a través de OPNsense
+
+Una vez recuperada la configuración persistente de OPNsense, se realizaron pruebas para comprobar la salida a Internet desde Debian utilizando OPNsense como router.
+
+### Configuración de red
+
+- OPNsense LAN: `192.168.34.2/24`.
+- Debian LAN: `192.168.34.4/24`.
+- Puerta de enlace de Debian: `192.168.34.2`.
+- Interfaz WAN de OPNsense: DHCP.
+
+### Incidencia con DNS
+
+Durante las pruebas se comprobó que Debian podía establecer conexiones TCP hacia el puerto 443, pero no resolvía nombres de dominio.
+
+Al revisar `/etc/resolv.conf`, se observó que no había ningún servidor DNS configurado.
+
+Se añadió el servidor DNS utilizado por la red del instituto:
+
+```bash
+echo "nameserver 10.239.3.7" | sudo tee /etc/resolv.conf
+```
+
+### Pruebas realizadas
+
+Se utilizaron los siguientes comandos:
+
+```bash
+ip route get 1.1.1.1
+```
+
+Para comprobar la ruta utilizada por Debian.
+
+```bash
+getent hosts google.com
+```
+
+Para verificar la resolución DNS.
+
+```bash
+wget --spider --timeout=10 https://example.com
+```
+
+Para comprobar el acceso mediante HTTPS.
+
+### Resultado
+
+Las pruebas de resolución DNS y conexión HTTPS finalizaron correctamente.
+
+Se confirmó que Debian puede acceder a Internet utilizando OPNsense como puerta de enlace, sin depender de su adaptador NAT auxiliar.
+
+Queda pendiente completar las pruebas específicas de filtrado del firewall de OPNsense.
