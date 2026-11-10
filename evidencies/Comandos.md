@@ -1085,3 +1085,328 @@ Se ha comprobado:
 - Comprobación de los contadores del firewall.
 - Copia de seguridad de la configuración.
 - Recuperación del filtrado después de una prueba controlada.
+## 3. OPNsense
+
+### Prueba de reglas del firewall y filtrado de tráfico
+
+Una vez comprobada la conectividad de OPNsense y de los equipos de la red interna, se realizó una prueba de filtrado mediante una regla del firewall.
+
+El objetivo era comprobar que OPNsense puede permitir o bloquear tráfico según las reglas configuradas.
+
+Se creó una regla en la interfaz LAN para bloquear solicitudes ICMP (ping) desde la red interna hacia la dirección `1.1.1.1`.
+
+Se habilitó el registro (*logging*) de la regla para intentar identificar el tráfico bloqueado.
+
+**Pruebas realizadas:**
+
+- Con la regla desactivada, el ping hacia `1.1.1.1` funcionaba.
+- Con la regla activada, el ping dejaba de funcionar.
+- Al consultar los contadores de las reglas mediante `pfctl -vvsr`, se comprobó que la regla había bloqueado 8 paquetes, equivalentes a 672 bytes.
+
+Aunque se había habilitado el registro, el evento no llegó a visualizarse en la sección *Live View* de la interfaz web. Sin embargo, los contadores de `pfctl` confirmaron que el filtrado se estaba aplicando correctamente.
+
+Esta prueba permitió comprobar el funcionamiento de las reglas del firewall y diferenciar entre tráfico permitido y bloqueado.
+
+### Copia de seguridad de la configuración
+
+Antes de finalizar la configuración de OPNsense, se realizó una copia de seguridad desde:
+
+**System → Configuration → Backups**
+
+El archivo de configuración se descargó al equipo anfitrión para conservar una vía de recuperación ante posibles errores o cambios posteriores.
+
+La copia se conserva fuera de la máquina virtual. No se ha restaurado porque no ha sido necesario recuperar la configuración durante las pruebas.
+
+Con esto se da por finalizada la implementación de OPNsense.
+
+---
+
+## 5. TrueNAS – Servidor NAS para copias de seguridad
+
+### 5.1. Instalación y preparación de la máquina virtual
+
+Se instaló TrueNAS SCALE en una máquina virtual de VirtualBox para utilizarlo como servidor centralizado de almacenamiento.
+
+Su función dentro del laboratorio es proporcionar un espacio compartido donde guardar copias de seguridad de las configuraciones y los archivos importantes de los diferentes equipos.
+
+Se preparó la máquina virtual con un disco destinado al sistema operativo y un segundo disco virtual adicional para el almacenamiento de los datos.
+
+Es importante separar ambos discos: el primero contiene el sistema de TrueNAS y el segundo se utiliza para almacenar las copias de seguridad. De esta forma, los datos no dependen del disco de arranque del sistema NAS.
+
+### 5.2. Configuración de red
+
+Se conectó TrueNAS a la red interna de VirtualBox denominada `asir_lab`, que utiliza el segmento:
+
+- Red: `192.168.34.0/24`
+- Dirección IP de TrueNAS: `192.168.34.20/24`
+
+Esta interfaz permite que los servidores del laboratorio accedan directamente al almacenamiento compartido.
+
+Además, se preparó una segunda interfaz de red de tipo *Host-Only* para poder administrar TrueNAS desde el equipo anfitrión, sin depender de la conectividad de la red interna del laboratorio.
+
+La configuración de administración utiliza la red `192.168.56.0/24`:
+
+- Equipo anfitrión: `192.168.56.1`
+- TrueNAS: `192.168.56.3`
+
+La interfaz web de administración queda accesible mediante:
+
+`https://192.168.56.3`
+
+Se mantienen así separadas dos funciones:
+
+- **Red interna (`asir_lab`):** comunicación entre TrueNAS y los servidores del laboratorio.
+- **Red Host-Only:** acceso de administración desde el equipo anfitrión.
+
+La interfaz de administración adicional no sustituye a la conexión de TrueNAS con la red interna.
+
+### 5.3. Creación del pool de almacenamiento
+
+Una vez instalado TrueNAS, se creó un pool de almacenamiento denominado:
+
+`NAS_DATA`
+
+Para ello se utilizó el segundo disco virtual, destinado exclusivamente a los datos.
+
+El pool constituye la unidad principal de almacenamiento sobre la que se crean los datasets y se organizan los archivos compartidos.
+
+En esta práctica se ha utilizado un único disco adicional. Por tanto, TrueNAS crea una configuración de tipo *stripe* con un solo dispositivo.
+
+Esta configuración permite utilizar el espacio disponible, pero no proporciona redundancia: si el disco falla, se pueden perder los datos almacenados en él.
+
+Se ha elegido esta configuración por las limitaciones de recursos del entorno doméstico de virtualización. No debe confundirse con una configuración NAS tolerante a fallos.
+
+### 5.4. Creación del dataset para las copias de seguridad
+
+Dentro del pool `NAS_DATA` se creó un dataset llamado:
+
+`copias_seguridad`
+
+Su ruta dentro del sistema de archivos es:
+
+`/mnt/NAS_DATA/copias_seguridad`
+
+Los datasets permiten organizar los datos dentro de un pool y establecer permisos y configuraciones independientes para cada conjunto de información.
+
+Se seleccionó una configuración orientada a compartir archivos mediante SMB, ya que el objetivo es que otros sistemas, como Debian, puedan acceder al almacenamiento a través de la red.
+
+De esta manera, el almacenamiento queda organizado y preparado para recibir las copias de seguridad de los equipos.
+
+### 5.5. Creación del usuario y configuración de permisos
+
+Se creó un usuario específico para acceder al recurso compartido:
+
+`nasbackup`
+
+Se decidió utilizar un usuario dedicado en lugar de emplear directamente `root` para las conexiones SMB.
+
+Esto permite separar la administración del sistema TrueNAS del acceso cotidiano al almacenamiento y aplicar permisos específicos al recurso destinado a las copias.
+
+Se asignó el usuario `nasbackup` como propietario del dataset y se configuraron los permisos correspondientes para que pudiera acceder y escribir archivos.
+
+Esta configuración es necesaria porque no basta con crear un recurso compartido: el usuario que se conecta también debe tener autorización para acceder a su contenido.
+
+### 5.6. Configuración del recurso compartido SMB
+
+Se creó un recurso compartido de tipo Windows (SMB) desde el apartado de recursos compartidos de TrueNAS.
+
+Se configuraron los siguientes parámetros:
+
+- Nombre del recurso: `copias_seguridad`
+- Ruta: `/mnt/NAS_DATA/copias_seguridad`
+- Protocolo: SMB
+- Estado: habilitado
+
+También se habilitó el servicio SMB en TrueNAS para permitir que otros equipos de la red puedan conectarse al recurso.
+
+SMB es un protocolo de compartición de archivos que permite acceder a directorios de un servidor a través de la red. Aunque se utiliza habitualmente en entornos Windows, también puede emplearse desde sistemas GNU/Linux.
+
+### 5.7. Comprobación de la conectividad desde Debian
+
+Para comprobar que el servidor NAS era accesible desde otro equipo, se utilizó Debian como cliente de pruebas.
+
+La dirección de TrueNAS es `192.168.34.20` y el puerto utilizado por SMB es el 445/TCP.
+
+Primero se comprobó que el puerto estaba disponible:
+
+```bash
+nc -vz 192.168.34.20 445
+```
+
+El resultado indicó que el servicio `microsoft-ds` estaba abierto.
+
+Después se instaló la herramienta `smbclient`:
+
+```bash
+sudo apt update
+sudo apt install smbclient -y
+```
+
+Se enumeraron los recursos compartidos disponibles:
+
+```bash
+smbclient -L //192.168.34.20 -U nasbackup
+```
+
+TrueNAS mostró el recurso `copias_seguridad`, confirmando que el servicio SMB estaba accesible y que el usuario podía autenticarse.
+
+A continuación, se accedió directamente al recurso:
+
+```bash
+smbclient //192.168.34.20/copias_seguridad -U nasbackup
+```
+
+Dentro de la sesión SMB se realizó una prueba de escritura:
+
+```text
+put /etc/hostname prueba-truenas.txt
+ls
+```
+
+El archivo apareció en el recurso compartido, por lo que se comprobó que Debian podía autenticarse, acceder y escribir datos en TrueNAS.
+
+### 5.8. Montaje del recurso SMB en Debian
+
+Aunque `smbclient` permite acceder manualmente a los recursos compartidos, para trabajar con ellos como si fueran un directorio local se configuró un punto de montaje en Debian.
+
+Primero se instalaron las herramientas necesarias:
+
+```bash
+sudo apt install cifs-utils rsync -y
+```
+
+Se creó el directorio que se utilizará como punto de montaje:
+
+```bash
+sudo mkdir -p /mnt/truenas
+```
+
+Después se montó el recurso compartido:
+
+```bash
+sudo mount -t cifs //192.168.34.20/copias_seguridad /mnt/truenas -o username=nasbackup,vers=3.0
+```
+
+Una vez introducida la contraseña del usuario, el recurso quedó disponible en `/mnt/truenas`.
+
+De esta forma, Debian puede trabajar con el almacenamiento de TrueNAS utilizando rutas locales, sin necesidad de iniciar una sesión interactiva con `smbclient` cada vez.
+
+### 5.9. Preparación de una copia de seguridad de Debian
+
+Para comprobar el funcionamiento del almacenamiento se preparó una copia de seguridad del directorio `/etc` de Debian.
+
+Este directorio contiene buena parte de los archivos de configuración del sistema, como configuraciones de red, servicios y otros parámetros importantes.
+
+Inicialmente se intentó copiar su contenido directamente mediante `rsync`:
+
+```bash
+sudo rsync -avh /etc/ /mnt/truenas/debian/etc/
+```
+
+Sin embargo, la operación terminó con el código de salida 23, indicando que algunos archivos o atributos no se habían transferido correctamente.
+
+Se repitió la operación evitando copiar permisos, propietario y grupo:
+
+```bash
+sudo rsync -rltvh --no-perms --no-owner --no-group /etc/ /mnt/truenas/debian/etc/
+```
+
+Aun así, siguieron apareciendo avisos de archivos no transferidos. Por este motivo, se optó por una alternativa más adecuada para conservar la configuración: crear un archivo comprimido antes de enviarlo al NAS.
+
+Se generó el archivo de respaldo en Debian:
+
+```bash
+sudo tar -czf /tmp/debian-config.tar.gz /etc
+```
+
+A continuación, se copió al almacenamiento compartido:
+
+```bash
+sudo cp /tmp/debian-config.tar.gz /mnt/truenas/debian/
+```
+
+El archivo resultante quedó almacenado en:
+
+`/mnt/truenas/debian/debian-config.tar.gz`
+
+El uso de `tar` permite agrupar los archivos de configuración en un único archivo comprimido y conservar su estructura, evitando los problemas encontrados al copiar directamente determinados archivos y atributos mediante SMB.
+
+Esta copia contiene el directorio `/etc`; no es una imagen completa del sistema ni incluye automáticamente los datos personales de los usuarios.
+
+### 5.10. Verificación de integridad y prueba de recuperación
+
+No basta con crear una copia de seguridad: también es necesario comprobar que el archivo se puede leer y que su contenido puede recuperarse.
+
+Primero se comprobó que el archivo estaba disponible en el almacenamiento de TrueNAS y que podía listarse su contenido:
+
+```bash
+tar -tzf /mnt/truenas/debian/debian-config.tar.gz | head
+```
+
+El comando mostró directorios y archivos pertenecientes a `/etc`, confirmando que el archivo comprimido podía leerse desde el recurso SMB.
+
+Posteriormente se realizó una prueba de extracción en un directorio temporal de Debian:
+
+```bash
+mkdir -p /tmp/restauracion-prueba
+tar -xzf /mnt/truenas/debian/debian-config.tar.gz -C /tmp/restauracion-prueba
+```
+
+Finalmente, se comprobó el contenido recuperado:
+
+```bash
+ls /tmp/restauracion-prueba/etc | head
+```
+
+La extracción se completó correctamente y permitió recuperar los archivos en la ubicación temporal.
+
+Se realizó la prueba sin sobrescribir los archivos originales de `/etc`, evitando modificar la configuración del sistema que estaba funcionando.
+
+Con esta comprobación se verifica tanto la lectura del respaldo almacenado en TrueNAS como la posibilidad de recuperar su contenido.
+
+### 5.11. Configuración del montaje automático en Debian
+
+Para evitar tener que montar manualmente el recurso SMB cada vez que se inicia Debian, se configuró el montaje persistente mediante `/etc/fstab`.
+
+Primero se creó un archivo para almacenar las credenciales:
+
+```bash
+sudo nano /root/.smbcredentials
+```
+
+Su contenido es:
+
+```ini
+username=nasbackup
+password=CONTRASEÑA_DEL_USUARIO
+```
+
+Se protegió el archivo para que solamente `root` pueda leerlo:
+
+```bash
+sudo chmod 600 /root/.smbcredentials
+```
+
+A continuación, se editó el archivo de configuración de montajes:
+
+```bash
+sudo nano /etc/fstab
+```
+
+Se añadió la siguiente línea:
+
+```fstab
+//192.168.34.20/copias_seguridad /mnt/truenas cifs credentials=/root/.smbcredentials,vers=3.0,_netdev,nofail 0 0
+```
+
+Las opciones utilizadas tienen las siguientes funciones:
+
+- `credentials`: indica dónde se encuentran las credenciales de acceso.
+- `vers=3.0`: especifica la versión del protocolo SMB.
+- `_netdev`: indica que el montaje depende de la disponibilidad de la red.
+- `nofail`: permite continuar el arranque aunque el recurso de red no esté disponible.
+
+Durante la configuración apareció un error porque la opción `nofail` se había introducido incorrectamente, separada por un espacio. Se corrigió la línea y se recargó la configuración de systemd:
+
+```bash
+sudo
