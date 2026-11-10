@@ -1409,4 +1409,53 @@ Las opciones utilizadas tienen las siguientes funciones:
 Durante la configuración apareció un error porque la opción `nofail` se había introducido incorrectamente, separada por un espacio. Se corrigió la línea y se recargó la configuración de systemd:
 
 ```bash
-sudo
+sudo systemctl daemon-reload
+```
+
+Después se desmontó el recurso y se probó el montaje definido en `fstab`:
+
+```bash
+sudo umount /mnt/truenas
+sudo mount -a
+```
+
+Por último, se comprobó el resultado:
+
+```bash
+df -h /mnt/truenas
+```
+
+El montaje funcionó correctamente. A partir de este momento, Debian dispone de una configuración persistente para acceder al almacenamiento de TrueNAS.
+
+### 5.12. Estado de la automatización de copias
+
+En esta sesión se ha completado una copia manual de la configuración de Debian y se ha comprobado su recuperación.
+
+Queda pendiente automatizar el proceso mediante un script y el planificador de tareas `cron`.
+
+La automatización prevista permitirá crear copias periódicas de `/etc` y almacenarlas en TrueNAS sin tener que ejecutar manualmente los comandos de copia.
+
+**Esta parte todavía no está implementada:** no se ha creado el script ni se ha configurado ninguna tarea programada.
+
+### 5.13. Resultado de la implementación de TrueNAS
+
+TrueNAS queda configurado como servidor centralizado de almacenamiento para el laboratorio.
+
+Se han completado las siguientes operaciones:
+
+- Instalación del sistema operativo TrueNAS SCALE.
+- Configuración de la red interna y de la interfaz de administración.
+- Creación del pool `NAS_DATA` utilizando el disco adicional.
+- Creación del dataset `copias_seguridad`.
+- Creación del usuario `nasbackup` y asignación de permisos.
+- Configuración y activación del servicio SMB.
+- Creación del recurso compartido `copias_seguridad`.
+- Comprobación de acceso, autenticación y escritura desde Debian.
+- Montaje del recurso SMB en Debian.
+- Configuración del montaje persistente mediante `/etc/fstab`.
+- Creación de una copia comprimida del directorio `/etc` de Debian.
+- Comprobación de lectura e integridad del archivo y prueba de recuperación en una ubicación temporal.
+
+La automatización de las copias periódicas queda pendiente para una sesión posterior.
+
+**Consideración sobre la seguridad:** el pool utiliza un único disco sin redundancia. Por tanto, aunque el funcionamiento del NAS y las pruebas de recuperación han sido satisfactorios, esta configuración no protege frente a un fallo físico del disco. Para un entorno real sería necesario disponer de redundancia y mantener copias adicionales en otro dispositivo o ubicación.
