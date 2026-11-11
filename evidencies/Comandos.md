@@ -1459,3 +1459,56 @@ Se han completado las siguientes operaciones:
 La automatización de las copias periódicas queda pendiente para una sesión posterior.
 
 **Consideración sobre la seguridad:** el pool utiliza un único disco sin redundancia. Por tanto, aunque el funcionamiento del NAS y las pruebas de recuperación han sido satisfactorios, esta configuración no protege frente a un fallo físico del disco. Para un entorno real sería necesario disponer de redundancia y mantener copias adicionales en otro dispositivo o ubicación.
+
+### 5.14. Automatización de copias de seguridad de Debian
+
+Para automatizar las copias de seguridad del servidor Debian, se ha creado un script en `/usr/local/sbin/backup-debian.sh`.
+
+El script realiza las siguientes operaciones:
+
+1. Comprueba que el recurso compartido de TrueNAS está montado en `/mnt/truenas`.
+2. Crea una copia comprimida del directorio `/etc` de Debian.
+3. Comprueba la integridad del archivo comprimido mediante `gzip -t`.
+4. Guarda la copia en `/mnt/truenas/debian`.
+5. Elimina automáticamente las copias con más de 30 días.
+
+Para permitir su ejecución:
+
+```bash
+sudo chmod +x /usr/local/sbin/backup-debian.sh
+```
+
+Se ejecutó manualmente para comprobar su funcionamiento y verificar que los archivos se almacenaban correctamente en TrueNAS.
+
+#### Programación automática con cron
+
+Se instaló y activó el servicio cron:
+
+```bash
+sudo apt install cron -y
+sudo systemctl enable --now cron
+```
+
+Se editó el crontab del usuario root:
+
+```bash
+sudo crontab -e
+```
+
+Se añadió la siguiente tarea:
+
+```cron
+0 2 * * * /usr/local/sbin/backup-debian.sh >> /var/log/backup-debian.log 2>&1
+```
+
+Esta programación ejecuta el script diariamente a las 02:00 y guarda su salida y posibles errores en `/var/log/backup-debian.log`.
+
+Se verificó la programación mediante:
+
+```bash
+sudo crontab -l
+```
+
+**Consideraciones:** Debian debe estar encendido a la hora programada y TrueNAS debe estar disponible y montado. Si TrueNAS no está montado, el script finaliza sin guardar la copia en una ubicación local por error.
+
+Con esta configuración, las copias de seguridad de la configuración de Debian quedan automatizadas y almacenadas en TrueNAS.
