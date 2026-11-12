@@ -1512,3 +1512,133 @@ sudo crontab -l
 **Consideraciones:** Debian debe estar encendido a la hora programada y TrueNAS debe estar disponible y montado. Si TrueNAS no está montado, el script finaliza sin guardar la copia en una ubicación local por error.
 
 Con esta configuración, las copias de seguridad de la configuración de Debian quedan automatizadas y almacenadas en TrueNAS.
+
+## MikroTik – Configuración, copias de seguridad y recuperación
+
+### 1. Usuario administrador
+
+Se comprobó que el usuario `admin` dispone del grupo `full`, por lo que tiene permisos completos para administrar el router.
+
+Durante la prueba de recuperación, RouterOS solicitó establecer una nueva contraseña para el usuario administrador.
+
+### 2. Configuración WAN y LAN
+
+Se revisaron las interfaces de red del MikroTik y se comprobó que la configuración permitía separar la conexión exterior de la red interna.
+
+- **WAN:** interfaz conectada al adaptador NAT de VirtualBox. Obtiene su dirección IP mediante DHCP.
+- **LAN:** interfaz conectada a la red interna `asir_lab`, destinada a comunicar el router con los equipos del laboratorio.
+- **Gestión:** interfaz adicional Host-Only, utilizada para acceder a WebFig desde el equipo anfitrión.
+
+La regla NAT de tipo `masquerade` permite que los equipos de la LAN salgan a Internet utilizando la dirección de la interfaz WAN.
+
+### 3. Acceso a Internet desde la red interna
+
+Se comprobó que el MikroTik podía proporcionar acceso a Internet a los equipos conectados a su LAN.
+
+Para ello se utilizó Debian como cliente, configurando el MikroTik como puerta de enlace predeterminada.
+
+Se realizaron las siguientes pruebas desde Debian:
+
+- Ping a `192.168.34.3`, dirección LAN del MikroTik.
+- Ping a `1.1.1.1`, para comprobar la conectividad exterior mediante dirección IP.
+- Ping a `google.com`, para comprobar también la resolución DNS.
+
+Las tres pruebas finalizaron correctamente.
+
+### 4. Copias de seguridad en TrueNAS
+
+Para conservar la configuración del router y disponer de una vía de recuperación, se prepararon dos tipos de copia de seguridad:
+
+**Copia binaria**
+
+Se genera mediante:
+
+```routeros
+/system backup save name=mikrotik-auto
+```
+
+Este formato permite guardar la configuración del dispositivo para restaurarla posteriormente en RouterOS.
+
+**Exportación de texto**
+
+Se genera mediante:
+
+```routeros
+/export file=mikrotik-auto
+```
+
+Este comando genera un archivo `.rsc` con la configuración exportada en formato de texto. Resulta útil para consultar los parámetros y reconstruir configuraciones cuando sea necesario.
+
+Ambos archivos se almacenan en el recurso compartido de TrueNAS, dentro de:
+
+```text
+copias_seguridad/mikrotik/
+```
+
+Los archivos utilizados son:
+
+- `mikrotik-auto.backup`: copia binaria.
+- `mikrotik-auto-export.rsc`: exportación de texto.
+
+Se configuró un script llamado `backup-truenas` para generar ambas copias y transferirlas automáticamente al servidor TrueNAS mediante SFTP.
+
+También se creó una tarea programada llamada `backup-diario`, configurada para ejecutar el script diariamente a las 02:00.
+
+De esta forma, las copias quedan centralizadas en el NAS y no dependen únicamente del almacenamiento de la máquina virtual.
+
+### 5. Prueba de recuperación
+
+Para comprobar que las copias podían utilizarse realmente, se realizó una prueba de recuperación utilizando un clon de la máquina virtual original, denominado `MikroTik-RECUPERACION`.
+
+Se mantuvo el router original separado para evitar modificar su configuración o provocar conflictos de direcciones IP.
+
+Primero se cargó en el clon el archivo binario almacenado en TrueNAS:
+
+```routeros
+/system backup load name=mikrotik-auto.backup
+```
+
+Después del reinicio se detectó que algunas interfaces aparecían como inválidas. Esto ocurrió porque el clon utilizaba adaptadores de red diferentes y RouterOS no pudo asociar correctamente las referencias de interfaces guardadas en la copia.
+
+Para solucionar el problema se identificaron los adaptadores y se reasignaron las funciones:
+
+| Interfaz | Función |
+|---|---|
+| `ether3` | Gestión Host-Only |
+| `ether4` | WAN mediante NAT |
+| `ether5` | LAN mediante `asir_lab` |
+
+Se reconstruyeron las asociaciones necesarias con los siguientes comandos:
+
+```routeros
+/ip address remove [find]
+/ip dhcp-client remove [find]
+/ip firewall nat remove [find]
+
+/ip address add address=192.168.34.3/24 interface=ether5 comment="LAN Lab"
+/ip address add address=192.168.58.10/24 interface=ether3 comment="Gestion Host-Only"
+
+/ip dhcp-client add interface=ether4 disabled=no
+
+/ip firewall nat add chain=srcnat action=masquerade out-interface=ether4
+```
+
+La dirección WAN se obtuvo automáticamente mediante DHCP y se recuperó la ruta predeterminada a través de la puerta de enlace `10.0.2.2`.
+
+Finalmente, se volvió a utilizar Debian para verificar la recuperación:
+
+| Comprobación | Resultado |
+|---|---|
+| Comunicación Debian-MikroTik (`192.168.34.3`) | Correcta |
+| Conectividad exterior por IP (`1.1.1.1`) | Correcta |
+| Resolución DNS y acceso por nombre (`google.com`) | Correcta |
+
+**Resultado:** la prueba permitió recuperar la conectividad del router utilizando la copia binaria. Fue necesario adaptar las asociaciones de las interfaces a los adaptadores del clon, pero no reconstruir toda la configuración desde cero.
+
+### 6. Resultado final
+
+Se ha comprobado que el MikroTik dispone de configuración de administración, conexión WAN y LAN, salida a Internet para los clientes y copias de seguridad almacenadas en TrueNAS.
+
+Además, se ha realizado una prueba práctica de recuperación en una máquina virtual independiente, verificando posteriormente la comunicación con Debian y el acceso a Internet.
+
+**Observación:** la copia binaria puede depender de la correspondencia de interfaces del equipo donde se restaura. Por ello, también se conserva una exportación de texto que facilita la consulta y reconstrucción de la configuración.
