@@ -1642,3 +1642,36 @@ Se ha comprobado que el MikroTik dispone de configuración de administración, c
 Además, se ha realizado una prueba práctica de recuperación en una máquina virtual independiente, verificando posteriormente la comunicación con Debian y el acceso a Internet.
 
 **Observación:** la copia binaria puede depender de la correspondencia de interfaces del equipo donde se restaura. Por ello, también se conserva una exportación de texto que facilita la consulta y reconstrucción de la configuración.
+## Copia de seguridad y recuperación
+
+### Copia de seguridad en TrueNAS
+
+Se exportó la configuración de OPNsense en formato XML desde `System → Configuration → Backups`.
+
+El archivo se guardó en el recurso compartido de TrueNAS, dentro de:
+
+`copias_seguridad/opnsense/`
+
+Esta copia permite conservar la configuración del firewall y utilizarla posteriormente para recuperar el sistema.
+
+### Prueba de recuperación
+
+Para comprobar la recuperación se creó una clonación completa de la máquina virtual original, denominada `OPNsense-RECUPERACION`.
+
+Se cargó en el clon el archivo XML guardado previamente en TrueNAS mediante la opción de restauración de `System → Configuration → Backups`.
+
+Tras restaurar la configuración, fue necesario adaptar la interfaz de gestión OPT1 a la red Host-Only utilizada por el equipo anfitrión (`192.168.58.0/24`). También se actualizó la regla HTTPS para permitir el acceso desde `192.168.58.1`.
+
+### Comprobaciones
+
+Se verificó que la configuración de red y las reglas del firewall estaban presentes. También se comprobó mediante `pfctl -sn` que OPNsense generaba automáticamente las reglas NAT para la salida de la LAN hacia la WAN.
+
+Finalmente, desde Debian se realizaron las siguientes pruebas:
+
+- Ping al gateway OPNsense (`192.168.34.2`): correcto.
+- Ping a una IP externa (`1.1.1.1`): correcto.
+- Resolución DNS y conectividad con `google.com`: correctas.
+
+La prueba confirma que la configuración exportada pudo restaurarse en otra máquina virtual y que, tras adaptar la interfaz de gestión al entorno de clonación, el router recuperó su funcionamiento.
+
+**Resultado:** copia de seguridad y restauración comprobadas correctamente.
