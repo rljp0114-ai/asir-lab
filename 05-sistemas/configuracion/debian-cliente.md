@@ -175,7 +175,9 @@ Evidencia: `evidencies/2026-11-16-debian-red-rutas-mikrotik.png`.
 
 ### 9.3 Usuario
 
-Usuario de trabajo: `batoi` (UID 1000). En la comprobación, `getent group sudo` devolvió `sudo:x:27:` sin miembros, de modo que `batoi` no pertenece al grupo `sudo`. La administración del sistema se hace con la cuenta `root`: el administrador entra como `batoi` y cambia a `root` con `su -` (así lo indica el alumno y es coherente con el prompt `root@debian-server` del historial de `evidencies/Comandos.md`). No hay captura de `su -` en esta comprobación.
+Usuario de trabajo: `batoi` (UID 1000). En la comprobación, `getent group sudo` devolvió `sudo:x:27:` sin miembros, de modo que `batoi` no pertenece al grupo `sudo`. La administración del sistema se hace con la cuenta `root`: el administrador entra como `batoi` y cambia a `root` con `su -` (así lo indica el alumno y es coherente con el prompt `root@debian-server` del historial de `evidencies/Comandos.md`). Comprobado a las 19:14 del 16/11/2026: `whoami` como `batoi`, `su -` con contraseña, y después `whoami` = `root` e `id` = `uid=0(root) gid=0(root) grupos=0(root)`.
+
+Evidencia: `evidencies/2026-11-16-debian-su-root.png`.
 
 Evidencia: `evidencies/2026-11-16-debian-usuario-copia-sftp-truenas.png` (`getent group sudo` e `id`).
 
@@ -192,7 +194,7 @@ sftp> ls /mnt/NAS_DATA/copias_seguridad/linux
 
 El `ls` lista `hostname` e `interfaces` en `/mnt/NAS_DATA/copias_seguridad/linux/`. Es la primera conexión SFTP desde este equipo; se aceptó la huella ED25519 del servidor, la misma que vieron los equipos Windows.
 
-Durante la copia se subió por error un `hostname` a `/mnt/NAS_DATA/copias_seguridad/` (un `put /etc/hostname` sin carpeta de destino). Es un fichero duplicado y sin uso; debe borrarse (`rm /mnt/NAS_DATA/copias_seguridad/hostname` desde `sftp`).
+Durante la copia se subió por error un `hostname` a `/mnt/NAS_DATA/copias_seguridad/` (un `put /etc/hostname` sin carpeta de destino). Era un fichero duplicado y sin uso; el alumno lo borró con `rm /mnt/NAS_DATA/copias_seguridad/hostname` desde `sftp` (sin captura del borrado).
 
 | Elemento | ¿Se copia? | Motivo |
 |---|---|---|
@@ -200,7 +202,6 @@ Durante la copia se subió por error un `hostname` a `/mnt/NAS_DATA/copias_segur
 | Imagen del disco (20 GB) | No | Ocupa mucho espacio; la VM se reinstala desde la ISO y se reconfigura con estos ficheros |
 | Contraseñas | No | No deben guardarse en ficheros de texto |
 
-### 9.5 Pendiente
+### 9.5 Estado
 
-- Captura opcional de `su -` e `id` como `root`, para dejar demostrado el acceso de administración.
-- Borrar el `hostname` subido por error a la raíz de `copias_seguridad`.
+Cliente GNU/Linux completo: instalación y versión, usuario de administración, red y copia a TrueNAS. Sin pendientes.
