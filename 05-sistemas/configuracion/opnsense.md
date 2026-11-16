@@ -34,7 +34,8 @@ Evidencia: `evidencies/2026-11-16-opnsense-usuarios.png`.
 | `em2` (OPT1) | Host-only | Gestión | `192.168.56.2/24` |
 
 - En la prueba del 16/11/2026 el registro del firewall muestra que la WAN usaba la dirección `192.168.1.27` (red doméstica `192.168.1.0/24`).
-- La interfaz web se abre desde el anfitrión en `https://192.168.56.2` (ver captura de la versión). El anfitrión usa `192.168.56.1` en `vboxnet0`; para acceder, el adaptador de gestión de OPNsense debe estar conectado a `vboxnet0`.
+- La interfaz web se abre desde el anfitrión en `https://192.168.56.2` (ver captura de la versión). El anfitrión usa `192.168.56.1` en `vboxnet0`, por lo que el adaptador de gestión de OPNsense (adaptador 3) está conectado a `vboxnet0`. Se comprobó con `VBoxManage showvminfo "OPNsense" --machinereadable | grep hostonlyadapter3`, que devuelve `vboxnet0`.
+- En `Firewall → Rules → OPT1` existe una regla que permite HTTPS (TCP) solo desde `192.168.56.1/32` (descripción "Acceso web desde Linux Mint").
 - Cliente de pruebas: Debian Server, `192.168.34.4/24`. Para usar OPNsense como puerta de enlace se cambia temporalmente la ruta por defecto: `sudo ip route replace default via 192.168.34.2`.
 
 ## 5. Prueba de una conexión permitida y otra bloqueada
@@ -51,7 +52,20 @@ Comprobar que OPNsense aplica una regla de filtrado, que bloquea solo el tráfic
 
 ### Regla
 
-Regla en `Firewall → Rules → LAN` con la descripción **"Bloqueo controlado TCP hacia Internet"**: acción `Block`, protocolo TCP, destino `1.1.1.1`, puerto 443, con registro activado. Los parámetros se deducen de las entradas del registro (apartado siguiente).
+Regla en `Firewall → Rules → LAN` con la descripción **"Bloqueo controlado TCP hacia Internet"**:
+
+| Parámetro | Valor |
+|---|---|
+| Interfaz | LAN |
+| Acción | `Block` |
+| Versión | IPv4 |
+| Protocolo | TCP |
+| Origen | `LAN network` |
+| Destino | `1.1.1.1` |
+| Puerto de destino | `https` (443) |
+| Registro | Activado |
+
+Evidencia (la regla aparece en gris porque está desactivada tras la prueba): `evidencies/2026-11-16-opnsense-reglas-firewall-regla-desactivada.png`.
 
 ### Pruebas desde Debian
 
@@ -61,15 +75,21 @@ Comando (cambiando el destino):
 timeout 5 bash -c 'cat < /dev/null > /dev/tcp/DESTINO/443' && echo abierto || echo CERRADO
 ```
 
-| Conexión | Estado de la regla | Resultado |
-|---|---|---|
-| `1.1.1.1:443` | Regla activa | Pendiente de añadir la salida (esperado: CERRADO) |
-| `8.8.8.8:443` | Regla activa | Pendiente de añadir la salida (esperado: abierto) |
-| `1.1.1.1:443` | Regla desactivada | Pendiente de añadir la salida (esperado: abierto) |
+Secuencia registrada en la captura `evidencies/2026-11-16-debian-prueba-bloqueo-opnsense.png` (orden de ejecución):
+
+| Nº | Destino | Estado de la regla | Resultado | Significado |
+|---|---|---|---|---|
+| 1 | `1.1.1.1:443` | Activa | **CERRADO** | Conexión bloqueada |
+| 2 | `8.8.8.8:443` | Activa | abierto | Conexión permitida |
+| 3 | `1.1.1.1:443` | Activa | **CERRADO** | Conexión bloqueada (repetición) |
+| 4 | `8.8.8.8:443` | Activa | abierto | Conexión permitida (repetición) |
+| 5 | `1.1.1.1:443` | Desactivada | abierto | Se recupera el estado anterior |
+
+La regla bloquea solo el destino indicado: `1.1.1.1` queda bloqueado y `8.8.8.8` sigue accesible mientras la regla está activa.
 
 ### Registro del firewall
 
-En `Firewall → Log Files → Live View` aparecen cinco entradas de bloqueo con la etiqueta de la regla, entre las 14:48:48 y las 14:48:52 (hora UTC del firewall). Evidencias: `evidencies/2026-11-16-opnsense-log-bloqueo-tcp443.png` y `evidencies/2026-11-16-opnsense-log-entrada-bloqueo.png`.
+En `Firewall → Log Files → Live View` se ven en la captura cinco entradas de bloqueo con la etiqueta de la regla, entre las 14:48:48 y las 14:48:52 (hora UTC del firewall). Evidencias: `evidencies/2026-11-16-opnsense-log-bloqueo-tcp443.png` y `evidencies/2026-11-16-opnsense-log-entrada-bloqueo.png`.
 
 Entrada de ejemplo:
 
@@ -93,7 +113,9 @@ En la misma captura aparecen entradas con otra acción que permiten comparar tr�
 
 ### Vuelta al estado anterior
 
-Estado final de la regla (desactivada o eliminada) y resultado de la prueba tras retirarla: pendiente de indicar.
+La regla quedó **desactivada** (se conserva en la lista, sin efecto sobre el tráfico). Tras desactivarla, la conexión a `1.1.1.1:443` volvió a dar `abierto` (prueba 5).
+
+Nota: la regla que permite el tráfico de la LAN tiene como descripción "- prueba backup". Conviene renombrarla (por ejemplo, "Permitir LAN hacia cualquier destino") para que el listado de reglas sea claro en la entrega.
 
 ## 6. Copia de seguridad y recuperación
 

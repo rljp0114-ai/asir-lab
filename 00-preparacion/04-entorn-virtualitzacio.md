@@ -32,7 +32,7 @@ Datos obtenidos con `VBoxManage list vms`, `VBoxManage showvminfo --machinereada
 | Debian Server | Debian 13 Server (cliente de pruebas) | 2 | 2 GB | 20 GB | 1: red interna `asir_lab`; 2: NAT | Instalada y probada |
 | Ubuntu Server | Ubuntu Server (router con nftables) | 2 | 2 GB | 25 GB | 1: NAT; 2: red interna `asir_lab`; 3: host-only `vboxnet2` | Instalada, configurada y probada |
 | Mikrotik | MikroTik RouterOS/CHR | 1 | 512 MB | 2 GB | 1: puente `enp8s0`; 2: red interna `asir_lab` | Instalada, configurada y probada |
-| OPNsense | OPNsense | 2 | 5 GB | 20 GB | 1: puente `enp8s0`; 2: red interna `asir_lab`; 3: host-only `vboxnet1` | Instalada, configurada y probada |
+| OPNsense | OPNsense | 2 | 5 GB | 20 GB | 1: puente `enp8s0`; 2: red interna `asir_lab`; 3: host-only `vboxnet0` | Instalada, configurada y probada |
 | TrueNAS | TrueNAS (NAS de copias) | 2 | 8 GB | 20 GB + 20 GB | 1: red interna `asir_lab`; 2: host-only `vboxnet1`; 3: host-only `vboxnet2` | Instalada y en uso para copias |
 | Mikrotik-RECUPERACION | Clon de MikroTik | 1 | 512 MB | 2 GB | 1: NAT; 2: red interna `asir_lab`; 3: host-only `vboxnet2` | Usada en la prueba de recuperación |
 | OPNsense-RECUPERACION | Clon de OPNsense | 2 | 5 GB | 20 GB | 1: puente `enp8s0`; 2: red interna `asir_lab`; 3: host-only `vboxnet2` | Usada en la prueba de recuperación |

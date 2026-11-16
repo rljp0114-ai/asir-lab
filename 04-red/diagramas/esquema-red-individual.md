@@ -44,9 +44,10 @@ flowchart TB
 | MikroTik | `ether2` | Red interna `asir_lab` | LAN | Estática: `192.168.34.3/24` |
 | OPNsense | `em0` (WAN) | Puente `enp8s0` | WAN | DHCP de la red a la que está conectado el anfitrión |
 | OPNsense | `em1` (LAN) | Red interna `asir_lab` | LAN | Estática: `192.168.34.2/24` |
-| OPNsense | `em2` (OPT1) | Host-only | Gestión | `192.168.56.2/24` (ver apartado 4) |
+| OPNsense | `em2` (OPT1) | Host-only `vboxnet0` | Gestión | Estática: `192.168.56.2/24` |
 | Debian Server | `enp0s3` | Red interna `asir_lab` | LAN | Estática: `192.168.34.4/24`; puerta de enlace `192.168.34.3` (Ubuntu o MikroTik) o `192.168.34.2` (OPNsense); DNS `8.8.8.8` y `1.1.1.1` |
 | TrueNAS | - | Red interna `asir_lab` | LAN | `192.168.34.20/24` |
+| TrueNAS | - | Host-only `vboxnet2` | Gestión | `192.168.58.5/24` (según la pestaña del navegador) |
 
 La WAN de MikroTik y OPNsense toma la dirección por DHCP de la red a la que esté conectado el anfitrión. En la red doméstica MikroTik obtuvo `192.168.30.193`; en la red del aula, `172.16.222.221`.
 
@@ -59,11 +60,11 @@ La WAN de MikroTik y OPNsense toma la dirección por DHCP de la red a la que est
 
 | Red VirtualBox | Direccionamiento | VM conectadas |
 |---|---|---|
-| `vboxnet0` | `192.168.56.0/24` (anfitrión `.1`) | Ninguna actualmente |
-| `vboxnet1` | `192.168.57.0/24` (anfitrión `.1`) | OPNsense, TrueNAS, Proxmox N1 |
+| `vboxnet0` | `192.168.56.0/24` (anfitrión `.1`) | OPNsense |
+| `vboxnet1` | `192.168.57.0/24` (anfitrión `.1`) | TrueNAS, Proxmox N1 |
 | `vboxnet2` | `192.168.58.0/24` (anfitrión `.1`) | Ubuntu Server, TrueNAS, clones de recuperación |
 
-Nota sobre OPNsense: su gestión web está configurada en `192.168.56.2`, que pertenece a la red de `vboxnet0`; actualmente su adaptador de gestión está conectado a `vboxnet1`. Pendiente de alinear.
+Cada VM de gestión se conecta a la red host-only cuyo direccionamiento coincide con su IP de gestión. La gestión de OPNsense (`192.168.56.2`) está en `vboxnet0`.
 
 ## 5. Direcciones previstas (no implementadas)
 
