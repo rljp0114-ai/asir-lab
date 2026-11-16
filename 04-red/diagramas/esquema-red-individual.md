@@ -68,7 +68,7 @@ La WAN de MikroTik y OPNsense toma la dirección por DHCP de la red a la que est
 
 Cada VM de gestión se conecta a la red host-only cuyo direccionamiento coincide con su IP de gestión. La gestión de OPNsense (`192.168.56.2`) está en `vboxnet0`.
 
-## 5. Direcciones previstas (no implementadas)
+## 5. Direcciones previstas
 
 Siguiendo el patrón del esquema del aula, adaptado a la LAN `192.168.34.0/24`. El clúster Proxmox se documenta como diseño (ver `00-preparacion/04-entorn-virtualitzacio.md`, apartado 8).
 
@@ -77,7 +77,7 @@ Siguiendo el patrón del esquema del aula, adaptado a la LAN `192.168.34.0/24`. 
 | Nodo 1 Proxmox VE | `192.168.34.32/24` | Previsto |
 | Nodo 2 Proxmox VE | `192.168.34.33/24` | Previsto |
 | Nodo 3 Proxmox VE | `192.168.34.34/24` | Previsto |
-| VM Windows Server 2025 | `192.168.34.21/24` | Previsto |
+| VM Windows Server 2025 | `192.168.34.21/24` | Configurada y probada (16/11/2026) |
 | VM Debian (servicios) | `192.168.34.22/24` | Previsto |
 | VM Debian (datos) | `192.168.34.23/24` | Previsto |
 | Puestos de trabajo (clientes) | DHCP, `192.168.34.100-200` | Previsto |

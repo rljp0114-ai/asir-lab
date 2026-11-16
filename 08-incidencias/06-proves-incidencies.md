@@ -64,3 +64,13 @@ Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No
 - **Verificación posterior:** la prueba de conexión permitida y bloqueada de MikroTik se hizo con TCP y funcionó (ver `05-sistemas/configuracion/mikrotik.md`).
 - **Evidencia:** `evidencies/2026-11-16-debian-prueba-tcp443-bloqueo-mikrotik.png` (la primera línea muestra la conexión TCP al 443 abierta), `evidencies/2026-11-16-mikrotik-log-lista-prueba-bloqueo.png` y `evidencies/2026-11-16-mikrotik-log-entrada-detalle.png`.
 - **Qué se ha aprendido:** un `ping` fallido no demuestra que no haya salida a Internet. Hay que distinguir entre fallo de ICMP y fallo de conectividad probando con otro protocolo, y probar desde el propio router para localizar dónde está el problema.
+
+## 5.2 Pruebas de red de Windows Server salían por la NAT en lugar de por la LAN
+
+- **Objetivo:** comprobar que Windows Server 2025 (`192.168.34.21`) llega a MikroTik, a TrueNAS y a Internet a través de MikroTik.
+- **Síntoma observado:** `Test-NetConnection 192.168.34.20` falló con `DestinationHostUnreachable`, y `Test-NetConnection 1.1.1.1 -Port 443` funcionó.
+- **Comprobaciones realizadas:** `ipconfig /all` mostró un segundo adaptador (`Ethernet 2`, `10.0.2.15`, puerta de enlace `10.0.2.2`) además del de la LAN. Las dos pruebas fallidas o dudosas tenían `SourceAddress: 10.0.2.15`, es decir, salían por la NAT de VirtualBox.
+- **Causa identificada:** la VM conservaba un adaptador NAT adicional, y TrueNAS estaba apagado en ese momento.
+- **Solución aplicada:** desactivar el adaptador con `Disable-NetAdapter -Name "Ethernet 2" -Confirm:$false`, encender TrueNAS y repetir las pruebas.
+- **Verificación posterior:** las tres pruebas dieron resultado correcto con `SourceAddress: 192.168.34.21` (ver `05-sistemas/configuracion/windows-server-2025.md`).
+- **Qué se ha aprendido:** con dos adaptadores, una prueba que funciona no demuestra que el tráfico pase por el router. Hay que mirar siempre el `SourceAddress` y el `InterfaceAlias` del resultado.

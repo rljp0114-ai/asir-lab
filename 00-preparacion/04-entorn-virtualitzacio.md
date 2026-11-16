@@ -44,7 +44,7 @@ Notas:
 - El campo "tipo de SO" que muestra VirtualBox para algunas VM (por ejemplo, "Oracle Linux") es solo una etiqueta de la configuración y no indica el sistema realmente instalado.
 - Las VM `Debian 13.1`, `W11`, `W11 Particiones` e `ISO-DUAL-<iniciales>` pertenecen a otras actividades y no forman parte de este laboratorio.
 - Suma de la capacidad máxima de los discos del laboratorio: unos 273 GB. El espacio realmente ocupado es menor si los discos son de tamaño dinámico; está pendiente de comprobar.
-- Aún no existen VM de Windows Server 2025, cliente GNU/Linux ni servidores GNU/Linux de infraestructura.
+- La VM `WinServer2025` (Windows Server 2025 Standard Evaluation, 2 vCPU, 4 GB, 50 GB, red interna `asir_lab`, `192.168.34.21`) se creó el 16/11/2026 y no está en la tabla de arriba porque esta se obtuvo antes con `VBoxManage`; sus datos están en `05-sistemas/configuracion/windows-server-2025.md`. Aún no existen el cliente GNU/Linux ni los servidores GNU/Linux de infraestructura.
 
 ## 4. Instalación de Debian Server
 
@@ -75,7 +75,8 @@ Resumen:
 | Router OPNsense | Configurado y probado | `evidencies/Comandos.md` |
 | TrueNAS (copias) | Instalado y en uso | `evidencies/Comandos.md` |
 | Proxmox | Decisión de diseño/simulación (apartado 8) | Pendiente de autorización del profesorado |
-| Windows Server 2025, cliente GNU/Linux, servidores GNU/Linux de infraestructura | Pendientes de crear | — |
+| Windows Server 2025 | Instalado y probado (16/11/2026) | `05-sistemas/configuracion/windows-server-2025.md` |
+| Cliente GNU/Linux, servidores GNU/Linux de infraestructura | Pendientes de crear | — |
 | Reparto de VM entre anfitriones | Pendiente de decidir y probar | Tarea 7 |
 
 ## 7. Comandos útiles
