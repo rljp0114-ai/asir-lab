@@ -2,7 +2,11 @@
 
 Registro de las imágenes ISO del laboratorio con su tamaño y su huella SHA256, calculados en el equipo donde se guardan (comando `sha256sum`, 16/11/2026). La huella permite comprobar más adelante que el fichero no se ha corrompido ni modificado.
 
-## 1. Inventario
+## 1. Origen
+
+Todas las imágenes proceden de la página de recursos del centro (Batoi): `http://deb.cipfpbatoi.lan/recursos/ISO/` (dato indicado por el alumno; la dirección solo es accesible desde la red del centro).
+
+## 2. Inventario
 
 | Fichero | Sistema | Uso en el laboratorio | Tamaño (bytes) | Tamaño | Fecha del fichero | Estado |
 |---|---|---|---:|---:|---|---|
@@ -15,7 +19,7 @@ Registro de las imágenes ISO del laboratorio con su tamaño y su huella SHA256,
 | `w11.iso` | Windows 11 | Cliente Windows 11 | 6 807 373 824 | 6.34 GiB | 2026-09-22 | Pendiente de usar en el laboratorio |
 | `win_server_2025.iso` | Windows Server 2025 | Servidor Windows | 6 019 420 160 | 5.61 GiB | 2026-10-13 | Pendiente de instalar |
 
-## 2. Huellas SHA256
+## 3. Huellas SHA256
 
 - `debian-13.1.0-amd64-netinst(1).iso`
   `658b28e209b578fe788ec5867deebae57b6aac5fce3692bbb116bab9c65568b3`
@@ -34,9 +38,9 @@ Registro de las imágenes ISO del laboratorio con su tamaño y su huella SHA256,
 - `win_server_2025.iso`
   `b73c9688a4b8d165cadc8bf9a52d86d6483b397801b791ffd5e7d1be6cbd5d56`
 
-## 3. Comprobación contra la huella oficial
+## 4. Comprobación contra la huella oficial
 
-Estado: **Debian, Ubuntu, Proxmox y TrueNAS verificadas el 16/11/2026**; el resto no se ha podido verificar (apartado 3.1). La huella oficial se obtuvo con `curl` del fichero `SHA256SUMS` del proveedor y se comparó con la calculada en el equipo (la cadena completa de 64 caracteres es idéntica). Para las demás solo se ha registrado la huella calculada, que sirve para detectar cambios posteriores del fichero.
+Estado: **Debian, Ubuntu, Proxmox y TrueNAS verificadas el 16/11/2026**; el resto no se ha podido verificar (apartado 4.1). La huella oficial se obtuvo con `curl` del fichero `SHA256SUMS` del proveedor y se comparó con la calculada en el equipo (la cadena completa de 64 caracteres es idéntica). Para las demás solo se ha registrado la huella calculada, que sirve para detectar cambios posteriores del fichero.
 
 | Sistema | Huella oficial | Resultado |
 |---|---|---|
@@ -49,18 +53,18 @@ Estado: **Debian, Ubuntu, Proxmox y TrueNAS verificadas el 16/11/2026**; el rest
 | Windows 11 | Huella consultada en la web de Microsoft (apartado "Verify your download") | **No coincide** con la huella calculada (`5210deed...119dc8`); causa no determinada (ver 3.1) |
 | Windows Server 2025 | No publicada por Microsoft para la versión de evaluación | No verificable |
 
-### 3.1 Por qué no se han verificado todas
+### 4.1 Por qué no se han verificado todas
 
 | ISO | Situación | Motivo |
 |---|---|---|
-| OPNsense | No comparable | El proveedor solo publica la huella del fichero comprimido `.iso.bz2`; la calculada es la del `.iso` descomprimido, así que no pueden coincidir aunque el fichero sea correcto |
+| OPNsense | No comparable | El proveedor solo publica la huella del fichero comprimido `.iso.bz2`; la imagen del centro es el `.iso` ya descomprimido, así que su huella no puede coincidir con la publicada aunque el fichero sea correcto |
 | MikroTik | Sin huella oficial localizada | No se encontró un fichero de huellas en la dirección consultada |
 | Windows Server 2025 | No verificable | Microsoft no publica la huella de la versión de evaluación |
-| Windows 11 | No coincide | No se ha determinado la causa. Posibles explicaciones: la ISO es de otro idioma, edición o compilación distinta de la huella consultada, o procede de otra fuente (por ejemplo, la facilitada por el centro). No se ha probado que el fichero esté dañado |
+| Windows 11 | No coincide | No se ha determinado la causa. Al proceder de la página de recursos del centro y no directamente de Microsoft, puede ser de otro idioma, edición o compilación que las de la lista consultada, o una imagen reempaquetada. No se ha probado que el fichero esté dañado |
 
 Decisión: no se profundiza más en estas verificaciones. La ISO de Windows 11 se usará solo en pruebas del laboratorio, y la huella calculada queda registrada para detectar cambios posteriores. Si se necesitara garantizar su integridad, habría que volver a descargarla de Microsoft y repetir la comparación.
 
-## 4. Observaciones
+## 5. Observaciones
 
 - La ISO de Debian se llama `debian-13.1.0-amd64-netinst(1).iso`: el `(1)` indica una descarga repetida del navegador. Su huella coincide con la oficial de `debian-13.1.0-amd64-netinst.iso`, así que el nombre es solo cosmético.
 - Ubuntu ya publica la versión 26.04.1 (`ubuntu-26.04.1-live-server-amd64.iso`). La ISO utilizada es la 26.04 inicial, verificada contra su propia línea del fichero oficial.

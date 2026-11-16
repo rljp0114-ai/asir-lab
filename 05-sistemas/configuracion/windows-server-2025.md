@@ -8,11 +8,12 @@ Instalar Windows Server 2025 como servidor Windows del laboratorio y comprobar s
 
 | Característica | Valor |
 |---|---|
-| VM | `WinServer2025` (VirtualBox 7.0.20, PC doméstico) |
-| Imagen | `win_server_2025.iso` (huella en `00-preparacion/05-isos.md`; Microsoft no publica la huella de la versión de evaluación) |
+| VM | `Windows Server 2025` (VirtualBox 7.0.20, PC doméstico) |
+| Imagen | `win_server_2025.iso`, de la página de recursos del centro (ver `00-preparacion/05-isos.md`; huella en `00-preparacion/05-isos.md`; Microsoft no publica la huella de la versión de evaluación) |
 | Edición | Windows Server 2025 Standard Evaluation, con experiencia de escritorio |
-| vCPU, RAM, disco | 2 vCPU, 4 GB, 50 GB (valores indicados al crear la VM; pendiente de contrastar con `VBoxManage showvminfo`) |
-| Red | Un adaptador en red interna `asir_lab` |
+| vCPU y RAM | 2 vCPU y 4 GB (comprobado con `VBoxManage showvminfo`: `cpus=2`, `memory=4096`) |
+| Disco | 50 GB según lo indicado al crear la VM; pendiente de comprobar con `VBoxManage list hdds` |
+| Red | Adaptador 1: NAT (`nic1="nat"`); adaptador 2: red interna `asir_lab` (`nic2="intnet"`) |
 | Usuario | `Administrador` (cuenta local de administración) |
 
 **Elección de la edición.** Se instala Standard con experiencia de escritorio: cubre las necesidades de este laboratorio, Datacenter solo añade funciones para grandes centros de datos, y la interfaz gráfica facilita documentar con capturas. Server Core consumiría menos RAM y disco (aproximadamente la mitad en reposo); podría probarse como ampliación para la medición de recursos de la tarea 7.
@@ -42,7 +43,7 @@ Evidencia: `evidencies/2026-11-16-winserver2025-configuracion-red.png` (`Get-Net
 
 ## 5. Pruebas de funcionamiento
 
-Montaje: MikroTik, `WinServer2025` y TrueNAS encendidos; OPNsense, Ubuntu y Debian apagados. La regla de bloqueo de MikroTik estaba deshabilitada.
+Montaje: MikroTik, `Windows Server 2025` y TrueNAS encendidos; OPNsense, Ubuntu y Debian apagados. La regla de bloqueo de MikroTik estaba deshabilitada.
 
 | Prueba | Resultado | Origen | Qué demuestra |
 |---|---|---|---|
@@ -58,7 +59,7 @@ La salida a Internet se prueba con TCP y no con ping, como en el resto del labor
 
 La VM tenía un segundo adaptador (`Ethernet 2`, NAT de VirtualBox, `10.0.2.15`) además del de la LAN. En la primera tanda de pruebas, las conexiones salían por ese adaptador y no por `Ethernet`: la prueba a TrueNAS falló (con TrueNAS además apagado) y la de `1.1.1.1:443` funcionó por la NAT sin pasar por MikroTik, por lo que no demostraba nada sobre el router. Se desactivó con `Disable-NetAdapter -Name "Ethernet 2" -Confirm:$false`, se encendió TrueNAS y se repitieron las pruebas; en las de la tabla anterior el origen es `192.168.34.21`.
 
-Pendiente: quitar el segundo adaptador en la configuración de VirtualBox para que no vuelva a activarse.
+El adaptador NAT es el adaptador 1 de la VM en VirtualBox (el de la LAN es el 2). Pendiente: desactivarlo allí (`Configuración → Red → Adaptador 1`) para que no vuelva a activarse.
 
 ## 7. Por qué no va en un nodo Proxmox
 
