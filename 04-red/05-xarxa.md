@@ -40,7 +40,7 @@ Cuando exista una segunda VM en `asir_lab`, probar la conectividad entre ambas c
 | Pendiente | Debian Server | Interfaces | `ip -br address` | En una comprobación anterior se observó `enp0s3` con `10.0.2.15/24` | Falta comprobar el segundo adaptador |
 
 ## 6. Diagrama
-El esquema de red individual, con la configuración de cada interfaz y las direcciones previstas, está en `diagramas/esquema-red-individual.md`.
+El esquema de red individual, con la configuración de cada interfaz y las direcciones previstas, está en `diagramas/esquema-red-individual.md`. Las pruebas de ping, traceroute y tablas de rutas están en `06-pruebas-conectividad.md`.
 
 ## 7. Mapa real de adaptadores (16/11/2026)
 
