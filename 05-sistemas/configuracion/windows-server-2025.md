@@ -65,7 +65,35 @@ El adaptador NAT es el adaptador 1 de la VM en VirtualBox (el de la LAN es el 2)
 
 Windows Server 2025 se ejecuta como VM independiente de VirtualBox y no dentro de los nodos Proxmox porque los recursos son limitados: los tres nodos reservan 12 GB de RAM solo para ellos, con una doble capa de virtualización, y el anfitrión tiene 16 GB (ver `00-preparacion/04-entorn-virtualitzacio.md`, apartado 8).
 
-## 8. Pendiente
+## 8. Copia al servidor de copias
+
+Se copió a TrueNAS (`192.168.34.20`) el fichero `config-red-winserver.txt` (salida de `ipconfig /all` y de `Get-LocalUser`), en la misma carpeta que la configuración del cliente Windows 11:
+
+```powershell
+ipconfig /all > $env:USERPROFILE\config-red-winserver.txt
+Get-LocalUser | Out-File -Append $env:USERPROFILE\config-red-winserver.txt
+sftp nasbackup@192.168.34.20
+sftp> put C:/Users/Administrador/config-red-winserver.txt /mnt/NAS_DATA/copias_seguridad/windows/
+sftp> ls /mnt/NAS_DATA/copias_seguridad/windows
+```
+
+- Usuario: `nasbackup`. Primera conexión desde este equipo: SFTP pidió aceptar la huella ED25519 del servidor, la misma que vio el cliente Windows 11, lo que confirma que es el mismo servidor.
+- Resultado: transferencia al 100 % (3830 bytes, 19:01 del 16/11/2026). El `ls` lista `config-red-win11.txt` y `config-red-winserver.txt` en `/mnt/NAS_DATA/copias_seguridad/windows/`.
+
+Evidencia: `evidencies/2026-11-16-winserver2025-copia-sftp-truenas.png`.
+
+### Qué se copia y qué no
+
+| Elemento | ¿Se copia? | Motivo |
+|---|---|---|
+| Configuración de red y lista de usuarios | Sí | Pequeña, y es lo que no se deduce de la ISO |
+| Imagen del disco de la VM (50 GB) | No | Ocupa mucho espacio en TrueNAS y la VM se reinstala desde la ISO y se reconfigura con el fichero |
+| Contraseñas | No | `Get-LocalUser` no las incluye; no deben guardarse en texto |
+
+La copia es manual; no hay tarea programada.
+
+## 9. Pendiente
 
 - Cambiar el nombre del equipo (ahora tiene uno aleatorio).
-- Usar la VM en las pruebas de la tarea 5 que dependan de ella (por ejemplo, copia de seguridad hacia TrueNAS) y en la medición de recursos (tarea 7).
+- Usar la VM en la medición de recursos (tarea 7).
+- Prueba de recuperación: no realizada.
