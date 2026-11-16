@@ -44,7 +44,7 @@ Notas:
 - El campo "tipo de SO" que muestra VirtualBox para algunas VM (por ejemplo, "Oracle Linux") es solo una etiqueta de la configuración y no indica el sistema realmente instalado.
 - Las VM `Debian 13.1`, `W11`, `W11 Particiones` e `ISO-DUAL-<iniciales>` pertenecen a otras actividades y no forman parte de este laboratorio.
 - Suma de la capacidad máxima de los discos del laboratorio: unos 273 GB. El espacio realmente ocupado es menor si los discos son de tamaño dinámico; está pendiente de comprobar.
-- La VM `Windows Server 2025` (Windows Server 2025 Standard Evaluation, 2 vCPU, 4 GB, adaptador 1 NAT desactivado en Windows y adaptador 2 en red interna `asir_lab`, `192.168.34.21`) se creó el 16/11/2026 y no está en la tabla de arriba porque esta se obtuvo antes con `VBoxManage`; sus datos están en `05-sistemas/configuracion/windows-server-2025.md`. Aún no existen el cliente GNU/Linux ni los servidores GNU/Linux de infraestructura.
+- La VM `Windows Server 2025` (Windows Server 2025 Standard Evaluation, 2 vCPU, 4 GB, adaptador 1 NAT desactivado en Windows y adaptador 2 en red interna `asir_lab`, `192.168.34.21`) se creó el 16/11/2026 y no está en la tabla de arriba porque esta se obtuvo antes con `VBoxManage`; sus datos están en `05-sistemas/configuracion/windows-server-2025.md`. Los servidores GNU/Linux de infraestructura se crean como clones de Debian Server (ver `05-sistemas/configuracion/linux-infraestructura.md`).
 
 ## 4. Instalación de Debian Server
 
@@ -77,7 +77,8 @@ Resumen:
 | Proxmox | Decisión de diseño/simulación (apartado 8) | Pendiente de autorización del profesorado |
 | Windows Server 2025 | Instalado y probado (16/11/2026) | `05-sistemas/configuracion/windows-server-2025.md` |
 | Windows 11 (cliente) | Instalado y probado (16/11/2026) | `05-sistemas/configuracion/windows-11.md` |
-| Cliente GNU/Linux, servidores GNU/Linux de infraestructura | Pendientes de crear | — |
+| Cliente GNU/Linux | Debian Server, documentado (16/11/2026) | `05-sistemas/configuracion/debian-cliente.md` |
+| Servidores GNU/Linux de infraestructura | `Linux-Servicios` instalado y probado; `Linux-Datos` pendiente | `05-sistemas/configuracion/linux-infraestructura.md` |
 | Reparto de VM entre anfitriones | Pendiente de decidir y probar | Tarea 7 |
 
 ## 7. Comandos útiles
