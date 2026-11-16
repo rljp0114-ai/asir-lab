@@ -67,7 +67,7 @@ No se copia la imagen del disco (20 GB): la VM se vuelve a crear clonando `Debia
 
 ### 3.6 Observación: identificadores duplicados por clonar
 
-El `Machine ID` que muestra `hostnamectl` (`7138cb0a...`) es **el mismo** que el de `Debian Server`, porque el clon lo hereda. Dos equipos con el mismo identificador pueden confundir a servicios que lo usan para identificarse en red. Pendiente de regenerarlo en el clon (`rm /etc/machine-id`, `systemd-machine-id-setup` y reiniciar); también se regenerarían las claves SSH del servidor si se utilizaran.
+El `Machine ID` que muestra `hostnamectl` (`7138cb0a...`) es **el mismo** que el de `Debian Server`, porque el clon lo hereda. Dos equipos con el mismo identificador pueden confundir a servicios que lo usan para identificarse en red. Se decide **no regenerarlo** en este laboratorio: los servidores no ejecutan servicios que dependan de ese identificador y no se encienden a la vez con el original. Si en el futuro se instalan servicios de red (por ejemplo, DHCP o monitorización), habría que regenerarlo con `rm /etc/machine-id`, `systemd-machine-id-setup` y reiniciar, y regenerar también las claves SSH del servidor.
 
 ## 4. Linux-Datos
 
