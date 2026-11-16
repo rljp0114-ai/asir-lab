@@ -1,0 +1,27 @@
+# Discos y máquinas virtuales
+*.vdi
+*.vmdk
+*.vhd
+*.vhdx
+*.qcow2
+*.ova
+*.ovf
+
+# Imágenes de instalación
+*.iso
+
+# Copias de seguridad y temporales
+*.bak
+*.tmp
+*.log
+*~
+
+# Credenciales y secretos
+.env
+.env.*
+*.pem
+*.key
+id_rsa
+id_ed25519
+secrets/
+credentials/
