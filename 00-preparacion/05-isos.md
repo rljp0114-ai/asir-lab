@@ -36,13 +36,13 @@ Registro de las imágenes ISO del laboratorio con su tamaño y su huella SHA256,
 
 ## 3. Comprobación contra la huella oficial
 
-Estado: **pendiente**. Las huellas oficiales no estaban a mano el 16/11/2026, por lo que de momento solo se ha registrado la huella calculada, que sirve para detectar cambios posteriores del fichero. Está pendiente de comparar con la publicada por cada proveedor (normalmente un fichero `SHA256SUMS` junto a la descarga).
+Estado: **Debian, Ubuntu y Proxmox verificadas el 16/11/2026**; el resto, pendiente. La huella oficial se obtuvo con `curl` del fichero `SHA256SUMS` del proveedor y se comparó con la calculada en el equipo (la cadena completa de 64 caracteres es idéntica). Para las demás solo se ha registrado la huella calculada, que sirve para detectar cambios posteriores del fichero.
 
 | Sistema | Huella oficial | Resultado |
 |---|---|---|
-| Debian 13.1 | Pendiente | Pendiente |
-| Ubuntu Server 26.04 | Pendiente | Pendiente |
-| Proxmox VE 9.2-1 | Pendiente | Pendiente |
+| Debian 13.1 | `658b28e2...65568b3` (`cdimage.debian.org/cdimage/archive/13.1.0/amd64/iso-cd/SHA256SUMS`, línea de `debian-13.1.0-amd64-netinst.iso`) | **Coincide** |
+| Ubuntu Server 26.04 | `dec49008...1ca5d9` (`releases.ubuntu.com/26.04/SHA256SUMS`, línea de `ubuntu-26.04-live-server-amd64.iso`) | **Coincide** |
+| Proxmox VE 9.2-1 | `4e88fe41...ef2c6c` (`enterprise.proxmox.com/iso/SHA256SUMS`, línea de `proxmox-ve_9.2-1.iso`, no la de `arm64`) | **Coincide** |
 | OPNsense 26.7 | Pendiente (el proveedor publica la huella del fichero comprimido `.bz2`; hay que descomprimir o comparar la del `.iso` que indique) | Pendiente |
 | TrueNAS 13.0-U5.3 | Pendiente | Pendiente |
 | MikroTik 7.24.5 | Pendiente | Pendiente |
@@ -50,7 +50,8 @@ Estado: **pendiente**. Las huellas oficiales no estaban a mano el 16/11/2026, po
 
 ## 4. Observaciones
 
-- La ISO de Debian se llama `debian-13.1.0-amd64-netinst(1).iso`: el `(1)` indica una descarga repetida. Conviene comprobar que no existe otra copia con distinta huella y, si se renombra, hacerlo tras verificarla.
+- La ISO de Debian se llama `debian-13.1.0-amd64-netinst(1).iso`: el `(1)` indica una descarga repetida del navegador. Su huella coincide con la oficial de `debian-13.1.0-amd64-netinst.iso`, así que el nombre es solo cosmético.
+- Ubuntu ya publica la versión 26.04.1 (`ubuntu-26.04.1-live-server-amd64.iso`). La ISO utilizada es la 26.04 inicial, verificada contra su propia línea del fichero oficial.
 - La fecha del fichero es la de su última modificación en el disco, que normalmente coincide con la descarga pero no lo garantiza.
 - TrueNAS 13.0 corresponde a TrueNAS CORE (basado en FreeBSD).
 - Windows 11 y Windows Server 2025 son ISO de gran tamaño (6,3 GiB y 5,6 GiB); hay que tenerlo en cuenta en el espacio libre del anfitrión que las use.
