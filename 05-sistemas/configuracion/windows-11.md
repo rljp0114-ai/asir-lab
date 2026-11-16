@@ -8,7 +8,7 @@ Instalar Windows 11 como cliente Windows del laboratorio, configurar su usuario 
 
 | Característica | Valor |
 |---|---|
-| VM | Nueva VM de VirtualBox 7.0.20 en el PC doméstico (distinta de la `W11` de otra actividad) |
+| VM | `Windows11 Cliente` (VirtualBox 7.0.20, PC doméstico; distinta de la `W11` de otra actividad) |
 | Imagen | `w11.iso`, de la página de recursos del centro (ver `00-preparacion/05-isos.md`; su huella no coincidió con la consultada en Microsoft) |
 | Edición | Windows 11 Home |
 | Recursos | 4 GB de RAM, 2 vCPU y 60 GB de disco según lo indicado al crear la VM; pendiente de comprobar con `VBoxManage showvminfo` |
