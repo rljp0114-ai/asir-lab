@@ -145,3 +145,62 @@ Se adjuntarán las siguientes capturas:
 - `evidencias/configuracion-dns.png`: servidores DNS configurados.
 - `evidencias/conectividad-router.png`: comunicación con Ubuntu Server.
 - `evidencias/conectividad-internet.png`: conexión a Internet y resolución DNS.
+
+## 9. Uso como cliente GNU/Linux de la tarea 5
+
+Debian Server se utiliza también como el cliente GNU/Linux del laboratorio. Los apartados anteriores se redactaron con Ubuntu Server como router; la comprobación del 16/11/2026 se hizo con **MikroTik** como puerta de enlace (`192.168.34.3`, misma dirección que Ubuntu).
+
+### 9.1 Versión
+
+| Dato | Valor |
+|---|---|
+| Sistema | Debian GNU/Linux 13 (trixie), versión 13.7 |
+| Kernel | 6.12.113+deb13-amd64 |
+| Nombre de equipo | `debian-server` |
+| Virtualización | Oracle VirtualBox (`hostnamectl`) |
+| Equipo físico | PC doméstico; VM `Debian Server (02-11)` |
+
+Evidencia: `evidencies/2026-11-16-debian-version-hostnamectl.png` (19:06 del 16/11/2026).
+
+### 9.2 Red
+
+| Interfaz | Estado | Dirección | Función |
+|---|---|---|---|
+| `enp0s3` | UP | `192.168.34.4/24` | LAN `asir_lab` |
+| `enp0s8` | UP | `10.0.3.15/24` (DHCP) | NAT de VirtualBox |
+
+Tabla de rutas: `default via 192.168.34.3 dev enp0s3` (MikroTik), `default via 10.0.3.2 dev enp0s8` con métrica 1003, `10.0.3.0/24` y `192.168.34.0/24` conectadas. Se usa la ruta de menor métrica, la de MikroTik.
+
+Evidencia: `evidencies/2026-11-16-debian-red-rutas-mikrotik.png`.
+
+### 9.3 Usuario
+
+Usuario de trabajo: `batoi` (UID 1000). En la comprobación, `getent group sudo` devolvió `sudo:x:27:` sin miembros, de modo que `batoi` no pertenece al grupo `sudo`. La administración del sistema se hace, por tanto, con la cuenta `root` (el historial de `evidencies/Comandos.md` muestra el prompt `root@debian-server`).
+
+Evidencia: `evidencies/2026-11-16-debian-usuario-copia-sftp-truenas.png` (`getent group sudo` e `id`).
+
+### 9.4 Copia al servidor de copias
+
+Se copiaron a TrueNAS (`192.168.34.20`), con el usuario `nasbackup`, el nombre del equipo y la configuración de red:
+
+```text
+sftp> mkdir /mnt/NAS_DATA/copias_seguridad/linux
+sftp> put /etc/hostname /mnt/NAS_DATA/copias_seguridad/linux/
+sftp> put /etc/network/interfaces /mnt/NAS_DATA/copias_seguridad/linux/
+sftp> ls /mnt/NAS_DATA/copias_seguridad/linux
+```
+
+El `ls` lista `hostname` e `interfaces` en `/mnt/NAS_DATA/copias_seguridad/linux/`. Es la primera conexión SFTP desde este equipo; se aceptó la huella ED25519 del servidor, la misma que vieron los equipos Windows.
+
+Durante la copia se subió por error un `hostname` a `/mnt/NAS_DATA/copias_seguridad/` (un `put /etc/hostname` sin carpeta de destino). Es un fichero duplicado y sin uso; debe borrarse (`rm /mnt/NAS_DATA/copias_seguridad/hostname` desde `sftp`).
+
+| Elemento | ¿Se copia? | Motivo |
+|---|---|---|
+| `/etc/network/interfaces` y `/etc/hostname` | Sí | Pequeños; recogen la identidad y la red del equipo y no se deducen de la ISO |
+| Imagen del disco (20 GB) | No | Ocupa mucho espacio; la VM se reinstala desde la ISO y se reconfigura con estos ficheros |
+| Contraseñas | No | No deben guardarse en ficheros de texto |
+
+### 9.5 Pendiente
+
+- Confirmar el grupo del administrador (si `batoi` debe pertenecer a `sudo`).
+- Borrar el `hostname` subido por error a la raíz de `copias_seguridad`.
