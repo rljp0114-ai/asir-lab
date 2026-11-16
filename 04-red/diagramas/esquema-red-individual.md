@@ -80,7 +80,8 @@ Siguiendo el patrón del esquema del aula, adaptado a la LAN `192.168.34.0/24`. 
 | VM Windows Server 2025 | `192.168.34.21/24` | Configurada y probada (16/11/2026) |
 | VM Debian (servicios) | `192.168.34.22/24` | Previsto |
 | VM Debian (datos) | `192.168.34.23/24` | Previsto |
-| Puestos de trabajo (clientes) | DHCP, `192.168.34.100-200` | Previsto |
+| Cliente Windows 11 | `192.168.34.100/24` (estática) | Configurado y probado (16/11/2026) |
+| Otros puestos de trabajo (clientes) | DHCP, `192.168.34.101-200` | Previsto |
 
 En todos los casos, puerta de enlace en el router activo y DNS configurado.
 

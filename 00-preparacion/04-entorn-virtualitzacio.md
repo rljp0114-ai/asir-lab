@@ -76,6 +76,7 @@ Resumen:
 | TrueNAS (copias) | Instalado y en uso | `evidencies/Comandos.md` |
 | Proxmox | Decisión de diseño/simulación (apartado 8) | Pendiente de autorización del profesorado |
 | Windows Server 2025 | Instalado y probado (16/11/2026) | `05-sistemas/configuracion/windows-server-2025.md` |
+| Windows 11 (cliente) | Instalado y probado (16/11/2026) | `05-sistemas/configuracion/windows-11.md` |
 | Cliente GNU/Linux, servidores GNU/Linux de infraestructura | Pendientes de crear | — |
 | Reparto de VM entre anfitriones | Pendiente de decidir y probar | Tarea 7 |
 
