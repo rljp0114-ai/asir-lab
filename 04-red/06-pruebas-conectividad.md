@@ -22,8 +22,6 @@ Orden de las pruebas: en Debian, `ip -br address`, `ip route`, cambio de la ruta
 | `enp0s3` | UP | `192.168.34.4/24` | LAN `asir_lab` |
 | `enp0s8` | UP | `10.0.3.15/24` (DHCP) | NAT de VirtualBox |
 
-**Observación:** el adaptador NAT estaba conectado durante la prueba. La regla de uso del laboratorio es desconectarlo para que Debian no pueda salir a Internet sin pasar por el router (ver `05-xarxa.md`, apartado 7). Su efecto sobre esta prueba se explica en el apartado 4.
-
 ## 3. Tabla de rutas de Debian
 
 Con `ip route`, tras ejecutar `sudo ip route replace default via 192.168.34.2`:
@@ -87,5 +85,3 @@ La ruta por defecto sale por la WAN hacia el router de la red doméstica, y las 
 ## 7. Conclusión
 
 Con OPNsense como router, Debian se comunica con el router y con TrueNAS por la LAN, y su tráfico hacia Internet atraviesa OPNsense, como demuestra el traceroute. Las tablas de rutas de Debian y de OPNsense son coherentes con el esquema (`diagramas/esquema-red-individual.md`).
-
-Mejora pendiente (opcional): repetir el traceroute con el adaptador NAT de Debian desconectado, para que la prueba cumpla estrictamente la regla de uso.
