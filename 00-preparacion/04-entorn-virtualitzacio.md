@@ -78,7 +78,7 @@ Resumen:
 | Windows Server 2025 | Instalado y probado (16/11/2026) | `05-sistemas/configuracion/windows-server-2025.md` |
 | Windows 11 (cliente) | Instalado y probado (16/11/2026) | `05-sistemas/configuracion/windows-11.md` |
 | Cliente GNU/Linux | Debian Server, documentado (16/11/2026) | `05-sistemas/configuracion/debian-cliente.md` |
-| Servidores GNU/Linux de infraestructura | `Linux-Servicios` instalado y probado; `Linux-Datos` pendiente | `05-sistemas/configuracion/linux-infraestructura.md` |
+| Servidores GNU/Linux de infraestructura | `Linux-Servicios` y `Linux-Datos` instalados y probados | `05-sistemas/configuracion/linux-infraestructura.md` |
 | Reparto de VM entre anfitriones | Pendiente de decidir y probar | Tarea 7 |
 
 ## 7. Comandos útiles
