@@ -175,7 +175,7 @@ Evidencia: `evidencies/2026-11-16-debian-red-rutas-mikrotik.png`.
 
 ### 9.3 Usuario
 
-Usuario de trabajo: `batoi` (UID 1000). En la comprobación, `getent group sudo` devolvió `sudo:x:27:` sin miembros, de modo que `batoi` no pertenece al grupo `sudo`. La administración del sistema se hace, por tanto, con la cuenta `root` (el historial de `evidencies/Comandos.md` muestra el prompt `root@debian-server`).
+Usuario de trabajo: `batoi` (UID 1000). En la comprobación, `getent group sudo` devolvió `sudo:x:27:` sin miembros, de modo que `batoi` no pertenece al grupo `sudo`. La administración del sistema se hace con la cuenta `root`: el administrador entra como `batoi` y cambia a `root` con `su -` (así lo indica el alumno y es coherente con el prompt `root@debian-server` del historial de `evidencies/Comandos.md`). No hay captura de `su -` en esta comprobación.
 
 Evidencia: `evidencies/2026-11-16-debian-usuario-copia-sftp-truenas.png` (`getent group sudo` e `id`).
 
@@ -202,5 +202,5 @@ Durante la copia se subió por error un `hostname` a `/mnt/NAS_DATA/copias_segur
 
 ### 9.5 Pendiente
 
-- Confirmar el grupo del administrador (si `batoi` debe pertenecer a `sudo`).
+- Captura opcional de `su -` e `id` como `root`, para dejar demostrado el acceso de administración.
 - Borrar el `hostname` subido por error a la raíz de `copias_seguridad`.
