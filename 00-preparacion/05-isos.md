@@ -36,16 +36,16 @@ Registro de las imágenes ISO del laboratorio con su tamaño y su huella SHA256,
 
 ## 3. Comprobación contra la huella oficial
 
-Estado: **Debian, Ubuntu y Proxmox verificadas el 16/11/2026**; el resto, pendiente. La huella oficial se obtuvo con `curl` del fichero `SHA256SUMS` del proveedor y se comparó con la calculada en el equipo (la cadena completa de 64 caracteres es idéntica). Para las demás solo se ha registrado la huella calculada, que sirve para detectar cambios posteriores del fichero.
+Estado: **Debian, Ubuntu, Proxmox y TrueNAS verificadas el 16/11/2026**; OPNsense, MikroTik y Windows, pendientes. La huella oficial se obtuvo con `curl` del fichero `SHA256SUMS` del proveedor y se comparó con la calculada en el equipo (la cadena completa de 64 caracteres es idéntica). Para las demás solo se ha registrado la huella calculada, que sirve para detectar cambios posteriores del fichero.
 
 | Sistema | Huella oficial | Resultado |
 |---|---|---|
 | Debian 13.1 | `658b28e2...65568b3` (`cdimage.debian.org/cdimage/archive/13.1.0/amd64/iso-cd/SHA256SUMS`, línea de `debian-13.1.0-amd64-netinst.iso`) | **Coincide** |
 | Ubuntu Server 26.04 | `dec49008...1ca5d9` (`releases.ubuntu.com/26.04/SHA256SUMS`, línea de `ubuntu-26.04-live-server-amd64.iso`) | **Coincide** |
 | Proxmox VE 9.2-1 | `4e88fe41...ef2c6c` (`enterprise.proxmox.com/iso/SHA256SUMS`, línea de `proxmox-ve_9.2-1.iso`, no la de `arm64`) | **Coincide** |
-| OPNsense 26.7 | Pendiente (el proveedor publica la huella del fichero comprimido `.bz2`; hay que descomprimir o comparar la del `.iso` que indique) | Pendiente |
-| TrueNAS 13.0-U5.3 | Pendiente | Pendiente |
-| MikroTik 7.24.5 | Pendiente | Pendiente |
+| OPNsense 26.7 | `95cafedd...86bfb`, pero es la del fichero comprimido `OPNsense-26.7-dvd-amd64.iso.bz2` (`pkg.opnsense.org/releases/26.7/OPNsense-26.7-checksums-amd64.sha256`) | **No comparable**: la huella calculada (`1efd5dc9...5d48d5dcd`) es la del `.iso` descomprimido. Para verificarla habría que volver a descargar el `.bz2`, comprobar su huella y descomprimirlo |
+| TrueNAS 13.0-U5.3 | `7c16a4f5...bb4c80` (`download.freenas.org/13.0/STABLE/U5.3/x64/TrueNAS-13.0-U5.3.iso.sha256`) | **Coincide** |
+| MikroTik 7.24.5 | No encontrada: `download.mikrotik.com/routeros/7.24.5/CHECKSUMS.txt` no devolvió ninguna línea de ISO | Pendiente |
 | Windows 11 y Windows Server 2025 | Microsoft no suele publicar la huella de las imágenes de evaluación; si no existe, se deja anotado | Pendiente |
 
 ## 4. Observaciones
