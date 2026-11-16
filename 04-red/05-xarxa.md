@@ -49,7 +49,7 @@ Obtenido con `VBoxManage showvminfo --machinereadable` en el equipo con el adapt
 | VM | Adaptador 1 | Adaptador 2 | Adaptador 3 |
 |---|---|---|---|
 | Debian Server | Red interna `asir_lab` | NAT | — |
-| Ubuntu Server | NAT (WAN) | Red interna `asir_lab` (LAN) | Host-only `vboxnet2` |
+| Ubuntu Server | NAT (WAN) | Red interna `asir_lab` (LAN) | Host-only `vboxnet2` (`enp0s9`, `192.168.58.3/24`) |
 | Mikrotik | Puente `enp8s0` (WAN) | Red interna `asir_lab` (LAN) | — |
 | OPNsense | Puente `enp8s0` (WAN) | Red interna `asir_lab` (LAN) | Host-only `vboxnet1` (gestión) |
 | TrueNAS | Red interna `asir_lab` | Host-only `vboxnet1` | Host-only `vboxnet2` |
