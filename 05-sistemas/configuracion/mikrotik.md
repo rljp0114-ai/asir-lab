@@ -106,7 +106,7 @@ Los cinco paquetes SYN de 60 bytes coinciden con los contadores de la regla (5 p
 
 Para devolver el router a su estado anterior se retiró el bloqueo y se repitió la prueba hacia `1.1.1.1:443`, que volvió a dar `abierto` (prueba 4 de la tabla anterior).
 
-- Estado final de la regla (deshabilitada o eliminada): pendiente de indicar cuál de las dos.
+- Estado final de la regla: **deshabilitada** (se conserva en la tabla `filter` para consulta, sin efecto sobre el tráfico).
 
 ## 5. Incidencia durante las pruebas
 
