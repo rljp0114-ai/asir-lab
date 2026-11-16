@@ -36,7 +36,7 @@ Registro de las imágenes ISO del laboratorio con su tamaño y su huella SHA256,
 
 ## 3. Comprobación contra la huella oficial
 
-Estado: **Debian, Ubuntu, Proxmox y TrueNAS verificadas el 16/11/2026**; OPNsense, MikroTik y Windows, pendientes. La huella oficial se obtuvo con `curl` del fichero `SHA256SUMS` del proveedor y se comparó con la calculada en el equipo (la cadena completa de 64 caracteres es idéntica). Para las demás solo se ha registrado la huella calculada, que sirve para detectar cambios posteriores del fichero.
+Estado: **Debian, Ubuntu, Proxmox y TrueNAS verificadas el 16/11/2026**; el resto no se ha podido verificar (apartado 3.1). La huella oficial se obtuvo con `curl` del fichero `SHA256SUMS` del proveedor y se comparó con la calculada en el equipo (la cadena completa de 64 caracteres es idéntica). Para las demás solo se ha registrado la huella calculada, que sirve para detectar cambios posteriores del fichero.
 
 | Sistema | Huella oficial | Resultado |
 |---|---|---|
@@ -46,7 +46,19 @@ Estado: **Debian, Ubuntu, Proxmox y TrueNAS verificadas el 16/11/2026**; OPNsens
 | OPNsense 26.7 | `95cafedd...86bfb`, pero es la del fichero comprimido `OPNsense-26.7-dvd-amd64.iso.bz2` (`pkg.opnsense.org/releases/26.7/OPNsense-26.7-checksums-amd64.sha256`) | **No comparable**: la huella calculada (`1efd5dc9...5d48d5dcd`) es la del `.iso` descomprimido. Para verificarla habría que volver a descargar el `.bz2`, comprobar su huella y descomprimirlo |
 | TrueNAS 13.0-U5.3 | `7c16a4f5...bb4c80` (`download.freenas.org/13.0/STABLE/U5.3/x64/TrueNAS-13.0-U5.3.iso.sha256`) | **Coincide** |
 | MikroTik 7.24.5 | No encontrada: `download.mikrotik.com/routeros/7.24.5/CHECKSUMS.txt` no devolvió ninguna línea de ISO | Pendiente |
-| Windows 11 y Windows Server 2025 | Microsoft no suele publicar la huella de las imágenes de evaluación; si no existe, se deja anotado | Pendiente |
+| Windows 11 | Huella consultada en la web de Microsoft (apartado "Verify your download") | **No coincide** con la huella calculada (`5210deed...119dc8`); causa no determinada (ver 3.1) |
+| Windows Server 2025 | No publicada por Microsoft para la versión de evaluación | No verificable |
+
+### 3.1 Por qué no se han verificado todas
+
+| ISO | Situación | Motivo |
+|---|---|---|
+| OPNsense | No comparable | El proveedor solo publica la huella del fichero comprimido `.iso.bz2`; la calculada es la del `.iso` descomprimido, así que no pueden coincidir aunque el fichero sea correcto |
+| MikroTik | Sin huella oficial localizada | No se encontró un fichero de huellas en la dirección consultada |
+| Windows Server 2025 | No verificable | Microsoft no publica la huella de la versión de evaluación |
+| Windows 11 | No coincide | No se ha determinado la causa. Posibles explicaciones: la ISO es de otro idioma, edición o compilación distinta de la huella consultada, o procede de otra fuente (por ejemplo, la facilitada por el centro). No se ha probado que el fichero esté dañado |
+
+Decisión: no se profundiza más en estas verificaciones. La ISO de Windows 11 se usará solo en pruebas del laboratorio, y la huella calculada queda registrada para detectar cambios posteriores. Si se necesitara garantizar su integridad, habría que volver a descargarla de Microsoft y repetir la comparación.
 
 ## 4. Observaciones
 
