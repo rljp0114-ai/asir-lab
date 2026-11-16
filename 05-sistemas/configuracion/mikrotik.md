@@ -59,10 +59,22 @@ Es la regla número 0 de la tabla `filter`, por lo que se evalúa la primera.
 
 ### Pruebas desde Debian
 
-| Conexión | Comando | Resultado esperado | Resultado |
-|---|---|---|---|
-| Bloqueada | `timeout 5 bash -c 'cat < /dev/null > /dev/tcp/1.1.1.1/443' && echo ABIERTO \|\| echo CERRADO` | CERRADO | Pendiente de añadir la salida |
-| Permitida | `timeout 5 bash -c 'cat < /dev/null > /dev/tcp/8.8.8.8/443' && echo ABIERTO \|\| echo CERRADO` | ABIERTO | Pendiente de añadir la salida |
+Cada prueba intenta abrir una conexión TCP al puerto 443 del destino indicado con:
+
+```bash
+timeout 5 bash -c 'cat < /dev/null > /dev/tcp/DESTINO/443' && echo abierto || echo CERRADO
+```
+
+Secuencia registrada en la captura `evidencies/2026-11-16-debian-prueba-tcp443-bloqueo-mikrotik.png` (orden de ejecución):
+
+| Nº | Destino | Estado de la regla | Resultado | Significado |
+|---|---|---|---|---|
+| 1 | `1.1.1.1:443` | Sin regla de bloqueo | abierto | Conexión permitida: el tráfico sale por MikroTik |
+| 2 | `8.8.8.8:443` | Sin regla de bloqueo | abierto | Conexión permitida |
+| 3 | `1.1.1.1:443` | Regla `drop` activa | **CERRADO** | Conexión bloqueada por la regla; coincide con las 5 entradas del registro |
+| 4 | `1.1.1.1:443` | Regla deshabilitada o eliminada | abierto | Se recupera el estado anterior |
+
+La prueba 3 se corresponde con los cinco paquetes SYN descartados que muestran los contadores y el registro. La prueba 4 se ejecutó después de retirar el bloqueo y confirma que el router vuelve a dejar pasar el tráfico.
 
 ### Resultado observado en MikroTik
 
@@ -92,10 +104,9 @@ Los cinco paquetes SYN de 60 bytes coinciden con los contadores de la regla (5 p
 
 ### Vuelta al estado anterior
 
-Para devolver el router a su estado anterior, deshabilitar o eliminar la regla y repetir la prueba bloqueada, que debe volver a dar `ABIERTO`.
+Para devolver el router a su estado anterior se retiró el bloqueo y se repitió la prueba hacia `1.1.1.1:443`, que volvió a dar `abierto` (prueba 4 de la tabla anterior).
 
-- Estado de la regla tras la prueba: pendiente de confirmar.
-- Resultado de la prueba tras deshabilitar la regla: pendiente de añadir.
+- Estado final de la regla (deshabilitada o eliminada): pendiente de indicar cuál de las dos.
 
 ## 5. Incidencia durante las pruebas
 

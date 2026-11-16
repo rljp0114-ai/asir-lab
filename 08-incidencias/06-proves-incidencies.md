@@ -62,5 +62,5 @@ Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No
 - **Causa identificada:** la causa más probable es que la red del aula filtra el tráfico ICMP hacia el exterior, pero no se ha confirmado con la administración de la red. Lo que sí se ha comprobado es que el tráfico TCP sale correctamente por MikroTik.
 - **Solución aplicada:** no se cambió ninguna configuración. Para probar la salida a Internet en este entorno se utilizan pruebas TCP (y resolución DNS) en lugar de `ping`.
 - **Verificación posterior:** la prueba de conexión permitida y bloqueada de MikroTik se hizo con TCP y funcionó (ver `05-sistemas/configuracion/mikrotik.md`).
-- **Evidencia:** `evidencies/2026-11-16-mikrotik-log-lista-prueba-bloqueo.png` y `evidencies/2026-11-16-mikrotik-log-entrada-detalle.png`.
+- **Evidencia:** `evidencies/2026-11-16-debian-prueba-tcp443-bloqueo-mikrotik.png` (la primera línea muestra la conexión TCP al 443 abierta), `evidencies/2026-11-16-mikrotik-log-lista-prueba-bloqueo.png` y `evidencies/2026-11-16-mikrotik-log-entrada-detalle.png`.
 - **Qué se ha aprendido:** un `ping` fallido no demuestra que no haya salida a Internet. Hay que distinguir entre fallo de ICMP y fallo de conectividad probando con otro protocolo, y probar desde el propio router para localizar dónde está el problema.
