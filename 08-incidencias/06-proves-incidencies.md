@@ -44,3 +44,23 @@ Registrar una línea base y comparar reposo con carga controlada:
 | Pendiente | Debian Server | Pendiente | Pendiente | Pendiente | Pendiente | Pendiente | Pendiente |
 
 Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No afirmar que existe una mejora sin comparar mediciones antes y después.
+
+## 5. Incidencias registradas
+
+### 5.1. El ping a Internet falla a través de MikroTik en la red del aula
+
+- **Título breve:** `ping` a `1.1.1.1` sin respuesta, con conexión al router correcta.
+- **Fecha:** 16/11/2026.
+- **Sistema afectado:** Debian Server (cliente) y MikroTik (router), con el WAN conectado por adaptador puente a la red del aula.
+- **Objetivo:** comprobar que los equipos de la LAN tienen salida a Internet a través de MikroTik.
+- **Síntoma observado:** Debian se comunicaba con MikroTik (`192.168.34.3`), pero `ping 1.1.1.1` no recibía respuesta. El ping lanzado desde el propio MikroTik también fallaba.
+- **Mensaje de error o salida exacta:** pendiente de pegar la salida literal del ping.
+- **Comprobaciones realizadas:**
+  1. Comunicación Debian-MikroTik: correcta.
+  2. Ping desde MikroTik hacia el exterior: fallaba; al fallar también desde el router, el fallo no dependía del cliente Debian ni de la LAN.
+  3. Prueba de conexión TCP al puerto 443 desde Debian, sin usar ICMP: `timeout 5 bash -c 'cat < /dev/null > /dev/tcp/1.1.1.1/443' && echo ABIERTO || echo CERRADO`. Resultado: `ABIERTO`.
+- **Causa identificada:** la causa más probable es que la red del aula filtra el tráfico ICMP hacia el exterior, pero no se ha confirmado con la administración de la red. Lo que sí se ha comprobado es que el tráfico TCP sale correctamente por MikroTik.
+- **Solución aplicada:** no se cambió ninguna configuración. Para probar la salida a Internet en este entorno se utilizan pruebas TCP (y resolución DNS) en lugar de `ping`.
+- **Verificación posterior:** la prueba de conexión permitida y bloqueada de MikroTik se hizo con TCP y funcionó (ver `05-sistemas/configuracion/mikrotik.md`).
+- **Evidencia:** `evidencies/2026-11-16-mikrotik-log-lista-prueba-bloqueo.png` y `evidencies/2026-11-16-mikrotik-log-entrada-detalle.png`.
+- **Qué se ha aprendido:** un `ping` fallido no demuestra que no haya salida a Internet. Hay que distinguir entre fallo de ICMP y fallo de conectividad probando con otro protocolo, y probar desde el propio router para localizar dónde está el problema.
