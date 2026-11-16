@@ -11,8 +11,9 @@ Instalar Windows 11 como cliente Windows del laboratorio, configurar su usuario 
 | VM | `Windows11 Cliente` (VirtualBox 7.0.20, PC doméstico; distinta de la `W11` de otra actividad) |
 | Imagen | `w11.iso`, de la página de recursos del centro (ver `00-preparacion/05-isos.md`; su huella no coincidió con la consultada en Microsoft) |
 | Edición | Windows 11 Home |
-| Recursos | 4 GB de RAM, 2 vCPU y 60 GB de disco según lo indicado al crear la VM; pendiente de comprobar con `VBoxManage showvminfo` |
-| Red | Un adaptador en red interna `asir_lab`, sin NAT |
+| Recursos | 4 GB de RAM (`memory=4096`), 2 vCPU (`cpus=2`) y disco VDI de 80 GB (`VBoxManage list hdds`: 81920 MB, sin cifrar), en `/home/batoi/VirtualBox VMs/ISOFHW/Windows11 Cliente/` |
+| Firmware | EFI (`firmware="EFI"`); el TPM no aparece en la salida consultada |
+| Red | Adaptador 2 en red interna `asir_lab` (`nic2="intnet"`); adaptador 1 y los demás sin conectar (`none`), sin NAT |
 | Instalación | Sin conexión a Internet, con usuario local |
 
 ## 3. Versión
@@ -91,7 +92,7 @@ Evidencia: `evidencies/2026-11-16-windows11-copia-sftp-truenas.png`.
 | Elemento | ¿Se copia? | Motivo |
 |---|---|---|
 | Configuración de red (IP, puerta de enlace, DNS) y lista de usuarios | Sí | Es pequeña y es lo único que no se deduce de la ISO; permite reconstruir la configuración de la VM |
-| Imagen del disco de la VM (60 GB) | No | Ocupa mucho espacio en TrueNAS y la VM se puede reinstalar desde la ISO y reconfigurar con el fichero anterior en pocos minutos |
+| Imagen del disco de la VM (80 GB) | No | Ocupa mucho espacio en TrueNAS y la VM se puede reinstalar desde la ISO y reconfigurar con el fichero anterior en pocos minutos |
 | Contraseñas | No | `Get-LocalUser` no las incluye; no deben guardarse en ficheros de texto |
 
 La copia es manual; no hay tarea programada para Windows 11.
@@ -99,5 +100,4 @@ La copia es manual; no hay tarea programada para Windows 11.
 ## 8. Pendiente
 
 - Integración en dominio: no se hace; solo procede si el diseño lo prevé.
-- Comprobar con `VBoxManage` los recursos reales de la VM.
 - Prueba de recuperación (borrar la configuración y restaurarla desde la copia): no realizada.
