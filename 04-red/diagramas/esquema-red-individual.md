@@ -2,6 +2,8 @@
 
 Esquema del montaje virtual individual, con la configuración de cada interfaz y las direcciones previstas. Se basa en la arquitectura de referencia del aula, adaptada a un único anfitrión (PC doméstico) con VirtualBox.
 
+El número de puesto del aula es el **34**, por lo que la LAN es `192.168.34.0/24`.
+
 Los datos de interfaces y adaptadores se han obtenido con `VBoxManage showvminfo` y `VBoxManage list hostonlyifs` (16/11/2026) y de las pruebas registradas en `evidencies/Comandos.md`.
 
 ## 1. Esquema general
