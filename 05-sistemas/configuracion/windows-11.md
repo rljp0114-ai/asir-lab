@@ -68,8 +68,36 @@ Con MikroTik y TrueNAS encendidos:
 
 Evidencias: `evidencies/2026-11-16-windows11-prueba-mikrotik.png`, `evidencies/2026-11-16-windows11-prueba-truenas.png` y `evidencies/2026-11-16-windows11-prueba-tcp443-internet.png`. La salida a Internet se prueba con TCP y no con ping (ver `08-incidencias/06-proves-incidencies.md`).
 
-## 7. Pendiente
+## 7. Copia al servidor de copias
 
-- Copiar al servidor de copias (TrueNAS) la configuración necesaria y justificar qué se copia y qué no.
+Se copió a TrueNAS (`192.168.34.20`) el fichero `config-red-win11.txt`, que contiene la salida de `ipconfig /all` y de `Get-LocalUser`:
+
+```powershell
+ipconfig /all > $env:USERPROFILE\config-red-win11.txt
+Get-LocalUser | Out-File -Append $env:USERPROFILE\config-red-win11.txt
+sftp nasbackup@192.168.34.20
+sftp> mkdir /mnt/NAS_DATA/copias_seguridad/windows
+sftp> put C:/Users/Windows-Cliente/config-red-win11.txt /mnt/NAS_DATA/copias_seguridad/windows/
+sftp> ls /mnt/NAS_DATA/copias_seguridad/windows
+```
+
+- Usuario: `nasbackup`. Es la primera conexión desde este equipo, por lo que SFTP pidió aceptar la huella del servidor (ED25519) y la guardó como conocida.
+- Resultado: transferencia al 100 % (3810 bytes, 18:55 del 16/11/2026). El `mkdir` no dio error y el `ls` confirma el fichero en `/mnt/NAS_DATA/copias_seguridad/windows/config-red-win11.txt`.
+
+Evidencia: `evidencies/2026-11-16-windows11-copia-sftp-truenas.png`.
+
+### Qué se copia y qué no
+
+| Elemento | ¿Se copia? | Motivo |
+|---|---|---|
+| Configuración de red (IP, puerta de enlace, DNS) y lista de usuarios | Sí | Es pequeña y es lo único que no se deduce de la ISO; permite reconstruir la configuración de la VM |
+| Imagen del disco de la VM (60 GB) | No | Ocupa mucho espacio en TrueNAS y la VM se puede reinstalar desde la ISO y reconfigurar con el fichero anterior en pocos minutos |
+| Contraseñas | No | `Get-LocalUser` no las incluye; no deben guardarse en ficheros de texto |
+
+La copia es manual; no hay tarea programada para Windows 11.
+
+## 8. Pendiente
+
 - Integración en dominio: no se hace; solo procede si el diseño lo prevé.
 - Comprobar con `VBoxManage` los recursos reales de la VM.
+- Prueba de recuperación (borrar la configuración y restaurarla desde la copia): no realizada.
