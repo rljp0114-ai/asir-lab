@@ -7,7 +7,7 @@ Se utilizarán dos equipos físicos con Linux Mint y VirtualBox para ejecutar y 
 | Característica | PC doméstico | Portátil ASUS |
 |---|---|---|
 | Sistema anfitrión | Linux Mint | Linux Mint 22.3 |
-| Virtualizador | VirtualBox (versión pendiente de anotar) | VirtualBox (versión pendiente de anotar) |
+| Virtualizador | VirtualBox 7.0.20 r163906 | VirtualBox (versión pendiente de anotar) |
 | Procesador | AMD Ryzen 5 3400G, 4 núcleos/8 hilos | Intel Core Ultra 5 125H, 14 núcleos/18 hilos |
 | Memoria RAM | 16 GB | 32 GB |
 | Almacenamiento | SSD, aproximadamente 700 GB según estimación; falta medir el espacio libre | SanDisk Portable SSD de 931,5 GB por USB 3.2 |
@@ -67,7 +67,7 @@ Resumen:
 
 | Elemento | Estado | Evidencia/comentario |
 |---|---|---|
-| VirtualBox en los dos anfitriones | Pendiente de anotar la versión | `VBoxManage --version` |
+| VirtualBox en los dos anfitriones | PC doméstico: 7.0.20 r163906. Portátil: pendiente de anotar la versión | `VBoxManage --version` |
 | Inventario de VM del PC doméstico | Documentado (apartado 3) | Salida de `VBoxManage` |
 | Inventario de VM del portátil | Pendiente de revisar si hay VM en el portátil | `VBoxManage list vms` |
 | Router Ubuntu con nftables | Configurado y probado | `evidencies/Comandos.md` |

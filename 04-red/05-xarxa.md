@@ -63,9 +63,13 @@ Obtenido con `VBoxManage showvminfo --machinereadable` en el equipo con el adapt
 
 | Red | Uso | Direccionamiento |
 |---|---|---|
-| `vboxnet0` | Sin uso por ninguna VM | — |
-| `vboxnet1` | Gestión de OPNsense, TrueNAS y Proxmox N1 | `192.168.56.0/24` según la configuración anterior de OPNsense (`192.168.56.1` en el anfitrión, `192.168.56.2` en OPNsense). Falta confirmar con `VBoxManage list hostonlyifs` |
-| `vboxnet2` | Gestión de Ubuntu Server, TrueNAS y los clones de recuperación | Pendiente de confirmar con `VBoxManage list hostonlyifs` |
+| `vboxnet0` | Sin uso por ninguna VM | `192.168.56.0/24` (anfitrión `192.168.56.1`) |
+| `vboxnet1` | Gestión de OPNsense, TrueNAS y Proxmox N1 | `192.168.57.0/24` (anfitrión `192.168.57.1`) |
+| `vboxnet2` | Gestión de Ubuntu Server, TrueNAS y los clones de recuperación | `192.168.58.0/24` (anfitrión `192.168.58.1`) |
+
+Datos obtenidos con `VBoxManage list hostonlyifs` (las tres redes en estado `Up`, máscara `255.255.255.0`).
+
+**Punto por verificar:** la documentación anterior de OPNsense indicaba la gestión web en `192.168.56.2`, con el anfitrión en `192.168.56.1`. Actualmente la red `192.168.56.0/24` corresponde a `vboxnet0`, mientras que el adaptador de gestión de OPNsense está conectado a `vboxnet1` (`192.168.57.0/24`). Hay que comprobar la IP de gestión actual de OPNsense: si sigue siendo `192.168.56.2`, no será accesible desde el anfitrión por `vboxnet1`; habría que cambiarla a una IP de `192.168.57.0/24` o conectar el adaptador a `vboxnet0`. El direccionamiento de los clones de recuperación (`192.168.58.0/24`) sí coincide con `vboxnet2`.
 
 ### Modo de la interfaz WAN de cada router
 
