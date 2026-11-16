@@ -12,7 +12,7 @@ Instalar Windows Server 2025 como servidor Windows del laboratorio y comprobar s
 | Imagen | `win_server_2025.iso`, de la página de recursos del centro (ver `00-preparacion/05-isos.md`; huella en `00-preparacion/05-isos.md`; Microsoft no publica la huella de la versión de evaluación) |
 | Edición | Windows Server 2025 Standard Evaluation, con experiencia de escritorio |
 | vCPU y RAM | 2 vCPU y 4 GB (comprobado con `VBoxManage showvminfo`: `cpus=2`, `memory=4096`) |
-| Disco | 50 GB según lo indicado al crear la VM; pendiente de comprobar con `VBoxManage list hdds` |
+| Disco | 50 GB (`VBoxManage list hdds`: formato VDI, capacidad 51200 MB, sin cifrar), en `/home/batoi/VirtualBox VMs/ISOFHW/Windows Server 2025/` |
 | Red | Adaptador 1: NAT (`nic1="nat"`); adaptador 2: red interna `asir_lab` (`nic2="intnet"`) |
 | Usuario | `Administrador` (cuenta local de administración) |
 

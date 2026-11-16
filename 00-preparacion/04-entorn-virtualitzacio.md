@@ -113,3 +113,14 @@ VBoxManage showvminfo "NOMBRE_VM" --machinereadable
 **Qué se documenta en su lugar** (pendiente de redactar): diseño del clúster (nodos, red de gestión, quórum y almacenamiento compartido), máquinas virtuales previstas, ventajas e inconvenientes de virtualizar servidores, diferencia entre contenedor y máquina virtual y cuándo usar cada uno, procedimiento previsto de migración y qué copias se guardarían en el servidor de copias y por qué.
 
 **Limitación reconocida.** Al no haber nodos operativos, la migración de un contenedor y una VM entre nodos y su medición no se ejecutan en el laboratorio. Si el profesorado no autoriza esta alternativa, el criterio quedaría pendiente y habría que replantear el despliegue (por ejemplo, en el portátil de 32 GB).
+
+## 9. Portabilidad entre equipos
+
+Los discos de las máquinas virtuales se comparten entre el PC doméstico, el portátil y los equipos del aula, así que todo lo que se monte debe poder ejecutarse también en el portátil (32 GB) y en clase. Reglas que se siguen:
+
+- **Misma versión de VirtualBox** en los dos equipos propios (7.0.20).
+- **Adaptador puente:** está asociado a la tarjeta física de cada equipo (`enp8s0` en el PC, `eno1` en el portátil). Al abrir una VM en otro equipo hay que volver a elegir el adaptador físico en `Configuración → Red`.
+- **Redes host-only:** las VM de gestión necesitan que existan `vboxnet0`, `vboxnet1` y `vboxnet2` con los mismos direccionamientos (`192.168.56.0/24`, `192.168.57.0/24`, `192.168.58.0/24`). Si no existen en el otro equipo, hay que crearlas antes de arrancar.
+- **Red interna `asir_lab`:** no depende del equipo; se crea sola al usarla.
+- **Recursos:** cada VM nueva se dimensiona para caber en el equipo de 16 GB, aunque se pueda mover al de 32 GB. No se activa virtualización anidada, que depende del procesador (AMD en el PC, Intel en el portátil).
+- **Ruta de los discos:** las VM están en `/home/batoi/VirtualBox VMs/ISOFHW/`.
