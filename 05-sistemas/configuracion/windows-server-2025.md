@@ -92,7 +92,22 @@ Evidencia: `evidencies/2026-11-16-winserver2025-copia-sftp-truenas.png`.
 
 La copia es manual; no hay tarea programada.
 
-## 9. Pendiente
+## 9. Qué es un dominio y qué aporta a la empresa
+
+Un **dominio** (en Windows, un dominio de Active Directory) es un conjunto de equipos, usuarios y recursos que comparten una base de datos de seguridad común, gestionada por uno o varios servidores llamados controladores de dominio. En lugar de tener cuentas en cada ordenador, las cuentas existen una sola vez en el servidor y todos los equipos del dominio las reconocen.
+
+**Ventajas de centralizar la gestión a nivel administrativo:**
+- **Una sola cuenta por persona**, válida en cualquier equipo del dominio. Dar de alta o de baja a un empleado se hace en un único sitio.
+- **Directivas de grupo (GPO):** el administrador define desde el servidor reglas que se aplican a muchos equipos (por ejemplo, requisitos de contraseña, fondos de pantalla, restricciones de software o unidades de red) sin tocar cada equipo.
+- **Permisos por grupos:** el acceso a carpetas, impresoras y aplicaciones se asigna a grupos (administración, ventas, dirección) y no usuario por usuario.
+- **Seguridad y control:** contraseñas, bloqueos de cuenta y auditoría se gestionan y registran de forma centralizada.
+- **Menos trabajo y menos errores** al crecer la empresa: un equipo nuevo se une al dominio y adopta la configuración y los permisos que le correspondan.
+
+**Qué aporta a nuestra empresa:** el laboratorio simula una empresa pequeña con varios puestos (Windows 11 y GNU/Linux). Con un dominio, el servidor Windows Server 2025 serviría para gestionar de forma única los usuarios y los permisos de esos puestos y aplicar la misma configuración de seguridad a todos.
+
+**Decisión de diseño:** en esta fase no se instala el rol de controlador de dominio (Active Directory Domain Services) ni se une ningún cliente al dominio. La rúbrica lo exige solo para explicar el concepto, y la integración de los clientes solo procede si el diseño lo prevé. Por tanto, Windows Server 2025 queda instalado, configurado en red y con su copia de seguridad, y la integración de dominio se deja como mejora posible.
+
+## 10. Pendiente
 
 - Cambiar el nombre del equipo (ahora tiene uno aleatorio).
 - Usar la VM en la medición de recursos (tarea 7).

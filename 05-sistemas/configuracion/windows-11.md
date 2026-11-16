@@ -99,5 +99,5 @@ La copia es manual; no hay tarea programada para Windows 11.
 
 ## 8. Pendiente
 
-- Integración en dominio: no se hace; solo procede si el diseño lo prevé.
+- Integración en dominio: no se hace. La rúbrica la exige solo si el diseño la prevé, y en este diseño no se instala el controlador de dominio (ver `windows-server-2025.md`, apartado 9).
 - Prueba de recuperación (borrar la configuración y restaurarla desde la copia): no realizada.
