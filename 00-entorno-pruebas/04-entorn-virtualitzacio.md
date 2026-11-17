@@ -17,7 +17,7 @@ El SSD Samsung interno de 1 TB del portátil queda excluido del proyecto. El sis
 
 ## 2. Distribución de la carga
 
-Al compartir el disco, las VM no se reparten entre los dos equipos a la vez: se ejecutan en el que tenga el SSD conectado. El portátil tiene más memoria RAM y capacidad de CPU (32 GB), mientras que el PC doméstico dispone de 16 GB. Se decide qué cargas van a cada uno según los requisitos de cada VM y las mediciones de rendimiento (tarea 7): el clúster Proxmox, el más exigente, en el portátil.
+Al compartir el disco, las VM no se reparten entre los dos equipos a la vez: se ejecutan en el que tenga el SSD conectado. El portátil tiene más memoria RAM y capacidad de CPU (32 GB), mientras que el PC doméstico dispone de 16 GB. Se decide qué cargas van a cada uno según los requisitos de cada VM y las mediciones de rendimiento (tarea 7): todo se diseña y se prueba primero en el PC (16 GB); si funciona ahí, funciona en el portátil.
 
 No se debe asumir que todas las máquinas virtuales pueden ejecutarse simultáneamente. Habrá que reservar memoria y CPU para los sistemas anfitriones y comprobar el consumo real.
 
@@ -107,7 +107,7 @@ VBoxManage showvminfo "NOMBRE_VM" --machinereadable
 
 **Actualización (17/11/2026).** La decisión del 16/11 (documentar solo el diseño) se sustituye por el plan de **desplegar el clúster de tres nodos** y hacer pruebas reales: crear un contenedor y migrar un contenedor y una VM entre nodos, como pide el enunciado. La rúbrica exige que la VM migrada sea un Ubuntu Server o Debian sin entorno gráfico, para que sea más rápido. El diseño o la simulación solo se usaría como alternativa autorizada si el despliegue no fuera viable.
 
-**Estado.** Se crearon tres VM para los nodos Proxmox (N1, N2 y N3); la instalación no está completada. El despliegue está **pendiente** y se hará, previsiblemente, en el portátil (32 GB).
+**Estado.** Se crearon tres VM para los nodos Proxmox (N1, N2 y N3); la instalación no está completada. El despliegue está **pendiente** y se hará en el PC doméstico (16 GB), el equipo más limitado, para garantizar que también funciona en el portátil.
 
 **Riesgos que motivaron la decisión anterior y que hay que controlar:**
 
@@ -127,5 +127,5 @@ El SSD con Linux Mint y las máquinas virtuales se conecta al PC doméstico, al 
 - **Adaptador puente:** está asociado a la tarjeta física de cada equipo (`enp8s0` en el PC, `eno1` en el portátil). Al abrir una VM en otro equipo hay que volver a elegir el adaptador físico en `Configuración → Red`.
 - **Redes host-only:** las VM de gestión necesitan que existan `vboxnet0`, `vboxnet1` y `vboxnet2` con los mismos direccionamientos (`192.168.56.0/24`, `192.168.57.0/24`, `192.168.58.0/24`). Si no existen en el otro equipo, hay que crearlas antes de arrancar.
 - **Red interna `asir_lab`:** no depende del equipo; se crea sola al usarla.
-- **Recursos:** cada VM nueva se dimensiona para caber en el equipo de 16 GB, aunque se pueda mover al de 32 GB. No se activa virtualización anidada, que depende del procesador (AMD en el PC, Intel en el portátil), salvo en los nodos Proxmox (apartado 8), que se ejecutarán en el portátil.
+- **Recursos:** cada VM nueva se dimensiona para caber en el equipo de 16 GB, aunque se pueda mover al de 32 GB. No se activa virtualización anidada, que depende del procesador (AMD en el PC, Intel en el portátil), salvo en los nodos Proxmox (apartado 8), que se ejecutarán primero en el PC (AMD-V) y se comprobarán en el portátil (VT-x) si hay tiempo.
 - **Ruta de los discos:** las VM están en `/home/batoi/VirtualBox VMs/ISOFHW/`.

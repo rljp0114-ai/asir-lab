@@ -71,7 +71,7 @@ Las VM están en `/home`, por lo que el espacio relevante para crear nuevos disc
 
 - Los recursos de cada equipo deben compartirse entre Linux Mint y las máquinas virtuales. No se puede asignar toda la RAM ni todos los recursos de CPU a las VM.
 - El PC doméstico dispone de 16 GB de RAM, por lo que será necesario limitar el número de máquinas virtuales encendidas simultáneamente. Como el disco es el mismo, no se pueden repartir las VM entre los dos equipos a la vez: se ejecutan en el que tenga el SanDisk conectado.
-- El portátil dispone de 32 GB de RAM y un procesador con más núcleos e hilos, por lo que permite una carga de virtualización mayor; allí tiene sentido ejecutar el clúster Proxmox.
+- El portátil dispone de 32 GB de RAM y un procesador con más núcleos e hilos, por lo que permite una carga de virtualización mayor. Aun así, el clúster Proxmox se prueba primero en el PC de 16 GB: lo que funcione allí funcionará aquí.
 - En ambos equipos, el sistema se ejecuta desde un SSD externo conectado por USB. Esto añade dependencia del cable y del puerto USB y puede influir en el rendimiento de las operaciones de disco frente a una unidad interna. El impacto real dependerá de la unidad y se comprobará durante las pruebas.
 - El espacio libre (559 GB en `/home`) se verificará antes de crear nuevos discos virtuales.
 - Se mide el rendimiento en cada equipo por separado (tarea 7): en el PC se ve el límite de 16 GB y en el portátil el margen de 32 GB.

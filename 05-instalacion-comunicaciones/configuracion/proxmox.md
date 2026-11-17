@@ -13,7 +13,7 @@ Montar un clúster de tres nodos Proxmox VE, crear un contenedor y una máquina 
 | Nodos | `pve1`, `pve2`, `pve3` |
 | IP de gestión (prevista) | `192.168.34.32`, `.33` y `.34` (`/24`), puerta de enlace en el router activo |
 | Red | Red interna `asir_lab` (LAN) |
-| Equipo anfitrión | Portátil (32 GB): tres nodos de 4 GB como mínimo suman 12 GB, más el resto del laboratorio |
+| Equipo anfitrión | PC doméstico (16 GB), el equipo más limitado: se dimensiona para que quepa aquí y así funciona también en el portátil (32 GB). Con el clúster solo se enciende además el router y, si hace falta, TrueNAS |
 | Quórum | Tres nodos: el clúster mantiene el quórum si falla uno (con dos nodos haría falta un dispositivo de quórum externo) |
 | Almacenamiento | Local en cada nodo; la migración copia el disco entre nodos |
 | Máquinas de prueba | Una VM Debian sin entorno gráfico (la rúbrica exige Ubuntu Server o Debian sin escritorio) y un contenedor Linux |
