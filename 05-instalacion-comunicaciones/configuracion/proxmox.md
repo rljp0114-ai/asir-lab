@@ -85,12 +85,30 @@ Evidencias (`05-instalacion-comunicaciones/evidencies/`):
 - `2026-11-17-proxmox-pve1-consola-version-red.png`, `2026-11-17-proxmox-pve2-consola-version-red.png`, `2026-11-17-proxmox-pve3-consola-version-red.png`: versión (`pveversion`) y direcciones (`ip -br a`).
 - `2026-11-17-proxmox-pve1-web-panel.png`, `2026-11-17-proxmox-pve2-web-panel.png`, `2026-11-17-proxmox-pve3-web-panel.png`: panel web de cada nodo con el usuario `root@pam`.
 
-## 7. Pendiente de realizar
+## 7. Clúster (17/11/2026)
+
+El clúster se crea desde la web de `pve1` (Centro de datos → Cluster → Crear cluster) con el nombre `asirlab`, usando como *Link 0* la dirección `192.168.34.32` (red interna `asir_lab`) y no la de la red host-only, para que el tráfico del clúster (Corosync) no dependa de la red de administración. `pve2` y `pve3` se unen con la información de unión y la contraseña de `root` de `pve1`, cada uno con su propia dirección `192.168.34.x` como *Link 0*.
+
+Resultado de `pvecm status` (ejecutado en `pve3`):
+
+| Dato | Valor |
+|---|---|
+| Nombre | `asirlab` |
+| Transporte | `knet`, con autenticación segura |
+| Nodos | 3 (`pve1` id 1, `pve2` id 2, `pve3` id 3) |
+| Votos esperados / totales / quórum | 3 / 3 / 2 |
+| Estado | `Quorate: Yes` |
+
+Con tres votos y quórum de 2, el clúster sigue funcionando si cae un nodo. Con dos nodos no sería posible sin un dispositivo de quórum externo.
+
+Evidencias (`05-instalacion-comunicaciones/evidencies/`): `2026-11-17-proxmox-cluster-creacion.png` (tarea "Crear cluster" terminada en `TASK OK`) y `2026-11-17-proxmox-pvecm-status-quorum.png` (`pvecm status` y `pvecm nodes`).
+
+## 8. Pendiente de realizar
 
 | Paso | Estado |
 |---|---|
 | Instalar Proxmox VE en los tres nodos (versión, usuario `root`, red) | ✅ |
-| Crear el clúster y comprobar el quórum | ⬜ |
+| Crear el clúster y comprobar el quórum | ✅ |
 | Crear una VM Debian sin entorno gráfico y un contenedor | ⬜ |
 | Migrar el contenedor y la VM entre nodos; medir tiempo y espacio en disco; valorar mejoras | ⬜ |
 | Copiar configuraciones al servidor de copias | ⬜ |
