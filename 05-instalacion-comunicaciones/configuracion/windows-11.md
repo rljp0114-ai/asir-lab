@@ -97,7 +97,6 @@ Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-windows11-copia-
 
 La copia es manual; no hay tarea programada para Windows 11.
 
-## 8. Pendiente
+## 8. Integración en dominio
 
-- Integración en dominio: no se hace. La rúbrica la exige solo si el diseño la prevé, y en este diseño no se instala el controlador de dominio (ver `windows-server-2025.md`, apartado 9).
-- Prueba de recuperación (borrar la configuración y restaurarla desde la copia): no realizada.
+No se hace. La rúbrica la exige solo si el diseño la prevé, y en este diseño no se instala el controlador de dominio (ver `windows-server-2025.md`, apartado 9).

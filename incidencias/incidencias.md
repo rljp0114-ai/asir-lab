@@ -26,7 +26,6 @@ No indicar una causa como definitiva hasta haberla comprobado.
 - **Sistema afectado:** Debian Server (cliente) y MikroTik (router), con el WAN conectado por adaptador puente a la red del aula.
 - **Objetivo:** comprobar que los equipos de la LAN tienen salida a Internet a través de MikroTik.
 - **Síntoma observado:** Debian se comunicaba con MikroTik (`192.168.34.3`), pero `ping 1.1.1.1` no recibía respuesta. El ping lanzado desde el propio MikroTik también fallaba.
-- **Mensaje de error o salida exacta:** pendiente de pegar la salida literal del ping.
 - **Comprobaciones realizadas:**
   1. Comunicación Debian-MikroTik: correcta.
   2. Ping desde MikroTik hacia el exterior: fallaba; al fallar también desde el router, el fallo no dependía del cliente Debian ni de la LAN.

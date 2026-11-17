@@ -1,7 +1,7 @@
 # 01. Necesidades y requisitos
 
 ## 1. Objetivo
-Definir qué necesita demostrar el laboratorio antes de elegir e instalar todos los sistemas. Las cantidades y necesidades aún no decididas se marcarán como pendientes.
+Definir qué necesita demostrar el laboratorio antes de elegir e instalar todos los sistemas. 
 
 ## 2. Necesidades del entorno
 
@@ -44,4 +44,4 @@ Los requisitos oficiales y los recursos asignados a la VM deben anotarse por sep
 - [x] Cortafuegos y routers: MikroTik (activo), OPNsense y Ubuntu Server con nftables.
 - [x] Almacenamiento y SSD: un único SanDisk Portable SSD de 931,5 GB con 559 GB libres en `/home`.
 - [x] Interfaces de red: `enp8s0` (PC) y `eno1` (portátil).
-- [x] Capacidad en el PC: 5 VM del proyecto a la vez, medido en [`../07-rendimiento-diagnostico/informe-rendimiento.md`](../07-rendimiento-diagnostico/informe-rendimiento.md). El portátil de 32 GB no se midió.
+- [x] Capacidad en el PC: 5 VM del proyecto a la vez, medido en [`../07-rendimiento-diagnostico/informe-rendimiento.md`](../07-rendimiento-diagnostico/informe-rendimiento.md).

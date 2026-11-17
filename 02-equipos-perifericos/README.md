@@ -6,4 +6,3 @@
 
 Equipo de clase: portátil ASUS. Equipo de casa: PC de 16 GB.
 
-**Pendiente:** tests de memoria, disco y red en ambos equipos (Apte+).

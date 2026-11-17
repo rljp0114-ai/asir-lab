@@ -8,9 +8,9 @@ Este documento recoge las predicciones antes de investigar y diseñar el laborat
 
 | Función | Predicción inicial | Motivo o duda |
 |---|---|---|
-| Equipo cliente | Pendiente de decidir | Debe permitir probar acceso a servicios y conectividad |
+| Equipo cliente | Sin decidir al inicio | Debe permitir probar acceso a servicios y conectividad |
 | Servidor de datos | Debian Server es una opción a investigar | Puede alojar datos y servicios de prueba |
-| Comunicaciones / cortafuegos | Pendiente de decidir | Permitiría estudiar reglas y separación de redes |
+| Comunicaciones / cortafuegos | Sin decidir al inicio | Permitiría estudiar reglas y separación de redes |
 
 ## 2. Hardware que conviene comprobar
 

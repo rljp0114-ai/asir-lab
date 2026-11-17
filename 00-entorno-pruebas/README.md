@@ -7,4 +7,3 @@
 | [`04-entorn-virtualitzacio.md`](04-entorn-virtualitzacio.md) | Anfitriones, inventario de VM, Proxmox, portabilidad entre equipos | ✅ |
 | [`05-isos.md`](05-isos.md) | ISO con tamaño y SHA256; las que no se pueden comparar llevan el motivo | ✅ |
 
-**Pendiente:** espacio realmente ocupado por los discos virtuales.

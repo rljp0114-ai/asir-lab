@@ -49,7 +49,7 @@ Estado: **Debian, Ubuntu, Proxmox y TrueNAS verificadas el 16/11/2026**; el rest
 | Proxmox VE 9.2-1 | `4e88fe41...ef2c6c` (`enterprise.proxmox.com/iso/SHA256SUMS`, línea de `proxmox-ve_9.2-1.iso`, no la de `arm64`) | **Coincide** |
 | OPNsense 26.7 | `95cafedd...86bfb`, pero es la del fichero comprimido `OPNsense-26.7-dvd-amd64.iso.bz2` (`pkg.opnsense.org/releases/26.7/OPNsense-26.7-checksums-amd64.sha256`) | **No comparable**: la huella calculada (`1efd5dc9...5d48d5dcd`) es la del `.iso` descomprimido. Para verificarla habría que volver a descargar el `.bz2`, comprobar su huella y descomprimirlo |
 | TrueNAS 13.0-U5.3 | `7c16a4f5...bb4c80` (`download.freenas.org/13.0/STABLE/U5.3/x64/TrueNAS-13.0-U5.3.iso.sha256`) | **Coincide** |
-| MikroTik 7.24.5 | No encontrada: `download.mikrotik.com/routeros/7.24.5/CHECKSUMS.txt` no devolvió ninguna línea de ISO | Pendiente |
+| MikroTik 7.24.5 | No encontrada: `download.mikrotik.com/routeros/7.24.5/CHECKSUMS.txt` no devolvió ninguna línea de ISO | No verificable |
 | Windows 11 | Huella consultada en la web de Microsoft (apartado "Verify your download") | **No coincide** con la huella calculada (`5210deed...119dc8`); causa no determinada (ver 3.1) |
 | Windows Server 2025 | No publicada por Microsoft para la versión de evaluación | No verificable |
 

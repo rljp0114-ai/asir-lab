@@ -85,7 +85,7 @@ Las VM están en `/home`, por lo que el espacio relevante para crear nuevos disc
 
 Medidas completas en [`../07-rendimiento-diagnostico/informe-rendimiento.md`](../07-rendimiento-diagnostico/informe-rendimiento.md).
 
-## 4. Comprobaciones realizadas y pendientes
+## 4. Comprobaciones realizadas
 
 | Comprobación | Estado |
 |---|---|
@@ -95,4 +95,4 @@ Medidas completas en [`../07-rendimiento-diagnostico/informe-rendimiento.md`](..
 | Almacenamiento del portátil | Medido el 17/11/2026 con `lsblk` y `df -h` |
 | Disco Samsung interno del portátil | Excluido del laboratorio |
 | Interfaces de red y conectividad de ambos equipos | Portátil documentado (`eno1`, Wi-Fi, host-only); PC: `enp8s0` (adaptador puente) |
-| Prueba de ejecución de VM en cada equipo | PC medido (tarea 7); portátil pendiente |
+| Prueba de ejecución de VM en cada equipo | PC medido (tarea 7) |

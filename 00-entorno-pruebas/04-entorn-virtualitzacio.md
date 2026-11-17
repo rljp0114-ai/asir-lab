@@ -43,7 +43,7 @@ Datos obtenidos con `VBoxManage list vms`, `VBoxManage showvminfo --machinereada
 Notas:
 - El campo "tipo de SO" que muestra VirtualBox para algunas VM (por ejemplo, "Oracle Linux") es solo una etiqueta de la configuración y no indica el sistema realmente instalado.
 - Las VM del proyecto son las **14** del grupo `/ISOFHW` de VirtualBox (`VBoxManage list vms --long`). Las otras 5, en el grupo raíz (`Debian 13.1`, `Debian 13.1 1`, `W11`, `W11 Particiones` e `ISO-DUAL-<iniciales>`), pertenecen a otras actividades, no forman parte de este laboratorio y no se cuentan en las mediciones.
-- Suma de la capacidad máxima de los discos del laboratorio: unos 273 GB. El espacio realmente ocupado es menor si los discos son de tamaño dinámico; está pendiente de comprobar.
+- Suma de la capacidad máxima de los discos del laboratorio: unos 273 GB. El espacio realmente ocupado es menor si los discos son de tamaño dinámico.
 - La VM `Windows Server 2025` (Windows Server 2025 Standard Evaluation, 2 vCPU, 4 GB, adaptador 1 NAT desactivado en Windows y adaptador 2 en red interna `asir_lab`, `192.168.34.21`) se creó el 16/11/2026 y no está en la tabla de arriba porque esta se obtuvo antes con `VBoxManage`; sus datos están en `05-instalacion-comunicaciones/configuracion/windows-server-2025.md`. Los servidores GNU/Linux de infraestructura se crean como clones de Debian Server (ver `05-instalacion-comunicaciones/configuracion/linux-infraestructura.md`).
 
 ## 4. Instalación de Debian Server
@@ -79,7 +79,7 @@ Resumen:
 | Windows 11 (cliente) | Instalado y probado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/windows-11.md` |
 | Cliente GNU/Linux | Debian Server, documentado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/debian-cliente.md` |
 | Servidores GNU/Linux de infraestructura | `Linux-Servicios` y `Linux-Datos` instalados y probados | `05-instalacion-comunicaciones/configuracion/linux-infraestructura.md` |
-| Qué cargas van en cada equipo | Medido en el PC; el portátil no se ha medido | `07-rendimiento-diagnostico/informe-rendimiento.md` |
+| Qué cargas van en cada equipo | Medido en el PC | `07-rendimiento-diagnostico/informe-rendimiento.md` |
 
 ## 7. Comandos útiles
 

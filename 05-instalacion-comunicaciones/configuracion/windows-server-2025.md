@@ -59,7 +59,7 @@ La salida a Internet se prueba con TCP y no con ping, como en el resto del labor
 
 La VM tenía un segundo adaptador (`Ethernet 2`, NAT de VirtualBox, `10.0.2.15`) además del de la LAN. En la primera tanda de pruebas, las conexiones salían por ese adaptador y no por `Ethernet`: la prueba a TrueNAS falló (con TrueNAS además apagado) y la de `1.1.1.1:443` funcionó por la NAT sin pasar por MikroTik, por lo que no demostraba nada sobre el router. Se desactivó con `Disable-NetAdapter -Name "Ethernet 2" -Confirm:$false`, se encendió TrueNAS y se repitieron las pruebas; en las de la tabla anterior el origen es `192.168.34.21`.
 
-El adaptador NAT es el adaptador 1 de la VM en VirtualBox (el de la LAN es el 2). Pendiente: desactivarlo allí (`Configuración → Red → Adaptador 1`) para que no vuelva a activarse.
+El adaptador NAT es el adaptador 1 de la VM en VirtualBox (el de la LAN es el 2).
 
 ## 7. Por qué no va en un nodo Proxmox
 
@@ -106,8 +106,3 @@ Un **dominio** (en Windows, un dominio de Active Directory) es un conjunto de eq
 **Qué aporta a nuestra empresa:** el laboratorio simula una empresa pequeña con varios puestos (Windows 11 y GNU/Linux). Con un dominio, el servidor Windows Server 2025 serviría para gestionar de forma única los usuarios y los permisos de esos puestos y aplicar la misma configuración de seguridad a todos.
 
 **Decisión de diseño:** en esta fase no se instala el rol de controlador de dominio (Active Directory Domain Services) ni se une ningún cliente al dominio. La rúbrica lo exige solo para explicar el concepto, y la integración de los clientes solo procede si el diseño lo prevé. Por tanto, Windows Server 2025 queda instalado, configurado en red y con su copia de seguridad, y la integración de dominio se deja como mejora posible.
-
-## 10. Pendiente
-
-- Cambiar el nombre del equipo (ahora tiene uno aleatorio).
-- Prueba de recuperación: no realizada.

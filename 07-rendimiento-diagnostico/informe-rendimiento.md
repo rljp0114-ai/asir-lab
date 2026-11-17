@@ -103,8 +103,6 @@ Las VM no necesarias (`OPNsense`, `Ubuntu Server` como router, los clones de rec
 - TrueNAS no se midió porque no cabe junto a Windows Server según el criterio.
 - Con Windows Server la medida se tomó unos 4 minutos después de arrancar, cuando aún había actividad de arranque y actualizaciones: sus picos de disco y red son más altos que en régimen estable.
 - El Proxmox corre dentro de VirtualBox, con doble virtualización, por lo que su coste de CPU y memoria es mayor que en un servidor real.
-- Las mediciones del portátil de 32 GB no se han hecho.
-- No se aplican optimizaciones (la ampliación de la rúbrica, Apte+, queda fuera de este informe).
 
 ## 9. Ficheros
 

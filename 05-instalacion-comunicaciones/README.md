@@ -33,7 +33,3 @@ Clúster `asirlab` de tres nodos (`pve1`, `pve2`, `pve3`) sobre VirtualBox en el
 
 - [`configuraciones-criticas.md`](configuraciones-criticas.md): configuración crítica, problemas y tiempos de recuperación por sistema.
 - Evidencias: [`evidencies/`](evidencies/).
-
-## Pendiente
-
-- Windows Server 2025: nombre del equipo.

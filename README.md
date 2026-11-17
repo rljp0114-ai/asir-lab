@@ -2,17 +2,17 @@
 
 Laboratorio individual de **ASIX ThinkLab** (enunciado V2.0, 19/10/2026) montado en VirtualBox. Una carpeta por tarea, cada una con su `README.md`, documentos y `evidencies/`. Las tareas 1 y 3 no aparecen en la rúbrica individual.
 
-✅ hecho · 🟡 con pendientes · ⬜ sin empezar
+✅ hecho · ⬜ sin empezar
 
-| Tarea | Carpeta | Estado | Pendiente |
-|---|---|---|---|
-| 0 Entorno de pruebas | [`00-entorno-pruebas/`](00-entorno-pruebas/) | ✅ | Espacio real ocupado por los discos |
-| 2 Equipos y periféricos | [`02-equipos-perifericos/`](02-equipos-perifericos/) | ✅ | Tests de memoria, disco y red en ambos equipos (Apte+) |
-| 4 Diseño físico y lógico | [`04-diseno-red/`](04-diseno-red/) | ✅ | — |
-| 5 Instalación y comunicaciones | [`05-instalacion-comunicaciones/`](05-instalacion-comunicaciones/) | 🟡 | Windows Server: nombre del equipo |
-| 6 Almacenamiento y recuperación | [`06-almacenamiento-recuperacion/`](06-almacenamiento-recuperacion/) | ✅ | — |
-| 7 Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ✅ | Optimizaciones (Apte+) |
-| 8 Final | [`08-final/`](08-final/) | ⬜ | Caso final del 25/11/2026 |
+| Tarea | Carpeta | Estado |
+|---|---|---|
+| 0 Entorno de pruebas | [`00-entorno-pruebas/`](00-entorno-pruebas/) | ✅ |
+| 2 Equipos y periféricos | [`02-equipos-perifericos/`](02-equipos-perifericos/) | ✅ |
+| 4 Diseño físico y lógico | [`04-diseno-red/`](04-diseno-red/) | ✅ |
+| 5 Instalación y comunicaciones | [`05-instalacion-comunicaciones/`](05-instalacion-comunicaciones/) | ✅ |
+| 6 Almacenamiento y recuperación | [`06-almacenamiento-recuperacion/`](06-almacenamiento-recuperacion/) | ✅ |
+| 7 Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ✅ |
+| 8 Final | [`08-final/`](08-final/) | ⬜ caso final del 25/11/2026 |
 
 Otros apartados: [`incidencias/`](incidencias/) (registro de incidencias) y [`evidencies/Comandos.md`](evidencies/Comandos.md) (registro de comandos).
 
