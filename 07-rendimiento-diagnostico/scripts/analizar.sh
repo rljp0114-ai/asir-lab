@@ -20,4 +20,4 @@ END {
   print "etapa,muestras,cpu_media_pct,cpu_max_pct,espera_E/S_media_pct,espera_E/S_max_pct,cola_media,cola_max,libre_media_MB,libre_min_MB,disponible_media_MB,swap_usado_max_MB,swap_in_out_media,bi_media,bo_media,bo_max"
   for (j=1;j<=k;j++) { e=ord[j]
     printf "%s,%d,%.1f,%.1f,%.1f,%.1f,%.1f,%d,%.0f,%.0f,%.0f,%.0f,%.1f,%.0f,%.0f,%.0f\n", e,n[e],sc[e]/n[e],mc[e],wa[e]/n[e],mw[e],rq[e]/n[e],mr[e],sf[e]/n[e],minfree[e],sa[e]/n[e],ms[e]/1024,si[e]/n[e],bi[e]/n[e],bo[e]/n[e],mbo[e] }
-}' "$D/host.csv" | column -s, -t
+}' "$D/host.csv" | { command -v column >/dev/null && column -s, -t || cat; }
