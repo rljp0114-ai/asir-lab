@@ -218,6 +218,33 @@ Capturas disponibles en `evidencies/`:
 - `2026-11-17-ubuntu-ipforward.png`: `net.ipv4.ip_forward = 1`.
 - `2026-11-17-debian-ping-bloqueado-tcp-abierto.png`: desde Debian, con Ubuntu como router, el `ping` a `1.1.1.1` no recibe respuesta y la conexión TCP al 443 sale (`abierto`). Es el mismo comportamiento que el incidente 5.1: el ICMP hacia el exterior no vuelve, pero el tráfico TCP sale por el router.
 
-Pendiente de capturar (los comandos y resultados están en `evidencies/Comandos.md`):
+- Prueba de bloqueo temporal (17/11/2026), en cinco capturas con el prefijo `05-instalacion-comunicaciones/evidencies/2026-11-17-`:
+  1. `ubuntu-bloqueo-1-regla-creada.png`: regla insertada al principio de `forward`, con contador a 0.
+  2. `debian-bloqueo-2-cerrado.png`: Debian pasa de `abierto` a `CERRADO` en el puerto 443.
+  3. `ubuntu-bloqueo-3-registro-contador.png`: contador a 5 paquetes (300 bytes) y cinco entradas del registro del kernel.
+  4. `ubuntu-bloqueo-4-regla-retirada.png`: regla eliminada por su `handle` (14).
+  5. `debian-bloqueo-5-recuperado.png`: secuencia completa `abierto` → `CERRADO` → `abierto`.
 
-- Prueba de bloqueo temporal con nftables y su registro.
+### 11.1. Prueba de bloqueo temporal y registro
+
+Objetivo: comprobar que una regla puede bloquear a un cliente concreto, que el bloqueo deja registro y que al retirarla se recupera el acceso.
+
+```bash
+sudo nft insert rule inet filter forward ip saddr 192.168.34.4 tcp dport 443 counter log prefix "PRUEBA-BLOQUEO" drop
+sudo journalctl -k --since "2 minutes ago" --no-pager | grep -i PRUEBA | tail -5
+sudo nft -a list chain inet filter forward | grep PRUEBA
+sudo nft delete rule inet filter forward handle 14
+```
+
+Resultado:
+
+- Antes de la regla, `timeout 5 bash -c 'cat < /dev/null > /dev/tcp/1.1.1.1/443'` da `abierto`. Con la regla, da `CERRADO`.
+- La regla se inserta antes de la que acepta el tráfico de la LAN, por lo que se evalúa primero. El contador subió a 5 paquetes y 300 bytes (cinco SYN reintentados en los 5 segundos del `timeout`).
+- El registro del kernel muestra cinco entradas con `SRC=192.168.34.4`, `DST=1.1.1.1`, `DPT=443` y la marca `SYN`, entre las 13:23:31 y las 13:23:35.
+- Tras eliminar la regla por su `handle`, Debian vuelve a dar `abierto`.
+
+Notas:
+
+- Se bloquea TCP 443 y no ICMP porque en esta red el ping a Internet ya falla (incidente 5.1), así que no se vería diferencia.
+- El prefijo se escribe sin `:` ni espacio final: con los dos se obtuvo un error de sintaxis de `nft` al pasar la orden por el shell. Por eso el registro muestra `PRUEBA-BLOQUEOIN=enp0s8` pegado, y el filtro `grep -i PRUEBA` lo encuentra igualmente.
+- La regla es temporal: se creó con `nft insert` y no se guardó en el fichero de configuración, así que un reinicio también la elimina.
