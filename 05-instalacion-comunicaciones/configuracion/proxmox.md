@@ -103,14 +103,38 @@ Con tres votos y quórum de 2, el clúster sigue funcionando si cae un nodo. Con
 
 Evidencias (`05-instalacion-comunicaciones/evidencies/`): `2026-11-17-proxmox-cluster-creacion.png` (tarea "Crear cluster" terminada en `TASK OK`) y `2026-11-17-proxmox-pvecm-status-quorum.png` (`pvecm status` y `pvecm nodes`).
 
-## 8. Pendiente de realizar
+## 8. Contenedor de prueba y migración (17/11/2026)
+
+**Contenedor.** `ct-prueba` (ID 100) en `pve1`: plantilla `debian-13-standard_13.6-1_amd64.tar.zst` (subida desde el anfitrión, porque los nodos no tienen Internet), sin privilegios, 1 núcleo, 256 MB de RAM y 256 MB de swap, disco de 2 GB en `local-lvm` (LVM-thin) y red `192.168.34.41/24` por `vmbr0` con gateway `192.168.34.3`. Tras arrancar usaba 571 MB de disco (32 %) y 18 MB de RAM.
+
+**Migración `pve1` → `pve2`** (modo reinicio: Proxmox para el contenedor, copia el disco y lo arranca en el nodo de destino, porque el almacenamiento es local en cada nodo).
+
+| Medida | Resultado |
+|---|---|
+| Duración total de la migración | 37 s (`duration 00:00:37`) |
+| Datos copiados por la red | 2,0 GiB (2 147 483 648 bytes), a unos 83 MB/s (25,9 s) |
+| Espacio realmente ocupado en el disco del contenedor | 571 MB (32 %) antes y después |
+| Volumen lógico `vm-100-disk-0` en `pve1` (antes) | 2,00 GB, `Data%` 32,40 |
+| Volumen lógico `vm-100-disk-0` en `pve2` (después) | 2,00 GB, `Data%` 29,02 |
+| Volumen en el nodo de origen | Eliminado al terminar (`successfully removed`) |
+| Dirección IP tras migrar | La misma, `192.168.34.41/24` |
+
+Observaciones:
+
+- La migración copia el volumen **completo asignado** (2 GiB), no solo los 571 MB usados. En el destino el volumen ocupa algo menos porque es de aprovisionamiento ligero (`thin`) y se omiten bloques a cero (`Data%` 29,02 frente a 32,40). Dimensionar el disco del contenedor al tamaño que necesita reduce el tiempo de migración.
+- El contenedor está parado durante la mayor parte de los 37 s (modo reinicio). Una migración en caliente sin parada solo es posible con almacenamiento compartido (por ejemplo, el servidor TrueNAS por NFS), que no se ha montado en este laboratorio.
+- Los nodos tienen 3 GB de RAM y 20-32 GB de disco, de modo que los tiempos medidos no son los de servidores reales.
+
+Evidencias (`05-instalacion-comunicaciones/evidencies/`): `2026-11-17-proxmox-ct100-resumen-creacion.png`, `2026-11-17-proxmox-ct100-tarea-creada.png`, `2026-11-17-proxmox-ct100-consola-antes-migrar.png` y las cuatro de la migración (`2026-11-17-proxmox-ct100-migracion-1-lvs-pve1-antes.png`, `-2-tarea.png`, `-3-lvs-pve2-despues.png`, `-4-consola-pve2.png`).
+
+## 9. Pendiente de realizar
 
 | Paso | Estado |
 |---|---|
 | Instalar Proxmox VE en los tres nodos (versión, usuario `root`, red) | ✅ |
 | Crear el clúster y comprobar el quórum | ✅ |
-| Crear una VM Debian sin entorno gráfico y un contenedor | ⬜ |
-| Migrar el contenedor y la VM entre nodos; medir tiempo y espacio en disco; valorar mejoras | ⬜ |
+| Crear una VM Debian sin entorno gráfico y un contenedor | 🟡 Contenedor creado; falta la VM |
+| Migrar el contenedor y la VM entre nodos; medir tiempo y espacio en disco; valorar mejoras | 🟡 Contenedor migrado y medido; falta la VM |
 | Copiar configuraciones al servidor de copias | ⬜ |
 
 **Limitación esperada:** los nodos son VM de VirtualBox; sin virtualización anidada, la VM de prueba se ejecutará sin aceleración (KVM desactivado en sus opciones), más lenta. Los tiempos medidos no serán los de un servidor real y así se hará constar.

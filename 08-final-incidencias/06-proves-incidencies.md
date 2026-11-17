@@ -74,3 +74,18 @@ Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No
 - **Solución aplicada:** desactivar el adaptador con `Disable-NetAdapter -Name "Ethernet 2" -Confirm:$false`, encender TrueNAS y repetir las pruebas.
 - **Verificación posterior:** las tres pruebas dieron resultado correcto con `SourceAddress: 192.168.34.21` (ver `05-instalacion-comunicaciones/configuracion/windows-server-2025.md`).
 - **Qué se ha aprendido:** con dos adaptadores, una prueba que funciona no demuestra que el tráfico pase por el router. Hay que mirar siempre el `SourceAddress` y el `InterfaceAlias` del resultado.
+
+### 5.3. La migración en Proxmox falla por una clave SSH vacía en pve1
+
+- **Título breve:** migración abortada por `error in libcrypto`.
+- **Fecha:** 17/11/2026.
+- **Sistema afectado:** nodo `pve1` del clúster Proxmox `asirlab`.
+- **Objetivo:** migrar el contenedor `ct-prueba` de `pve1` a `pve2`.
+- **Síntoma observado:** la tarea terminó en 0 s con `TASK ERROR: migration aborted`.
+- **Mensaje de error o salida exacta:** `Load key "/root/.ssh/id_rsa": error in libcrypto`, `root@192.168.34.33: Permission denied (publickey,password)` y `ERROR: migration aborted (duration 00:00:00): Can't connect to destination address using public key`.
+- **Comprobaciones realizadas:** `ls -l /root/.ssh/` en `pve1` mostró `id_rsa` e `id_rsa.pub` con 0 bytes (creados a las 14:07, en la instalación); `ssh-keygen -y -f /root/.ssh/id_rsa` dio `error in libcrypto`. En `pve2` y `pve3` las claves eran válidas (3369 bytes).
+- **Causa identificada:** la clave SSH de `pve1` se creó vacía durante la instalación, antes de formar el clúster. La migración usa SSH entre nodos con esa clave.
+- **Solución aplicada:** se renombraron los dos ficheros vacíos, se generó una clave nueva (`ssh-keygen -t rsa -b 4096 -N '' -f /root/.ssh/id_rsa`) y se ejecutó `pvecm updatecerts --force` para repartirla por el clúster. La prueba con las mismas opciones que usa Proxmox (alias de huella y fichero `ssh_known_hosts` del clúster) dio `SSH_OK` hacia `pve2` y `pve3`.
+- **Verificación:** la migración repetida terminó con `TASK OK` en 37 s.
+- **Prevención:** tras crear el clúster, comprobar con `ls -l /root/.ssh/id_rsa` que la clave de cada nodo no está vacía antes de migrar.
+
