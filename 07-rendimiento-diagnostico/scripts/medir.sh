@@ -27,7 +27,7 @@ read -r RX1 TX1 < <(red); read -r SR1 SW1 IO1 < <(disco); T1=$(date +%s)
 DT=$((T1-T0)); [ "$DT" -lt 1 ] && DT=1
 R="$D/resumen.csv"
 [ -f "$R" ] || echo "etapa,fecha,segundos,tarjeta_red,rx_KBs,tx_KBs,disco,lect_MBs,escr_MBs,util_disco_pct" > "$R"
-awk -v e="$E" -v f="$(date '+%Y-%m-%d %H:%M:%S')" -v dt="$DT" -v i="$IFACE" -v d="$DISCO" \
+LC_ALL=C awk -v e="$E" -v f="$(date '+%Y-%m-%d %H:%M:%S')" -v dt="$DT" -v i="$IFACE" -v d="$DISCO" \
     -v rx=$((RX1-RX0)) -v tx=$((TX1-TX0)) -v sr=$((SR1-SR0)) -v sw=$((SW1-SW0)) -v io=$((IO1-IO0)) 'BEGIN{
   printf "%s,%s,%d,%s,%.1f,%.1f,%s,%.2f,%.2f,%.1f\n", e,f,dt,i,rx/1024/dt,tx/1024/dt,d,sr*512/1048576/dt,sw*512/1048576/dt,io/(dt*10)}' >> "$R"
 
