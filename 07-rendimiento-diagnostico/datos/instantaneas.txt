@@ -1,0 +1,182 @@
+=== E5-proxmox-reposo 2026-11-17 18:36:32
+ 18:36:32 up  3:34,  1 user,  load average: 1,89, 1,76, 1,72
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914       12713         362          66        3227        3201
+Inter:         12170         490       11680
+--- procesos de VirtualBox (RSS en KB, %CPU)
+3402632 50.5 /usr/lib/virtualbox/VirtualBoxVM --comment Proxmox N1 --startvm 7a14fdf3-8c04-4f1a-9805-a476196ea12e --no-startvm-errormsgbox
+2724908 20.5 /usr/lib/virtualbox/VirtualBoxVM --comment Proxmox N3 --startvm 175f6c52-1c8a-42cf-a5f3-2f45f947c243 --no-startvm-errormsgbox
+2426188 20.2 /usr/lib/virtualbox/VirtualBoxVM --comment Proxmox N2 --startvm b4acb87d-34e1-4802-ac3f-4cbb13cc9841 --no-startvm-errormsgbox
+323572 6.6 /usr/lib/virtualbox/VirtualBoxVM --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --no-startvm-errormsgbox
+--- máquinas en marcha
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+"Proxmox N1" {7a14fdf3-8c04-4f1a-9805-a476196ea12e}
+"Proxmox N2" {b4acb87d-34e1-4802-ac3f-4cbb13cc9841}
+"Proxmox N3" {175f6c52-1c8a-42cf-a5f3-2f45f947c243}
+
+=== E5b-proxmox-migracion 2026-11-17 18:38:58
+ 18:38:58 up  3:37,  1 user,  load average: 2,49, 2,14, 1,87
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914       12740         243          69        3317        3173
+Inter:         12170         490       11680
+--- procesos de VirtualBox (RSS en KB, %CPU)
+3402976 50.5 /usr/lib/virtualbox/VirtualBoxVM --comment Proxmox N1 --startvm 7a14fdf3-8c04-4f1a-9805-a476196ea12e --no-startvm-errormsgbox
+2755628 20.9 /usr/lib/virtualbox/VirtualBoxVM --comment Proxmox N3 --startvm 175f6c52-1c8a-42cf-a5f3-2f45f947c243 --no-startvm-errormsgbox
+2426188 20.3 /usr/lib/virtualbox/VirtualBoxVM --comment Proxmox N2 --startvm b4acb87d-34e1-4802-ac3f-4cbb13cc9841 --no-startvm-errormsgbox
+323572 6.6 /usr/lib/virtualbox/VirtualBoxVM --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --no-startvm-errormsgbox
+--- máquinas en marcha
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+"Proxmox N1" {7a14fdf3-8c04-4f1a-9805-a476196ea12e}
+"Proxmox N2" {b4acb87d-34e1-4802-ac3f-4cbb13cc9841}
+"Proxmox N3" {175f6c52-1c8a-42cf-a5f3-2f45f947c243}
+
+=== E0-solo-anfitrion 2026-11-17 18:44:42
+ 18:44:42 up  3:42,  1 user,  load average: 0,25, 1,45, 1,72
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        2978        9944          43        3352       12936
+Inter:         12170         381       11789
+--- procesos de VirtualBox (RSS en KB, %CPU)
+--- máquinas en marcha
+
+=== E0-solo-anfitrion 2026-11-17 18:49:45
+ 18:49:45 up  3:47,  1 user,  load average: 0,52, 0,96, 1,44
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        3004        9910          43        3360       12909
+Inter:         12170         380       11789
+--- procesos de VirtualBox (RSS en KB, %CPU)
+--- máquinas en marcha
+
+=== E1-mikrotik 2026-11-17 18:51:45
+ 18:51:45 up  3:49,  1 user,  load average: 0,08, 0,65, 1,26
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        3228        9626          43        3420       12685
+Inter:         12170         380       11790
+--- procesos de VirtualBox (RSS en KB, %CPU)
+142456 7.9 /usr/lib/virtualbox/VBoxHeadless --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --vrde config
+--- máquinas en marcha
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+
+=== E2-linux-servicios 2026-11-17 18:54:16
+ 18:54:16 up  3:52,  1 user,  load average: 0,07, 0,45, 1,10
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        3559        9294          43        3421       12354
+Inter:         12170         380       11790
+--- procesos de VirtualBox (RSS en KB, %CPU)
+257600 11.0 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Servicios --startvm 75bf0ed8-a914-44b6-9c47-95da78e6325d --vrde config
+142460 6.0 /usr/lib/virtualbox/VBoxHeadless --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --vrde config
+--- máquinas en marcha
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+"Linux-Servicios" {75bf0ed8-a914-44b6-9c47-95da78e6325d}
+
+=== E3-linux-datos 2026-11-17 18:56:47
+ 18:56:47 up  3:54,  1 user,  load average: 0,10, 0,35, 0,96
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        4274        8524         115        3548       11640
+Inter:         12170         379       11791
+--- procesos de VirtualBox (RSS en KB, %CPU)
+303560 11.5 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Datos --startvm 86a2a901-3b1f-4d79-b83d-c86e94fe0bc6 --vrde config
+257644 6.1 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Servicios --startvm 75bf0ed8-a914-44b6-9c47-95da78e6325d --vrde config
+142460 5.5 /usr/lib/virtualbox/VBoxHeadless --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --vrde config
+--- máquinas en marcha
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+"Linux-Servicios" {75bf0ed8-a914-44b6-9c47-95da78e6325d}
+"Linux-Datos" {86a2a901-3b1f-4d79-b83d-c86e94fe0bc6}
+
+=== E0-solo-anfitrion 2026-11-17 18:59:52
+ 18:59:52 up  3:57,  1 user,  load average: 0,53, 0,55, 0,93
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        4546        8246          99        3537       11367
+Inter:         12170         376       11794
+--- procesos de VirtualBox (RSS en KB, %CPU)
+303636 5.9 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Datos --startvm 86a2a901-3b1f-4d79-b83d-c86e94fe0bc6 --vrde config
+271376 10.5 /usr/lib/virtualbox/VBoxHeadless --comment Debian Server --startvm fd400c56-ebee-4662-819f-56f32ea5e124 --vrde config
+257668 4.3 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Servicios --startvm 75bf0ed8-a914-44b6-9c47-95da78e6325d --vrde config
+142460 5.4 /usr/lib/virtualbox/VBoxHeadless --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --vrde config
+--- máquinas en marcha
+"Debian Server" {fd400c56-ebee-4662-819f-56f32ea5e124}
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+"Linux-Servicios" {75bf0ed8-a914-44b6-9c47-95da78e6325d}
+"Linux-Datos" {86a2a901-3b1f-4d79-b83d-c86e94fe0bc6}
+
+=== E1-mikrotik 2026-11-17 19:01:52
+ 19:01:52 up  3:59,  1 user,  load average: 0,18, 0,39, 0,82
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        4567        8226          97        3535       11346
+Inter:         12170         376       11794
+--- procesos de VirtualBox (RSS en KB, %CPU)
+310276 3.8 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Servicios --startvm 75bf0ed8-a914-44b6-9c47-95da78e6325d --vrde config
+303660 4.6 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Datos --startvm 86a2a901-3b1f-4d79-b83d-c86e94fe0bc6 --vrde config
+271400 7.4 /usr/lib/virtualbox/VBoxHeadless --comment Debian Server --startvm fd400c56-ebee-4662-819f-56f32ea5e124 --vrde config
+142460 5.3 /usr/lib/virtualbox/VBoxHeadless --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --vrde config
+--- máquinas en marcha
+"Debian Server" {fd400c56-ebee-4662-819f-56f32ea5e124}
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+"Linux-Servicios" {75bf0ed8-a914-44b6-9c47-95da78e6325d}
+"Linux-Datos" {86a2a901-3b1f-4d79-b83d-c86e94fe0bc6}
+
+=== E2-linux-servicios 2026-11-17 19:04:23
+ 19:04:23 up  4:02,  1 user,  load average: 0,16, 0,30, 0,72
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        4507        8285          97        3535       11406
+Inter:         12170         376       11794
+--- procesos de VirtualBox (RSS en KB, %CPU)
+311980 3.3 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Servicios --startvm 75bf0ed8-a914-44b6-9c47-95da78e6325d --vrde config
+303692 3.8 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Datos --startvm 86a2a901-3b1f-4d79-b83d-c86e94fe0bc6 --vrde config
+271428 5.8 /usr/lib/virtualbox/VBoxHeadless --comment Debian Server --startvm fd400c56-ebee-4662-819f-56f32ea5e124 --vrde config
+142460 5.1 /usr/lib/virtualbox/VBoxHeadless --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --vrde config
+--- máquinas en marcha
+"Debian Server" {fd400c56-ebee-4662-819f-56f32ea5e124}
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+"Linux-Servicios" {75bf0ed8-a914-44b6-9c47-95da78e6325d}
+"Linux-Datos" {86a2a901-3b1f-4d79-b83d-c86e94fe0bc6}
+
+=== E3-linux-datos 2026-11-17 19:06:53
+ 19:06:53 up  4:04,  1 user,  load average: 0,07, 0,20, 0,62
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        4507        8274          97        3547       11407
+Inter:         12170         376       11794
+--- procesos de VirtualBox (RSS en KB, %CPU)
+311980 3.0 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Servicios --startvm 75bf0ed8-a914-44b6-9c47-95da78e6325d --vrde config
+303924 3.3 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Datos --startvm 86a2a901-3b1f-4d79-b83d-c86e94fe0bc6 --vrde config
+271464 5.0 /usr/lib/virtualbox/VBoxHeadless --comment Debian Server --startvm fd400c56-ebee-4662-819f-56f32ea5e124 --vrde config
+142460 5.0 /usr/lib/virtualbox/VBoxHeadless --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --vrde config
+--- máquinas en marcha
+"Debian Server" {fd400c56-ebee-4662-819f-56f32ea5e124}
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+"Linux-Servicios" {75bf0ed8-a914-44b6-9c47-95da78e6325d}
+"Linux-Datos" {86a2a901-3b1f-4d79-b83d-c86e94fe0bc6}
+
+=== E4-debian-server 2026-11-17 19:09:23
+ 19:09:23 up  4:07,  1 user,  load average: 0,71, 0,32, 0,59
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        4617        8163          99        3550       11297
+Inter:         12170         376       11794
+--- procesos de VirtualBox (RSS en KB, %CPU)
+311328 2.7 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Servicios --startvm 75bf0ed8-a914-44b6-9c47-95da78e6325d --vrde config
+303948 3.0 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Datos --startvm 86a2a901-3b1f-4d79-b83d-c86e94fe0bc6 --vrde config
+271492 4.6 /usr/lib/virtualbox/VBoxHeadless --comment Debian Server --startvm fd400c56-ebee-4662-819f-56f32ea5e124 --vrde config
+142460 5.0 /usr/lib/virtualbox/VBoxHeadless --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --vrde config
+--- máquinas en marcha
+"Debian Server" {fd400c56-ebee-4662-819f-56f32ea5e124}
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+"Linux-Servicios" {75bf0ed8-a914-44b6-9c47-95da78e6325d}
+"Linux-Datos" {86a2a901-3b1f-4d79-b83d-c86e94fe0bc6}
+
+=== E5-windows-server 2026-11-17 19:14:24
+ 19:14:24 up  4:12,  1 user,  load average: 2,30, 1,41, 0,98
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:           15914        8920        3706          97        3703        6994
+Inter:         12170         376       11794
+--- procesos de VirtualBox (RSS en KB, %CPU)
+4314740 130 /usr/lib/virtualbox/VBoxHeadless --comment Windows Server 2025 --startvm 679c9ff5-9d8c-46a7-afc2-a0d0fa3e722e --vrde config
+311412 2.4 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Servicios --startvm 75bf0ed8-a914-44b6-9c47-95da78e6325d --vrde config
+306196 2.5 /usr/lib/virtualbox/VBoxHeadless --comment Linux-Datos --startvm 86a2a901-3b1f-4d79-b83d-c86e94fe0bc6 --vrde config
+276064 4.1 /usr/lib/virtualbox/VBoxHeadless --comment Debian Server --startvm fd400c56-ebee-4662-819f-56f32ea5e124 --vrde config
+142524 10.0 /usr/lib/virtualbox/VBoxHeadless --comment Mikrotik --startvm fb57d5e8-0c2b-43ef-9182-749516adaaf6 --vrde config
+--- máquinas en marcha
+"Debian Server" {fd400c56-ebee-4662-819f-56f32ea5e124}
+"Mikrotik" {fb57d5e8-0c2b-43ef-9182-749516adaaf6}
+"Windows Server 2025" {679c9ff5-9d8c-46a7-afc2-a0d0fa3e722e}
+"Linux-Servicios" {75bf0ed8-a914-44b6-9c47-95da78e6325d}
+"Linux-Datos" {86a2a901-3b1f-4d79-b83d-c86e94fe0bc6}
+

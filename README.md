@@ -11,7 +11,7 @@ Leyenda: ✅ hecho y comprobado · 🟡 parcial o con puntos pendientes · ⬜ p
 | 4 | Diseño físico y lógico | [`04-diseno-red/`](04-diseno-red/) | ✅ |
 | 5 | Instalación y comunicaciones | [`05-instalacion-comunicaciones/`](05-instalacion-comunicaciones/) | 🟡 |
 | 6 | Almacenamiento y recuperación | [`06-almacenamiento-recuperacion/`](06-almacenamiento-recuperacion/) | 🟡 |
-| 7 | Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ⬜ |
+| 7 | Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ✅ (sin ampliación) |
 | 8 | Final | [`08-final-incidencias/`](08-final-incidencias/) | ⬜ (caso final el 25/11/2026) |
 
 Las tareas 1 (necesidades y sistemas) y 3 (rack e interconexión) aparecen en el enunciado, pero no en la rúbrica de autoevaluación individual, por lo que no tienen carpeta propia.

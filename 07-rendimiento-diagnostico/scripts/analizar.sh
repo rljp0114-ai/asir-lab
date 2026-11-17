@@ -3,7 +3,8 @@
 # Uso: ./analizar.sh [carpeta]     (por defecto ~/medidas)
 D="${1:-$HOME/medidas}"
 LC_ALL=C awk -F, '
-NR==1 { for (i=1;i<=NF;i++) c[$i]=i; next }
+NR==1 { next }   # columnas por posición: el idioma del sistema cambia los nombres de vmstat
+BEGIN { c["r"]=2; c["swpd"]=4; c["free"]=5; c["buff"]=6; c["cache"]=7; c["si"]=8; c["so"]=9; c["bi"]=10; c["bo"]=11; c["id"]=16; c["wa"]=17 }
 {
   e=$1; if (!(e in n)) { ord[++k]=e; minfree[e]=1e12 }
   n[e]++
