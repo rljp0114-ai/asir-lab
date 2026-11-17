@@ -16,7 +16,7 @@ Laboratorio individual de **ASIX ThinkLab** (enunciado V2.0, 19/10/2026) montado
 | 7 Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ✅ |
 | 8 Final | [`08-final/`](08-final/) | ⬜ caso final del 25/11/2026 |
 
-Otros apartados: [`incidencias/`](incidencias/) (registro de incidencias) y [`evidencies/Comandos.md`](evidencies/Comandos.md) (registro de comandos).
+Otros apartados: [`incidencias/`](incidencias/) (registro de incidencias).
 
 ## Entorno
 
