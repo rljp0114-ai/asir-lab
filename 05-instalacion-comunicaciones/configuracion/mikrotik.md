@@ -18,7 +18,7 @@ La instalación, la configuración inicial, el problema con la regla NAT, las co
 | Disco virtual | 2 GB (WebFig muestra 1934,1 MiB) |
 | Placa | `x86 innotek GmbH VirtualBox` |
 
-Evidencia de la versión y los recursos: `evidencies/2026-11-16-mikrotik-webfig-resources-version.png`.
+Evidencia de la versión y los recursos: `05-instalacion-comunicaciones/evidencies/2026-11-16-mikrotik-webfig-resources-version.png`.
 
 ## 3. Configuración de red
 
@@ -65,7 +65,7 @@ Cada prueba intenta abrir una conexión TCP al puerto 443 del destino indicado c
 timeout 5 bash -c 'cat < /dev/null > /dev/tcp/DESTINO/443' && echo abierto || echo CERRADO
 ```
 
-Secuencia registrada en la captura `evidencies/2026-11-16-debian-prueba-tcp443-bloqueo-mikrotik.png` (orden de ejecución):
+Secuencia registrada en la captura `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-prueba-tcp443-bloqueo-mikrotik.png` (orden de ejecución):
 
 | Nº | Destino | Estado de la regla | Resultado | Significado |
 |---|---|---|---|---|
@@ -78,8 +78,8 @@ La prueba 3 se corresponde con los cinco paquetes SYN descartados que muestran l
 
 ### Resultado observado en MikroTik
 
-- **Contadores de la regla:** 5 paquetes y 300 bytes. Evidencia: `evidencies/2026-11-16-mikrotik-regla-drop-tcp443-contadores.png`.
-- **Registro:** cinco entradas (números 9 a 13) con el prefijo `PRUEBA-BLOQUEO`, entre las 09:08:45 y las 09:08:50 según el reloj del router. Evidencias: `evidencies/2026-11-16-mikrotik-log-lista-prueba-bloqueo.png` y `evidencies/2026-11-16-mikrotik-log-entrada-detalle.png`.
+- **Contadores de la regla:** 5 paquetes y 300 bytes. Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-mikrotik-regla-drop-tcp443-contadores.png`.
+- **Registro:** cinco entradas (números 9 a 13) con el prefijo `PRUEBA-BLOQUEO`, entre las 09:08:45 y las 09:08:50 según el reloj del router. Evidencias: `05-instalacion-comunicaciones/evidencies/2026-11-16-mikrotik-log-lista-prueba-bloqueo.png` y `05-instalacion-comunicaciones/evidencies/2026-11-16-mikrotik-log-entrada-detalle.png`.
 
 ### Interpretación del registro
 
@@ -110,7 +110,7 @@ Para devolver el router a su estado anterior se retiró el bloqueo y se repitió
 
 ## 5. Incidencia durante las pruebas
 
-El `ping` a `1.1.1.1` fallaba desde Debian y desde el propio MikroTik en la red del aula. Se resolvió comprobando la salida con TCP en lugar de ICMP. La ficha completa está en `08-incidencias/06-proves-incidencies.md`.
+El `ping` a `1.1.1.1` fallaba desde Debian y desde el propio MikroTik en la red del aula. Se resolvió comprobando la salida con TCP en lugar de ICMP. La ficha completa está en `08-final-incidencias/06-proves-incidencies.md`.
 
 ## 6. Copias de seguridad y recuperación
 

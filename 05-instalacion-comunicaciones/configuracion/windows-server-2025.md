@@ -9,7 +9,7 @@ Instalar Windows Server 2025 como servidor Windows del laboratorio y comprobar s
 | Característica | Valor |
 |---|---|
 | VM | `Windows Server 2025` (VirtualBox 7.0.20, PC doméstico) |
-| Imagen | `win_server_2025.iso`, de la página de recursos del centro (ver `00-preparacion/05-isos.md`; huella en `00-preparacion/05-isos.md`; Microsoft no publica la huella de la versión de evaluación) |
+| Imagen | `win_server_2025.iso`, de la página de recursos del centro (ver `00-entorno-pruebas/05-isos.md`; huella en `00-entorno-pruebas/05-isos.md`; Microsoft no publica la huella de la versión de evaluación) |
 | Edición | Windows Server 2025 Standard Evaluation, con experiencia de escritorio |
 | vCPU y RAM | 2 vCPU y 4 GB (comprobado con `VBoxManage showvminfo`: `cpus=2`, `memory=4096`) |
 | Disco | 50 GB (`VBoxManage list hdds`: formato VDI, capacidad 51200 MB, sin cifrar), en `/home/batoi/VirtualBox VMs/ISOFHW/Windows Server 2025/` |
@@ -27,8 +27,8 @@ Instalar Windows Server 2025 como servidor Windows del laboratorio y comprobar s
 | Compilación | 26100.1742 |
 
 Evidencias:
-- `evidencies/2026-11-16-winserver2025-winver.png` (`winver`)
-- `evidencies/2026-11-16-winserver2025-get-computerinfo.png` (`Get-ComputerInfo`)
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-winserver2025-winver.png` (`winver`)
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-winserver2025-get-computerinfo.png` (`Get-ComputerInfo`)
 
 ## 4. Configuración de red
 
@@ -39,7 +39,7 @@ Evidencias:
 | Puerta de enlace | `192.168.34.3` (MikroTik, router activo en esta prueba) |
 | DNS | `8.8.8.8` y `1.1.1.1` |
 
-Evidencia: `evidencies/2026-11-16-winserver2025-configuracion-red.png` (`Get-NetIPConfiguration`, 17:28:42 del 16/11/2026).
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-winserver2025-configuracion-red.png` (`Get-NetIPConfiguration`, 17:28:42 del 16/11/2026).
 
 ## 5. Pruebas de funcionamiento
 
@@ -51,9 +51,9 @@ Montaje: MikroTik, `Windows Server 2025` y TrueNAS encendidos; OPNsense, Ubuntu 
 | `Test-NetConnection 192.168.34.20` | `PingSucceeded: True` (1 ms) | `192.168.34.21`, `Ethernet` | Comunicación con TrueNAS |
 | `Test-NetConnection 1.1.1.1 -Port 443` | `TcpTestSucceeded: True` | `192.168.34.21`, `Ethernet` | Salida a Internet por TCP a través de MikroTik |
 
-Evidencias: `evidencies/2026-11-16-winserver2025-pruebas-mikrotik-truenas.png` y `evidencies/2026-11-16-winserver2025-prueba-tcp443-internet.png`.
+Evidencias: `05-instalacion-comunicaciones/evidencies/2026-11-16-winserver2025-pruebas-mikrotik-truenas.png` y `05-instalacion-comunicaciones/evidencies/2026-11-16-winserver2025-prueba-tcp443-internet.png`.
 
-La salida a Internet se prueba con TCP y no con ping, como en el resto del laboratorio (ver `08-incidencias/06-proves-incidencies.md`).
+La salida a Internet se prueba con TCP y no con ping, como en el resto del laboratorio (ver `08-final-incidencias/06-proves-incidencies.md`).
 
 ## 6. Incidencia durante la prueba
 
@@ -63,7 +63,7 @@ El adaptador NAT es el adaptador 1 de la VM en VirtualBox (el de la LAN es el 2)
 
 ## 7. Por qué no va en un nodo Proxmox
 
-Windows Server 2025 se ejecuta como VM independiente de VirtualBox y no dentro de los nodos Proxmox porque los recursos son limitados: los tres nodos reservan 12 GB de RAM solo para ellos, con una doble capa de virtualización, y el anfitrión tiene 16 GB (ver `00-preparacion/04-entorn-virtualitzacio.md`, apartado 8).
+Windows Server 2025 se ejecuta como VM independiente de VirtualBox y no dentro de los nodos Proxmox porque los recursos son limitados: los tres nodos reservan 12 GB de RAM solo para ellos, con una doble capa de virtualización, y el anfitrión tiene 16 GB (ver `00-entorno-pruebas/04-entorn-virtualitzacio.md`, apartado 8).
 
 ## 8. Copia al servidor de copias
 
@@ -80,7 +80,7 @@ sftp> ls /mnt/NAS_DATA/copias_seguridad/windows
 - Usuario: `nasbackup`. Primera conexión desde este equipo: SFTP pidió aceptar la huella ED25519 del servidor, la misma que vio el cliente Windows 11, lo que confirma que es el mismo servidor.
 - Resultado: transferencia al 100 % (3830 bytes, 19:01 del 16/11/2026). El `ls` lista `config-red-win11.txt` y `config-red-winserver.txt` en `/mnt/NAS_DATA/copias_seguridad/windows/`.
 
-Evidencia: `evidencies/2026-11-16-winserver2025-copia-sftp-truenas.png`.
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-winserver2025-copia-sftp-truenas.png`.
 
 ### Qué se copia y qué no
 

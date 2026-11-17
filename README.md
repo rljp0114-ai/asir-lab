@@ -1,32 +1,37 @@
-# ASIR ThinkLab — Laboratorio doméstico
+# ASIR ThinkLab — Parte individual
 
-Repositorio de trabajo para desarrollar la parte individual del proyecto ASIR ThinkLab. El laboratorio se adapta al hardware doméstico disponible y se completa siguiendo la rúbrica individual.
+Laboratorio individual del proyecto **ASIX ThinkLab** (enunciado V2.0, 19/10/2026), montado en VirtualBox sobre hardware doméstico. El repositorio está organizado **por tareas del enunciado**: cada carpeta lleva el número y el título de su tarea, un `README.md` con lo que contiene y su estado, y su propia carpeta `evidencies/` con las capturas.
 
-## Organización
+Leyenda: ✅ hecho y comprobado · 🟡 parcial o con puntos pendientes · ⬜ pendiente
 
-La documentación se organiza por número de tarea de la rúbrica:
+| Tarea | Título del enunciado | Carpeta | Estado |
+|---|---|---|---|
+| 0 | Montaje del entorno de pruebas | [`00-entorno-pruebas/`](00-entorno-pruebas/) | 🟡 |
+| 2 | Equipos y periféricos | [`02-equipos-perifericos/`](02-equipos-perifericos/) | 🟡 |
+| 4 | Diseño físico y lógico | [`04-diseno-red/`](04-diseno-red/) | ✅ |
+| 5 | Instalación y comunicaciones | [`05-instalacion-comunicaciones/`](05-instalacion-comunicaciones/) | 🟡 |
+| 6 | Almacenamiento y recuperación | [`06-almacenamiento-recuperacion/`](06-almacenamiento-recuperacion/) | ⬜ |
+| 7 | Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ⬜ |
+| 8 | Final | [`08-final-incidencias/`](08-final-incidencias/) | ⬜ (caso final el 25/11/2026) |
 
-- `00-preparacion/`: preparación del entorno, requisitos y configuración inicial de la virtualización.
-- `02-inventario/`: inventario y análisis del hardware disponible.
-- `04-red/`: diseño y configuración de la red del laboratorio y sus diagramas.
-- `05-sistemas/`: sistemas operativos y configuración de los equipos y routers.
-- `06-almacenamiento/`: RAID y almacenamiento. Carpeta preparada para completar esta tarea.
-- `07-rendimiento/`: mediciones de recursos y pruebas de rendimiento. Carpeta preparada para completar esta tarea.
-- `08-incidencias/`: diagnóstico, resolución y recuperación ante incidencias.
-- `evidencies/`: archivo de comandos y evidencias que se incorporarán cuando se revisen las prácticas.
-  
-## Archivo de comandos
+Las tareas 1 (necesidades y sistemas) y 3 (rack e interconexión) aparecen en el enunciado, pero no en la rúbrica de autoevaluación individual, por lo que no tienen carpeta propia.
 
-El archivo `evidencies/Comandos.md` se conserva como registro general de comandos utilizados. No se sustituye ni se divide durante esta reorganización.
+## Cómo está organizado cada apartado
+
+- `README.md` de cada tarea: qué documentos y evidencias contiene y qué está hecho o pendiente.
+- Documentos `.md`: explicación de lo realizado, con tablas de configuración y resultados de las pruebas.
+- `evidencies/` dentro de cada tarea: capturas, con nombre `fecha-sistema-prueba.png`. Cada documento cita sus capturas por su ruta.
+- [`evidencies/Comandos.md`](evidencies/Comandos.md): registro general de comandos utilizados durante el laboratorio (se conserva íntegro).
+
+## Entorno
+
+Dos equipos con Linux Mint y VirtualBox 7.0.20: PC doméstico (Ryzen 5 3400G, 16 GB) y portátil ASUS (Core Ultra 5 125H, 32 GB). Los discos de las máquinas virtuales se comparten entre equipos. Detalle en [`00-entorno-pruebas/04-entorn-virtualitzacio.md`](00-entorno-pruebas/04-entorn-virtualitzacio.md).
+
+La red interna del laboratorio es `192.168.34.0/24` (puesto 34 del aula).
 
 ## Forma de trabajo
 
 1. Avanzar siguiendo el orden y los criterios de la rúbrica individual.
-2. Priorizar la implementación y las pruebas reales; completar la documentación detallada y las evidencias después de verificar cada apartado.
-3. No marcar una tarea como completada si no se ha probado.
-4. Registrar las incidencias relevantes y las soluciones que hayan funcionado.
-5. No subir contraseñas, claves privadas, tokens, discos virtuales ni imágenes ISO.
-
-## Entorno doméstico
-
-El laboratorio se ejecuta sobre Linux Mint y VirtualBox. Los recursos, direcciones IP y configuraciones concretas se documentarán en los apartados correspondientes a medida que se validen.
+2. No marcar una tarea como completada si no se ha probado.
+3. Registrar las incidencias relevantes y las soluciones que han funcionado.
+4. No subir contraseñas, claves privadas, tokens, discos virtuales ni imágenes ISO.

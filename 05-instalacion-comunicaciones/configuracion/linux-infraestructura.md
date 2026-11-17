@@ -11,7 +11,7 @@ Instalar los servidores GNU/Linux de infraestructura del laboratorio, configurar
 | Servicios | `Linux-Servicios` | `192.168.34.22/24` | Servicios de infraestructura (sin software adicional por ahora) | Instalado y probado (16/11/2026) |
 | Datos | `Linux-Datos` | `192.168.34.23/24` | Datos (sin software adicional por ahora) | Instalado y probado (16/11/2026) |
 
-Ambos se crean como **clon completo** de la VM `Debian Server`, con nuevas direcciones MAC, y se ejecutan como VM independientes de VirtualBox. No van dentro de los nodos Proxmox porque los recursos son limitados (ver `00-preparacion/04-entorn-virtualitzacio.md`, apartado 8).
+Ambos se crean como **clon completo** de la VM `Debian Server`, con nuevas direcciones MAC, y se ejecutan como VM independientes de VirtualBox. No van dentro de los nodos Proxmox porque los recursos son limitados (ver `00-entorno-pruebas/04-entorn-virtualitzacio.md`, apartado 8).
 
 ## 3. Linux-Servicios
 
@@ -24,7 +24,7 @@ Ambos se crean como **clon completo** de la VM `Debian Server`, con nuevas direc
 | Nombre de equipo | `linux-servicios` (cambiado con `hostnamectl set-hostname`) |
 | Virtualización | Oracle VirtualBox |
 
-Evidencia: `evidencies/2026-11-16-linux-servicios-version-red.png` (19:32:47 del 16/11/2026).
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-linux-servicios-version-red.png` (19:32:47 del 16/11/2026).
 
 ### 3.2 Red
 
@@ -46,7 +46,7 @@ Incidencia al configurarla: tras el clonado y cambio de adaptadores, el nombre d
 | `ping -c 3 192.168.34.20` (TrueNAS) | 3/3 respuestas, 0 % de pérdida, 0,568 / 0,857 / 1,417 ms |
 | TCP 443 a `1.1.1.1` | `abierto`: salida a Internet a través de MikroTik (no hay otra salida) |
 
-Evidencia: `evidencies/2026-11-16-linux-servicios-pruebas-red.png`.
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-linux-servicios-pruebas-red.png`.
 
 ### 3.4 Usuario de administración
 
@@ -61,7 +61,7 @@ Con `nasbackup` por SFTP se copiaron a `/mnt/NAS_DATA/copias_seguridad/linux-ser
 | `hostname` | 16 bytes | Nombre del equipo |
 | `interfaces` | 394 bytes | Configuración de red |
 
-Evidencia: `evidencies/2026-11-16-linux-servicios-copia-sftp-truenas.png`.
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-linux-servicios-copia-sftp-truenas.png`.
 
 No se copia la imagen del disco (20 GB): la VM se vuelve a crear clonando `Debian Server` y reconfigurando con estos ficheros. Tampoco se copian contraseñas.
 
@@ -80,7 +80,7 @@ El `Machine ID` que muestra `hostnamectl` (`7138cb0a...`) es **el mismo** que el
 | Nombre de equipo | `linux-datos` |
 | Virtualización | Oracle VirtualBox |
 
-Evidencia: `evidencies/2026-11-16-linux-datos-version-red.png` (19:57:27 del 16/11/2026).
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-linux-datos-version-red.png` (19:57:27 del 16/11/2026).
 
 ### 4.2 Red
 
@@ -101,7 +101,7 @@ Incidencia al configurarla: la primera vez el fichero `interfaces` se dejó con 
 | `ping -c 3 192.168.34.20` (TrueNAS) | 3/3 respuestas, 0 % de pérdida, 0,554 / 0,689 / 0,764 ms |
 | TCP 443 a `1.1.1.1` | `abierto` |
 
-Evidencia: `evidencies/2026-11-16-linux-datos-pruebas-red.png`.
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-linux-datos-pruebas-red.png`.
 
 ### 4.4 Usuario de administración
 
@@ -116,7 +116,7 @@ Con `nasbackup` por SFTP, en `/mnt/NAS_DATA/copias_seguridad/linux-datos/`:
 | `hostname` | 12 bytes | Nombre del equipo |
 | `interfaces` | 394 bytes | Configuración de red |
 
-Evidencia: `evidencies/2026-11-16-linux-datos-copia-sftp-truenas.png` (`ls -l`). Se copiaron dos veces: la primera, con una configuración errónea (`192.168.34.4`), y la segunda, ya corregida, que sustituyó a la anterior.
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-linux-datos-copia-sftp-truenas.png` (`ls -l`). Se copiaron dos veces: la primera, con una configuración errónea (`192.168.34.4`), y la segunda, ya corregida, que sustituyó a la anterior.
 
 Los ficheros aparecen en TrueNAS con fecha `Nov 16 10:59` aunque en Debian eran las 19:59: el reloj o la zona horaria de TrueNAS está en hora del Pacífico (UTC-8). Conviene ponerlo en `Europe/Madrid` para que las marcas de tiempo de las copias y los registros coincidan con las del resto del laboratorio.
 

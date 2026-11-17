@@ -130,7 +130,7 @@ sftp> put /etc/nftables.conf.final /mnt/NAS_DATA/copias_seguridad/ubuntu/nftable
 - Resultado: transferencia completada al 100 % (846 bytes). El `mkdir` devolvió un error, pero como el `put` terminó correctamente el directorio de destino existe.
 - La copia es manual. No hay tarea programada para Ubuntu (sí la hay para MikroTik y OPNsense).
 
-Evidencia: `evidencies/2026-11-16-ubuntu-persistencia-copia-sftp-fallo.png`.
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-ubuntu-persistencia-copia-sftp-fallo.png`.
 
 ## 8. Fallo controlado y recuperación
 
@@ -144,7 +144,7 @@ date; sudo nft flush ruleset
 
 ### Comprobación desde el cliente Debian
 
-Prueba de conexión TCP al puerto 443 de `1.1.1.1` (no se usa `ping` porque la red del aula filtra ICMP; ver `08-incidencias/06-proves-incidencies.md`):
+Prueba de conexión TCP al puerto 443 de `1.1.1.1` (no se usa `ping` porque la red del aula filtra ICMP; ver `08-final-incidencias/06-proves-incidencies.md`):
 
 ```bash
 timeout 5 bash -c 'cat < /dev/null > /dev/tcp/1.1.1.1/443' && echo abierto || echo CERRADO
@@ -156,7 +156,7 @@ timeout 5 bash -c 'cat < /dev/null > /dev/tcp/1.1.1.1/443' && echo abierto || ec
 | Con las reglas eliminadas | **CERRADO** |
 | Tras la recuperación | abierto |
 
-El orden de los resultados es el de la captura `evidencies/2026-11-16-debian-prueba-fallo-recuperacion-ubuntu.png`. Sin la regla de `masquerade`, la causa más probable del bloqueo es que los paquetes de Debian salen con su IP privada y no reciben respuesta; no se ha aislado con otra prueba.
+El orden de los resultados es el de la captura `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-prueba-fallo-recuperacion-ubuntu.png`. Sin la regla de `masquerade`, la causa más probable del bloqueo es que los paquetes de Debian salen con su IP privada y no reciben respuesta; no se ha aislado con otra prueba.
 
 ### Recuperación desde el servidor de copias
 
@@ -180,7 +180,7 @@ Los tiempos incluyen teclear los comandos y escribir la contraseña de `nasbacku
 
 `sudo nft list ruleset` muestra de nuevo la tabla `inet filter` (INPUT y FORWARD con política `drop`, OUTPUT `accept`, con reglas de registro `nft-input-drop` y `nft-forward-drop` limitadas a 5 por segundo) y la tabla `ip nat` con el `masquerade` de `192.168.34.0/24` por `enp0s3`.
 
-Evidencia: `evidencies/2026-11-16-ubuntu-recuperacion-ruleset-persistencia.png`.
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-ubuntu-recuperacion-ruleset-persistencia.png`.
 
 ## 9. Persistencia tras reiniciar
 
@@ -194,7 +194,7 @@ Se reinició Ubuntu Server y se comprobó que la configuración se carga sin int
 | `ip -br addr` | `enp0s3` 10.0.2.15/24, `enp0s8` 192.168.34.3/24, `enp0s9` 192.168.58.3/24 |
 | Reglas | Tabla `ip nat` con `masquerade` cargada tras el arranque, antes de provocar el fallo del apartado 8 |
 
-Evidencias: `evidencies/2026-11-16-ubuntu-persistencia-copia-sftp-fallo.png` y `evidencies/2026-11-16-ubuntu-recuperacion-ruleset-persistencia.png`.
+Evidencias: `05-instalacion-comunicaciones/evidencies/2026-11-16-ubuntu-persistencia-copia-sftp-fallo.png` y `05-instalacion-comunicaciones/evidencies/2026-11-16-ubuntu-recuperacion-ruleset-persistencia.png`.
 
 ## 10. Resultado
 

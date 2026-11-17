@@ -17,13 +17,13 @@ La instalación, el direccionamiento, la prueba de filtrado con ICMP, la copia d
 | Disco virtual | 20 GB |
 | Última actualización del sistema | 14/11/2026 (según `System → Firmware → Status`) |
 
-Evidencia de la versión: `evidencies/2026-11-16-opnsense-firmware-version.png`.
+Evidencia de la versión: `05-instalacion-comunicaciones/evidencies/2026-11-16-opnsense-firmware-version.png`.
 
 ## 3. Usuarios de administración
 
 `System → Access → Users` muestra un único usuario, `root`, con nombre completo "System Administrator", miembro del grupo `admins` y con autoridad sin restricciones. Es el usuario de administración del firewall; se utiliza para acceder a la interfaz web y a la consola.
 
-Evidencia: `evidencies/2026-11-16-opnsense-usuarios.png`.
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-opnsense-usuarios.png`.
 
 ## 4. Configuración de red
 
@@ -48,7 +48,7 @@ Comprobar que OPNsense aplica una regla de filtrado, que bloquea solo el tráfic
 
 - OPNsense, Debian y TrueNAS encendidos; Ubuntu Server y MikroTik apagados.
 - Debian con OPNsense (`192.168.34.2`) como puerta de enlace y sin el adaptador NAT conectado.
-- Prueba con TCP y no con ping, porque en la red del aula el ICMP hacia Internet está filtrado (ver `08-incidencias/06-proves-incidencies.md`).
+- Prueba con TCP y no con ping, porque en la red del aula el ICMP hacia Internet está filtrado (ver `08-final-incidencias/06-proves-incidencies.md`).
 
 ### Regla
 
@@ -65,7 +65,7 @@ Regla en `Firewall → Rules → LAN` con la descripción **"Bloqueo controlado 
 | Puerto de destino | `https` (443) |
 | Registro | Activado |
 
-Evidencia (la regla aparece en gris porque está desactivada tras la prueba): `evidencies/2026-11-16-opnsense-reglas-firewall-regla-desactivada.png`.
+Evidencia (la regla aparece en gris porque está desactivada tras la prueba): `05-instalacion-comunicaciones/evidencies/2026-11-16-opnsense-reglas-firewall-regla-desactivada.png`.
 
 ### Pruebas desde Debian
 
@@ -75,7 +75,7 @@ Comando (cambiando el destino):
 timeout 5 bash -c 'cat < /dev/null > /dev/tcp/DESTINO/443' && echo abierto || echo CERRADO
 ```
 
-Secuencia registrada en la captura `evidencies/2026-11-16-debian-prueba-bloqueo-opnsense.png` (orden de ejecución):
+Secuencia registrada en la captura `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-prueba-bloqueo-opnsense.png` (orden de ejecución):
 
 | Nº | Destino | Estado de la regla | Resultado | Significado |
 |---|---|---|---|---|
@@ -89,7 +89,7 @@ La regla bloquea solo el destino indicado: `1.1.1.1` queda bloqueado y `8.8.8.8`
 
 ### Registro del firewall
 
-En `Firewall → Log Files → Live View` se ven en la captura cinco entradas de bloqueo con la etiqueta de la regla, entre las 14:48:48 y las 14:48:52 (hora UTC del firewall). Evidencias: `evidencies/2026-11-16-opnsense-log-bloqueo-tcp443.png` y `evidencies/2026-11-16-opnsense-log-entrada-bloqueo.png`.
+En `Firewall → Log Files → Live View` se ven en la captura cinco entradas de bloqueo con la etiqueta de la regla, entre las 14:48:48 y las 14:48:52 (hora UTC del firewall). Evidencias: `05-instalacion-comunicaciones/evidencies/2026-11-16-opnsense-log-bloqueo-tcp443.png` y `05-instalacion-comunicaciones/evidencies/2026-11-16-opnsense-log-entrada-bloqueo.png`.
 
 Entrada de ejemplo:
 

@@ -44,7 +44,7 @@ Limitación: la salida pegada del primer `ip route` (antes del cambio) se mezcl�
 | `192.168.34.2` (OPNsense) | 4 / 4 | 0 % | 0,486 / 1,005 / 2,058 ms | La puerta de enlace responde por la LAN |
 | `192.168.34.20` (TrueNAS) | 4 / 4 | 0 % | 0,579 / 2,879 / 9,641 ms | Hay comunicación entre equipos de la LAN |
 
-No se hace `ping` a Internet: la red del aula filtra ICMP hacia el exterior (ver `08-incidencias/06-proves-incidencies.md`). En su lugar se usa TCP.
+No se hace `ping` a Internet: la red del aula filtra ICMP hacia el exterior (ver `08-final-incidencias/06-proves-incidencies.md`). En su lugar se usa TCP.
 
 ## 5. Traceroute hacia Internet
 
@@ -62,8 +62,8 @@ traceroute -n -T -p 443 1.1.1.1
 ## 6. Interfaces y tabla de rutas de OPNsense
 
 Evidencias:
-- `evidencies/2026-11-16-opnsense-interfaces-overview.png` (`Interfaces → Overview`)
-- `evidencies/2026-11-16-opnsense-tabla-rutas.png` (`System → Routes → Status`)
+- `04-diseno-red/evidencies/2026-11-16-opnsense-interfaces-overview.png` (`Interfaces → Overview`)
+- `04-diseno-red/evidencies/2026-11-16-opnsense-tabla-rutas.png` (`System → Routes → Status`)
 
 | Interfaz | Dispositivo | Configuración |
 |---|---|---|

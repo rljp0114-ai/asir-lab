@@ -160,7 +160,7 @@ Debian Server se utiliza también como el cliente GNU/Linux del laboratorio. Los
 | Virtualización | Oracle VirtualBox (`hostnamectl`) |
 | Equipo físico | PC doméstico; VM `Debian Server (02-11)` |
 
-Evidencia: `evidencies/2026-11-16-debian-version-hostnamectl.png` (19:06 del 16/11/2026).
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-version-hostnamectl.png` (19:06 del 16/11/2026).
 
 ### 9.2 Red
 
@@ -171,15 +171,15 @@ Evidencia: `evidencies/2026-11-16-debian-version-hostnamectl.png` (19:06 del 16/
 
 Tabla de rutas: `default via 192.168.34.3 dev enp0s3` (MikroTik), `default via 10.0.3.2 dev enp0s8` con métrica 1003, `10.0.3.0/24` y `192.168.34.0/24` conectadas. Se usa la ruta de menor métrica, la de MikroTik.
 
-Evidencia: `evidencies/2026-11-16-debian-red-rutas-mikrotik.png`.
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-red-rutas-mikrotik.png`.
 
 ### 9.3 Usuario
 
 Usuario de trabajo: `batoi` (UID 1000). En la comprobación, `getent group sudo` devolvió `sudo:x:27:` sin miembros, de modo que `batoi` no pertenece al grupo `sudo`. La administración del sistema se hace con la cuenta `root`: el administrador entra como `batoi` y cambia a `root` con `su -` (así lo indica el alumno y es coherente con el prompt `root@debian-server` del historial de `evidencies/Comandos.md`). Comprobado a las 19:14 del 16/11/2026: `whoami` como `batoi`, `su -` con contraseña, y después `whoami` = `root` e `id` = `uid=0(root) gid=0(root) grupos=0(root)`.
 
-Evidencia: `evidencies/2026-11-16-debian-su-root.png`.
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-su-root.png`.
 
-Evidencia: `evidencies/2026-11-16-debian-usuario-copia-sftp-truenas.png` (`getent group sudo` e `id`).
+Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-usuario-copia-sftp-truenas.png` (`getent group sudo` e `id`).
 
 ### 9.4 Copia al servidor de copias
 

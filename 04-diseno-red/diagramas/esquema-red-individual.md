@@ -70,7 +70,7 @@ Cada VM de gestión se conecta a la red host-only cuyo direccionamiento coincide
 
 ## 5. Direcciones previstas
 
-Siguiendo el patrón del esquema del aula, adaptado a la LAN `192.168.34.0/24`. El clúster Proxmox se documenta como diseño (ver `00-preparacion/04-entorn-virtualitzacio.md`, apartado 8).
+Siguiendo el patrón del esquema del aula, adaptado a la LAN `192.168.34.0/24`. El clúster Proxmox se documenta como diseño (ver `00-entorno-pruebas/04-entorn-virtualitzacio.md`, apartado 8).
 
 | Elemento | Dirección prevista | Estado |
 |---|---|---|
@@ -93,4 +93,4 @@ En todos los casos, puerta de enlace en el router activo y DNS configurado.
 | Hipervisor | VirtualBox 7.0.20 |
 | Máquinas del montaje | Ubuntu Server, MikroTik, OPNsense, Debian Server y TrueNAS (más los clones de recuperación y los tres nodos Proxmox creados) |
 
-El inventario completo, con vCPU, RAM y disco de cada VM, está en `00-preparacion/04-entorn-virtualitzacio.md`.
+El inventario completo, con vCPU, RAM y disco de cada VM, está en `00-entorno-pruebas/04-entorn-virtualitzacio.md`.
