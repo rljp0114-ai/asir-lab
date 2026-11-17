@@ -31,6 +31,7 @@ Clúster `asirlab` de tres nodos (`pve1`, `pve2`, `pve3`) sobre VirtualBox en el
 
 ## Otros documentos
 
+- [`configuraciones-criticas.md`](configuraciones-criticas.md): configuración crítica, problemas y tiempos de recuperación por sistema.
 - Evidencias: [`evidencies/`](evidencies/).
 
 ## Pendiente
