@@ -13,7 +13,7 @@ Este inventario recoge los dos equipos físicos que se utilizarán como anfitrio
 | Sistema operativo anfitrión | Linux Mint 22.3, la misma instalación que el portátil |
 | Virtualizador | VirtualBox 7.0.20 |
 
-**Un único sistema, dos equipos.** Linux Mint y las máquinas virtuales están en un SSD externo que se conecta al PC o al portátil: se arranca la misma instalación (el nombre de equipo es `JuanpaPC` en ambos) y se ven las mismas 19 VM (`VBoxManage list vms`, 17/11/2026). Solo puede estar conectado a un equipo a la vez, por lo que el laboratorio se ejecuta en uno u otro, no en los dos a la vez. La estimación anterior de 700 GB para el PC se sustituye por los datos medidos del SanDisk (apartado 2).
+**Un único sistema, dos equipos.** Linux Mint y las máquinas virtuales están en un SSD externo que se conecta al PC o al portátil: se arranca la misma instalación (el nombre de equipo es `JuanpaPC` en ambos) y se ven las mismas 19 VM (`VBoxManage list vms`, 17/11/2026), de las cuales **14 son del proyecto** (grupo `/ISOFHW` de VirtualBox) y 5 de otras actividades. Solo puede estar conectado a un equipo a la vez, por lo que el laboratorio se ejecuta en uno u otro, no en los dos a la vez. La estimación anterior de 700 GB para el PC se sustituye por los datos medidos del SanDisk (apartado 2).
 
 ## 2. Portátil ASUS ExpertBook B3605CCA
 
@@ -47,7 +47,7 @@ Este inventario recoge los dos equipos físicos que se utilizarán como anfitrio
 
 El disco interno aparece sin montar, lo que confirma que no se está utilizando. Las tres redes host-only existen también en este equipo, por lo que las VM de gestión podrán arrancar aquí con los mismos direccionamientos.
 
-**Observación (confirmada por el alumno):** el nombre de equipo del portátil es `JuanpaPC`, igual que el del PC doméstico, porque es la misma instalación de Linux Mint en el mismo SanDisk, conectado a uno u otro equipo. `VBoxManage list vms` muestra las mismas 19 VM en el portátil.
+**Observación (confirmada por el alumno):** el nombre de equipo del portátil es `JuanpaPC`, igual que el del PC doméstico, porque es la misma instalación de Linux Mint en el mismo SanDisk, conectado a uno u otro equipo. `VBoxManage list vms` muestra las mismas 19 VM en el portátil (14 del proyecto y 5 de otras actividades).
 
 | Partición | Tamaño | Usado | Libre | Medido el |
 |---|---|---|---|---|

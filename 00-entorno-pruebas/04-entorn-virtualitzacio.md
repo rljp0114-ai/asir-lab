@@ -21,7 +21,7 @@ Al compartir el disco, las VM no se reparten entre los dos equipos a la vez: se 
 
 No se debe asumir que todas las máquinas virtuales pueden ejecutarse simultáneamente. Habrá que reservar memoria y CPU para los sistemas anfitriones y comprobar el consumo real.
 
-**Cálculo de la memoria asignada.** Sumando la RAM asignada a todas las VM del laboratorio (apartado 3) se obtienen unos 35 GB, más que la RAM de cualquiera de los dos anfitriones (16 GB y 32 GB). Por tanto, nunca se encenderán todas a la vez; en cada prueba se arrancan solo las VM necesarias (por ejemplo, un router, el cliente Debian y TrueNAS).
+**Cálculo de la memoria asignada.** Sumando la RAM asignada a todas las VM del laboratorio (apartado 3) se obtienen unos 44 GB (14 VM, incluidos los clones de recuperación y los tres nodos Proxmox), más que la RAM de cualquiera de los dos anfitriones (16 GB y 32 GB). Por tanto, nunca se encenderán todas a la vez; en cada prueba se arrancan solo las VM necesarias (por ejemplo, un router, el cliente Debian y TrueNAS).
 
 ## 3. Inventario de máquinas virtuales
 
@@ -36,13 +36,13 @@ Datos obtenidos con `VBoxManage list vms`, `VBoxManage showvminfo --machinereada
 | TrueNAS | TrueNAS (NAS de copias) | 2 | 8 GB | 20 GB + 20 GB | 1: red interna `asir_lab`; 2: host-only `vboxnet1`; 3: host-only `vboxnet2` | Instalada y en uso para copias |
 | Mikrotik-RECUPERACION | Clon de MikroTik | 1 | 512 MB | 2 GB | 1: NAT; 2: red interna `asir_lab`; 3: host-only `vboxnet2` | Usada en la prueba de recuperación |
 | OPNsense-RECUPERACION | Clon de OPNsense | 2 | 5 GB | 20 GB | 1: puente `enp8s0`; 2: red interna `asir_lab`; 3: host-only `vboxnet2` | Usada en la prueba de recuperación |
-| Proxmox N1 | Proxmox VE (nodo 1) | 2 | 6 GB | 64 GB | 1: NAT; 2: red interna `asir_lab`; 3: host-only `vboxnet1` | VM creada; instalación iniciada hasta la consola, sin clúster |
-| Proxmox N2 | Proxmox VE (nodo 2) | 2 | 3 GB | 40 GB | 1: NAT; 2: red interna `asir_lab` | VM creada; instalación no confirmada |
-| Proxmox N3 | Proxmox VE (nodo 3) | 2 | 3 GB | 40 GB | 1: NAT; 2: red interna `asir_lab` | VM creada; instalación no confirmada |
+| Proxmox N1 | Proxmox VE 9.2.2 (nodo `pve1`) | 2 | 3 GB | 32 GB | 1: red interna `asir_lab` (modo promiscuo: permitir todo); 2: host-only `vboxnet1` | Instalado, en el clúster `asirlab` |
+| Proxmox N2 | Proxmox VE 9.2.2 (nodo `pve2`) | 2 | 3 GB | 20 GB | 1: red interna `asir_lab` (modo promiscuo: permitir todo); 2: host-only `vboxnet1` | Instalado, en el clúster `asirlab` |
+| Proxmox N3 | Proxmox VE 9.2.2 (nodo `pve3`) | 2 | 3 GB | 20 GB | 1: red interna `asir_lab` (modo promiscuo: permitir todo); 2: host-only `vboxnet1` | Instalado, en el clúster `asirlab` |
 
 Notas:
 - El campo "tipo de SO" que muestra VirtualBox para algunas VM (por ejemplo, "Oracle Linux") es solo una etiqueta de la configuración y no indica el sistema realmente instalado.
-- Las VM `Debian 13.1`, `W11`, `W11 Particiones` e `ISO-DUAL-<iniciales>` pertenecen a otras actividades y no forman parte de este laboratorio.
+- Las VM del proyecto son las **14** del grupo `/ISOFHW` de VirtualBox (`VBoxManage list vms --long`). Las otras 5, en el grupo raíz (`Debian 13.1`, `Debian 13.1 1`, `W11`, `W11 Particiones` e `ISO-DUAL-<iniciales>`), pertenecen a otras actividades, no forman parte de este laboratorio y no se cuentan en las mediciones.
 - Suma de la capacidad máxima de los discos del laboratorio: unos 273 GB. El espacio realmente ocupado es menor si los discos son de tamaño dinámico; está pendiente de comprobar.
 - La VM `Windows Server 2025` (Windows Server 2025 Standard Evaluation, 2 vCPU, 4 GB, adaptador 1 NAT desactivado en Windows y adaptador 2 en red interna `asir_lab`, `192.168.34.21`) se creó el 16/11/2026 y no está en la tabla de arriba porque esta se obtuvo antes con `VBoxManage`; sus datos están en `05-instalacion-comunicaciones/configuracion/windows-server-2025.md`. Los servidores GNU/Linux de infraestructura se crean como clones de Debian Server (ver `05-instalacion-comunicaciones/configuracion/linux-infraestructura.md`).
 
@@ -69,12 +69,12 @@ Resumen:
 |---|---|---|
 | VirtualBox en los dos anfitriones | PC doméstico: 7.0.20 r163906. Portátil: 7.0.20 (misma versión que el PC) | `VBoxManage --version` |
 | Inventario de VM del PC doméstico | Documentado (apartado 3) | Salida de `VBoxManage` |
-| Inventario de VM del portátil | Las mismas 19 VM que en el PC: el SanDisk es el mismo (17/11/2026) | `VBoxManage list vms` |
+| Inventario de VM del portátil | Las mismas 19 VM que en el PC (14 del proyecto y 5 de otras actividades): el SanDisk es el mismo (17/11/2026) | `VBoxManage list vms` |
 | Router Ubuntu con nftables | Configurado y probado | `evidencies/Comandos.md` |
 | Router MikroTik | Configurado y probado | `evidencies/Comandos.md` |
 | Router OPNsense | Configurado y probado | `evidencies/Comandos.md` |
 | TrueNAS (copias) | Instalado y en uso | `evidencies/Comandos.md` |
-| Proxmox | Plan: clúster de tres nodos y migración (apartado 8) | VM creadas; instalación pendiente |
+| Proxmox | Clúster de tres nodos desplegado, con contenedor y VM migrados (apartado 8) | `05-instalacion-comunicaciones/configuracion/proxmox.md` |
 | Windows Server 2025 | Instalado y probado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/windows-server-2025.md` |
 | Windows 11 (cliente) | Instalado y probado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/windows-11.md` |
 | Cliente GNU/Linux | Debian Server, documentado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/debian-cliente.md` |
@@ -107,12 +107,12 @@ VBoxManage showvminfo "NOMBRE_VM" --machinereadable
 
 **Actualización (17/11/2026).** La decisión del 16/11 (documentar solo el diseño) se sustituye por el plan de **desplegar el clúster de tres nodos** y hacer pruebas reales: crear un contenedor y migrar un contenedor y una VM entre nodos, como pide el enunciado. La rúbrica exige que la VM migrada sea un Ubuntu Server o Debian sin entorno gráfico, para que sea más rápido. El diseño o la simulación solo se usaría como alternativa autorizada si el despliegue no fuera viable.
 
-**Estado.** Se crearon tres VM para los nodos Proxmox (N1, N2 y N3); la instalación no está completada. El despliegue está **pendiente** y se hará en el PC doméstico (16 GB), el equipo más limitado, para garantizar que también funciona en el portátil.
+**Estado (17/11/2026).** Desplegado en el PC doméstico (16 GB), el equipo más limitado: tres nodos de 3 GB (`pve1`, `pve2`, `pve3`), clúster `asirlab` con quórum, un contenedor y una VM Debian migrados entre nodos con tiempo y espacio medidos. El detalle está en `05-instalacion-comunicaciones/configuracion/proxmox.md`.
 
 **Riesgos que motivaron la decisión anterior y que hay que controlar:**
 
 - **Doble capa de virtualización.** Proxmox es un hipervisor; ejecutarlo dentro de una VM de VirtualBox añade una segunda capa de virtualización. El rendimiento es inferior al de un servidor real y los tiempos y consumos medidos en una migración no serían representativos, por lo que la tarea de medir tiempo y espacio perdería valor.
-- **Memoria.** Los tres nodos reservan 12 GB de RAM (6 + 3 + 3) solo para los propios nodos, sin contar las VM que se ejecutarían dentro. El PC doméstico tiene 16 GB, y la suma de todas las VM del laboratorio (unos 35 GB) supera la RAM de ambos anfitriones.
+- **Memoria.** Los tres nodos reservan 9 GB de RAM (3 + 3 + 3) solo para los propios nodos, sin contar las VM que se ejecutan dentro. Con todo el clúster encendido, el PC doméstico (16 GB) llegó a 12 GiB usados y 230 MiB libres (medido el 17/11/2026), y la suma de todas las VM del laboratorio (unos 44 GB) supera la RAM de ambos anfitriones.
 - **Recursos compartidos con el resto del laboratorio.** Mantener el clúster encendido impediría ejecutar a la vez el router, TrueNAS y el cliente de pruebas.
 
 **Qué se documentará** (pendiente): configuración de usuario, red y clúster, ventajas e inconvenientes de virtualizar servidores, diferencia entre contenedor y máquina virtual y cuándo usar cada uno, migración de un contenedor y de una VM (con tiempo y espacio medidos) y qué se copia al servidor de copias y por qué.
