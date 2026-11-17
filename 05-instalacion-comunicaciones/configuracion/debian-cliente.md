@@ -175,7 +175,7 @@ Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-red-rutas
 
 ### 9.3 Usuario
 
-Usuario de trabajo: `batoi` (UID 1000). En la comprobación, `getent group sudo` devolvió `sudo:x:27:` sin miembros, de modo que `batoi` no pertenece al grupo `sudo`. La administración del sistema se hace con la cuenta `root`: el administrador entra como `batoi` y cambia a `root` con `su -` (así lo indica el alumno y es coherente con el prompt `root@debian-server` del historial de `evidencies/Comandos.md`). Comprobado a las 19:14 del 16/11/2026: `whoami` como `batoi`, `su -` con contraseña, y después `whoami` = `root` e `id` = `uid=0(root) gid=0(root) grupos=0(root)`.
+Usuario de trabajo: `batoi` (UID 1000). En la comprobación, `getent group sudo` devolvió `sudo:x:27:` sin miembros, de modo que `batoi` no pertenece al grupo `sudo`. La administración del sistema se hace con la cuenta `root`: el administrador entra como `batoi` y cambia a `root` con `su -` (así lo indica el alumno). Comprobado a las 19:14 del 16/11/2026: `whoami` como `batoi`, `su -` con contraseña, y después `whoami` = `root` e `id` = `uid=0(root) gid=0(root) grupos=0(root)`.
 
 Evidencia: `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-su-root.png`.
 

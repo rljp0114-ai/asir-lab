@@ -4,7 +4,7 @@
 
 Utilizar MikroTik RouterOS como servidor de comunicaciones del laboratorio: conecta la red interna `asir_lab` con la red exterior, traduce direcciones (NAT) y filtra el tráfico.
 
-La instalación, la configuración inicial, el problema con la regla NAT, las copias de seguridad en TrueNAS y la prueba de recuperación en un clon están registradas con sus comandos en `evidencies/Comandos.md` (apartados "MikroTik CHR" y "MikroTik – Configuración, copias de seguridad y recuperación"). Este documento resume el estado y añade la comprobación de la versión y la prueba de conexión permitida y bloqueada.
+Este documento resume la instalación, la configuración inicial, el problema con la regla NAT, las copias de seguridad en TrueNAS y la prueba de recuperación en un clon, y añade la comprobación de la versión y la prueba de conexión permitida y bloqueada.
 
 ## 2. Características de la máquina virtual
 
@@ -114,7 +114,7 @@ El `ping` a `1.1.1.1` fallaba desde Debian y desde el propio MikroTik en la red 
 
 ## 6. Copias de seguridad y recuperación
 
-Resumen (detalle y comandos en `evidencies/Comandos.md`):
+Resumen:
 
 - Copia binaria y exportación de texto en `copias_seguridad/mikrotik/` de TrueNAS, generadas por el script `backup-truenas` y la tarea programada `backup-diario` (02:00).
 - Prueba de fallo: deshabilitar la regla NAT hace que Debian pierda la salida a Internet; al habilitarla se recupera.
