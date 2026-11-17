@@ -1,6 +1,6 @@
 # TrueNAS: servidor de copias
 
-Servidor de copias de seguridad del laboratorio. El procedimiento paso a paso con comandos está en [`../../evidencies/Comandos.md`](../../evidencies/Comandos.md), apartado 5.
+Servidor de copias de seguridad del laboratorio.
 
 ## 1. Sistema
 

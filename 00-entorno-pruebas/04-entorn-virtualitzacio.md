@@ -70,10 +70,10 @@ Resumen:
 | VirtualBox en los dos anfitriones | PC doméstico: 7.0.20 r163906. Portátil: 7.0.20 (misma versión que el PC) | `VBoxManage --version` |
 | Inventario de VM del PC doméstico | Documentado (apartado 3) | Salida de `VBoxManage` |
 | Inventario de VM del portátil | Las mismas 19 VM que en el PC (14 del proyecto y 5 de otras actividades): el SanDisk es el mismo (17/11/2026) | `VBoxManage list vms` |
-| Router Ubuntu con nftables | Configurado y probado | `evidencies/Comandos.md` |
-| Router MikroTik | Configurado y probado | `evidencies/Comandos.md` |
-| Router OPNsense | Configurado y probado | `evidencies/Comandos.md` |
-| TrueNAS (copias) | Instalado y en uso | `evidencies/Comandos.md` |
+| Router Ubuntu con nftables | Configurado y probado | `05-instalacion-comunicaciones/configuracion/` |
+| Router MikroTik | Configurado y probado | `05-instalacion-comunicaciones/configuracion/` |
+| Router OPNsense | Configurado y probado | `05-instalacion-comunicaciones/configuracion/` |
+| TrueNAS (copias) | Instalado y en uso | `05-instalacion-comunicaciones/configuracion/` |
 | Proxmox | Clúster de tres nodos desplegado, con contenedor y VM migrados (apartado 8) | `05-instalacion-comunicaciones/configuracion/proxmox.md` |
 | Windows Server 2025 | Instalado y probado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/windows-server-2025.md` |
 | Windows 11 (cliente) | Instalado y probado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/windows-11.md` |

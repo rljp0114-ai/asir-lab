@@ -4,7 +4,7 @@
 
 Utilizar OPNsense como servidor de comunicaciones del laboratorio: conecta la red interna `asir_lab` con la red exterior, traduce direcciones (NAT) y filtra el tráfico mediante reglas.
 
-La instalación, el direccionamiento, la prueba de filtrado con ICMP, la copia de seguridad, la restauración en un clon y las copias automáticas por SFTP están registrados con sus comandos en `evidencies/Comandos.md` (apartados "OPNsense: configuración del servidor de comunicaciones", "Copia de seguridad y recuperación" y "Copias de seguridad automáticas mediante SFTP"). Este documento resume el estado y añade la comprobación de la versión, los usuarios y la prueba de conexión permitida y bloqueada con su registro.
+Este documento resume la instalación, el direccionamiento, la prueba de filtrado con ICMP, la copia de seguridad, la restauración en un clon y las copias automáticas por SFTP, y añade la comprobación de la versión, los usuarios y la prueba de conexión permitida y bloqueada con su registro.
 
 ## 2. Características de la máquina virtual
 
@@ -119,7 +119,7 @@ Nota: la regla que permite el tráfico de la LAN tiene como descripción "- prue
 
 ## 6. Copia de seguridad y recuperación
 
-Resumen (detalle y comandos en `evidencies/Comandos.md`):
+Resumen:
 
 - Exportación de la configuración (XML) desde `System → Configuration → Backups`, guardada en TrueNAS en `copias_seguridad/opnsense/`.
 - Copias automáticas con el complemento `os-sftp-backup`: usuario `nasbackup`, autenticación con clave SSH Ed25519, tarea diaria a las 03:00. Probada con `configctl system remote backup`; la ejecución nocturna real no se ha observado.
