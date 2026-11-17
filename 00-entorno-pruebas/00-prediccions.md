@@ -1,6 +1,6 @@
 # 00. Predicciones iniciales
 
-**Fecha:** completar con la fecha real.
+**Fecha de las predicciones:** inicio del proyecto. **Revisión final:** 17/11/2026.
 
 Este documento recoge las predicciones antes de investigar y diseñar el laboratorio. Se revisarán al final.
 
@@ -23,9 +23,9 @@ El laboratorio doméstico utilizará dos equipos anfitriones:
 - [x] Procesador y núcleos/hilos disponibles.
 - [x] RAM de ambos anfitriones.
 - [x] Almacenamiento del portátil y espacio libre.
-- [ ] Confirmar capacidad y espacio libre exactos del SSD del PC doméstico.
-- [ ] Revisar interfaces de red físicas de ambos equipos.
-- [ ] Comprobar cuántas VM pueden ejecutarse simultáneamente sin saturar los anfitriones.
+- [x] Confirmar capacidad y espacio libre del SSD: el laboratorio entero está en un único SanDisk Portable SSD de 931,5 GB (`/home` de 795 GB con 559 GB libres) que se conecta al PC o al portátil.
+- [x] Revisar interfaces de red físicas de ambos equipos: `enp8s0` en el PC y `eno1` en el portátil.
+- [x] Comprobar cuántas VM pueden ejecutarse simultáneamente sin saturar los anfitriones: medido en el PC en la tarea 7 ([`informe-rendimiento.md`](../07-rendimiento-diagnostico/informe-rendimiento.md)).
 - [x] Identificar la plataforma de virtualización: VirtualBox.
 
 ## 3. Qué pasaría si se pierde un disco
@@ -36,4 +36,9 @@ Predicción inicial: si los datos solo están en un disco y este falla, podrían
 
 | Predicción inicial | Resultado observado | ¿Se confirma? | Evidencia |
 |---|---|---|---|
-| Pendiente de revisar | | | |
+| El cliente se decidiría más adelante | Se usan clientes Windows 11 y Debian | Sí, con dos clientes en lugar de uno | [`05-.../configuracion/`](../05-instalacion-comunicaciones/configuracion/) |
+| Debian Server podría alojar datos y servicios | Hay además Linux-Servicios y Linux-Datos, Windows Server 2025 y TrueNAS como servidor de copias | Parcial: se repartió en más sistemas | [`04-entorn-virtualitzacio.md`](04-entorn-virtualitzacio.md) |
+| Un cortafuegos permitiría estudiar reglas y separación de redes | Hay routers MikroTik y OPNsense y un Ubuntu Server con nftables, con pruebas de bloqueo y registros | Sí | [`ubuntunftables.md`](../05-instalacion-comunicaciones/configuracion/ubuntunftables.md) |
+| Si se pierde un disco, los datos podrían perderse | La protección depende de la copia de seguridad o de la redundancia; RAID y copia no son lo mismo | Sí | [`../06-almacenamiento-recuperacion/`](../06-almacenamiento-recuperacion/) |
+| Las VM cabrían en los equipos | En el PC de 16 GB caben 5 VM del proyecto a la vez, o el router y el clúster Proxmox; no ambos | Parcial: la memoria es el límite | [`informe-rendimiento.md`](../07-rendimiento-diagnostico/informe-rendimiento.md) |
+| Los dos equipos repartirían la carga | Todo el laboratorio vive en un solo SSD que se conecta a un equipo cada vez | No: se usa un equipo cada vez | [`04-entorn-virtualitzacio.md`](04-entorn-virtualitzacio.md) |

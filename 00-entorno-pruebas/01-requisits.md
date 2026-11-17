@@ -7,14 +7,14 @@ Definir qué necesita demostrar el laboratorio antes de elegir e instalar todos 
 
 | Área | Necesidad | Estado |
 |---|---|---|
-| Comunicaciones | Conectar VM y comprobar conectividad | En preparación |
-| Virtualización | Ejecutar sistemas de prueba en VirtualBox usando dos equipos anfitriones | En uso |
-| Clientes | Acceder a servicios desde un sistema cliente | Pendiente |
-| Servidores | Probar servicios de red y administración | Debian Server instalado; servicios futuros pendientes |
-| Identidades | Investigar usuarios y permisos | Pendiente |
-| Datos y almacenamiento | Comparar sistemas de archivos y redundancia | Pendiente |
-| Recuperación | Diseñar y probar un procedimiento de recuperación | Pendiente |
-| Supervisión | Medir recursos y revisar registros | Pendiente |
+| Comunicaciones | Conectar VM y comprobar conectividad | ✅ Redes internas, routers MikroTik y OPNsense, pruebas de conectividad |
+| Virtualización | Ejecutar sistemas de prueba en VirtualBox y un clúster Proxmox de tres nodos | ✅ En uso |
+| Clientes | Acceder a servicios desde un sistema cliente | ✅ Windows 11 y Debian |
+| Servidores | Probar servicios de red y administración | ✅ Debian Server, Linux-Servicios, Linux-Datos, Windows Server 2025 |
+| Identidades | Investigar usuarios y permisos | 🟡 Usuarios y permisos en Windows Server y OPNsense; sin dominio ni LDAP |
+| Datos y almacenamiento | Comparar sistemas de archivos y redundancia | ✅ Tarea 6 (RAID) |
+| Recuperación | Diseñar y probar un procedimiento de recuperación | ✅ Tarea 6 y copias en TrueNAS |
+| Supervisión | Medir recursos y revisar registros | ✅ Tarea 7 y registros de nftables |
 
 ## 3. Recursos y restricciones conocidas
 
@@ -39,10 +39,9 @@ Para cada opción, registrar:
 
 Los requisitos oficiales y los recursos asignados a la VM deben anotarse por separado.
 
-## 5. Decisiones pendientes
-- [ ] Definir el sistema cliente.
-- [ ] Definir qué servicios se probarán en Debian Server.
-- [ ] Decidir si se añadirá una VM de cortafuegos.
-- [ ] Confirmar capacidad y espacio libre exactos del SSD del PC doméstico.
-- [ ] Comprobar interfaces de red y conectividad de ambos anfitriones.
-- [ ] Estimar mediante pruebas cuántas VM pueden ejecutarse simultáneamente en cada equipo.
+## 5. Decisiones tomadas
+- [x] Sistemas cliente: Windows 11 y Debian.
+- [x] Cortafuegos y routers: MikroTik (activo), OPNsense y Ubuntu Server con nftables.
+- [x] Almacenamiento y SSD: un único SanDisk Portable SSD de 931,5 GB con 559 GB libres en `/home`.
+- [x] Interfaces de red: `enp8s0` (PC) y `eno1` (portátil).
+- [x] Capacidad en el PC: 5 VM del proyecto a la vez, medido en [`../07-rendimiento-diagnostico/informe-rendimiento.md`](../07-rendimiento-diagnostico/informe-rendimiento.md). El portátil de 32 GB no se midió.

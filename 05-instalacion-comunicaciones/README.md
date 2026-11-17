@@ -25,8 +25,8 @@ TrueNAS 13.0-U5.3 (`192.168.34.20`). Su instalación, la creación de usuario y 
 
 ## Proxmox
 
-Plan: clúster de tres nodos sobre VirtualBox, con creación de un contenedor y migración de un contenedor y de una VM Debian sin entorno gráfico entre nodos, midiendo tiempo y espacio. Previsto en el portátil. Detalle y riesgos en [`../00-entorno-pruebas/04-entorn-virtualitzacio.md`](../00-entorno-pruebas/04-entorn-virtualitzacio.md) (apartado 8). **Estado: teoría redactada en [`configuracion/proxmox.md`](configuracion/proxmox.md); instalación, clúster y migración pendientes** (las tres VM están creadas; falta instalar).
+Clúster `asirlab` de tres nodos (`pve1`, `pve2`, `pve3`) sobre VirtualBox en el PC de 16 GB, con un contenedor y una VM Debian sin entorno gráfico migrados entre nodos (tiempos y espacio medidos) y copia de la configuración a TrueNAS. **Estado: ✅ completado el 17/11/2026.** Detalle en [`configuracion/proxmox.md`](configuracion/proxmox.md); incidencias en [`../08-final-incidencias/06-proves-incidencies.md`](../08-final-incidencias/06-proves-incidencies.md).
 
 ## Otros documentos
 
-[`03-sistemes.md`](03-sistemes.md): comparación de sistemas candidatos antes de decidir qué instalar (🟡 revisar). Evidencias: [`evidencies/`](evidencies/).
+[`03-sistemes.md`](03-sistemes.md): comparación de sistemas candidatos antes de decidir qué instalar (✅). Evidencias: [`evidencies/`](evidencies/).
