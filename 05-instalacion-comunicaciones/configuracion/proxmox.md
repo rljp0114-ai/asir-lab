@@ -57,11 +57,39 @@ Gestión conjunta, migración y alta disponibilidad son cosas distintas: la **ge
 | Contraseñas y claves privadas del clúster | Los secretos no deben almacenarse sin cifrar; se custodian fuera del repositorio |
 | Discos grandes de VM de usuario sin valor | Ocupan espacio de TrueNAS sin aportar |
 
-## 6. Pendiente de realizar
+## 6. Instalación de los tres nodos (17/11/2026)
+
+| Dato | pve1 | pve2 | pve3 |
+|---|---|---|---|
+| Versión | Proxmox VE 9.2.2 (`pve-manager/9.2.2`, kernel `7.0.2-6-pve`) | igual | igual |
+| Sistema de ficheros | ext4 | ext4 | ext4 |
+| Usuario de administración | `root` (`root@pam` en la web) | igual | igual |
+| Hostname | `pve1.asir.lab` | `pve2.asir.lab` | `pve3.asir.lab` |
+| Red de gestión y clúster (`vmbr0`, sobre `nic0`, adaptador 1 `asir_lab`) | `192.168.34.32/24`, gateway `192.168.34.3` | `192.168.34.33/24` | `192.168.34.34/24` |
+| Red de administración web desde el anfitrión (adaptador 2, `vboxnet1`) | `192.168.57.32/24` | `192.168.57.33/24` | `192.168.57.34/24` |
+| Recursos de la VM | 3 GB de RAM, 2 CPU, virtualización anidada activada | igual | igual |
+| Disco | 32 GiB | 20 GB | 20 GB |
+| Zona horaria y teclado | Europe/Madrid, `es` | igual | igual |
+
+Decisiones y observaciones:
+
+- **Dos adaptadores por nodo.** El adaptador 1 está en la red interna `asir_lab` y lleva la gestión y el tráfico del clúster por `vmbr0`. El adaptador 2 está en la red host-only `vboxnet1` y solo sirve para abrir la web (`https://192.168.57.3x:8006`) desde el anfitrión, que no pertenece a `asir_lab`. Sin gateway: la salida a Internet, si hace falta, va por `vmbr0`.
+- **Nombre de la segunda interfaz.** Proxmox fija los nombres durante la instalación (`nic0`, `nic1`). En `pve1` la segunda interfaz se mostró como `enp0s8` en el portátil y como `nic1` en el PC, por lo que se comprueba con `ip -br link` antes de escribir `/etc/network/interfaces`.
+- **Reinicio tras añadir la interfaz.** En `pve1`, la web no respondía desde el anfitrión hasta reiniciar el nodo, aunque `ping` funcionaba y `pveproxy` escuchaba en el 8006.
+- **Sin acceso a Internet.** Los nodos no tienen adaptador NAT, así que la tarea de "Update package database" falla (`apt-get update`, visible en `pve3`). No afecta al laboratorio.
+- **Tamaño de disco.** `pve1` tiene 32 GiB y `pve2`/`pve3` 20 GB; el almacenamiento tiene el mismo nombre (`local` y `local-lvm`) en los tres, que es lo necesario para migrar.
+- **Aviso de licencia.** Se usa el repositorio sin suscripción; la web muestra el aviso de "No valid subscription", sin consecuencias para el laboratorio.
+
+Evidencias (`05-instalacion-comunicaciones/evidencies/`):
+
+- `2026-11-17-proxmox-pve1-consola-version-red.png`, `2026-11-17-proxmox-pve2-consola-version-red.png`, `2026-11-17-proxmox-pve3-consola-version-red.png`: versión (`pveversion`) y direcciones (`ip -br a`).
+- `2026-11-17-proxmox-pve1-web-panel.png`, `2026-11-17-proxmox-pve2-web-panel.png`, `2026-11-17-proxmox-pve3-web-panel.png`: panel web de cada nodo con el usuario `root@pam`.
+
+## 7. Pendiente de realizar
 
 | Paso | Estado |
 |---|---|
-| Instalar Proxmox VE en los tres nodos (versión, usuario `root`, red) | ⬜ |
+| Instalar Proxmox VE en los tres nodos (versión, usuario `root`, red) | ✅ |
 | Crear el clúster y comprobar el quórum | ⬜ |
 | Crear una VM Debian sin entorno gráfico y un contenedor | ⬜ |
 | Migrar el contenedor y la VM entre nodos; medir tiempo y espacio en disco; valorar mejoras | ⬜ |
