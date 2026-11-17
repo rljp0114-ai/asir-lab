@@ -160,7 +160,19 @@ Observaciones:
 
 Evidencias (`05-instalacion-comunicaciones/evidencies/`, prefijo `2026-11-17-proxmox-vm101-`): `resumen-creacion.png`, `resumen-pve1.png`, `antes-consola.png`, `migracion-0-lvs-pve1-antes.png`, `migracion-bloqueo-cdrom.png`, `migracion-1-pve1-pve2.png`, `migracion-2-pve2-pve3.png`, `migracion-3-lvs-pve3-despues.png` y `migracion-4-consola-tras-migrar.png`.
 
-## 10. Pendiente de realizar
+## 10. Copia de configuraciones y estado final
+
+### 10.1 Copia al servidor de copias (TrueNAS)
+
+Desde `pve1` se reunieron en `/root/copia-config/pve1` la configuración de red y nombres (`/etc/network/interfaces`, `/etc/hosts`, `/etc/hostname`, `/etc/resolv.conf`) y la del clúster (`/etc/pve/corosync.conf`, `storage.cfg`, `user.cfg`, `datacenter.cfg`, y las carpetas `qemu-server` y `lxc`). Se comprimieron en `pve1-config-2026-11-17.tar.gz` (1,0 KB) y se enviaron con `scp` al usuario `nasbackup` de TrueNAS (192.168.34.20), a `/mnt/NAS_DATA/copias_seguridad/`. El listado remoto muestra el fichero ya guardado.
+
+![Copia de la configuración de pve1 a TrueNAS](../evidencies/2026-11-17-proxmox-pve1-copia-config-truenas.png)
+
+**Por qué estos ficheros:** son los que hay que tener a mano para reinstalar un nodo y volver a unirlo al clúster (red, nombres, configuración de corosync, almacenamiento y definición de máquinas). Los discos de las VM y los contenedores no van en esta copia: se recuperan migrando o con copias de seguridad aparte. Los ficheros de `/etc/pve` son compartidos por todo el clúster, así que basta con copiarlos desde un nodo.
+
+**Alcance:** por falta de memoria en el PC (16 GB), la copia se hizo solo desde `pve1`. La configuración propia de `pve2` y `pve3` (`interfaces`, `hosts`) sigue la misma plantilla que `pve1` y está documentada en el apartado 6.
+
+### 10.2 Resumen
 
 | Paso | Estado |
 |---|---|
@@ -168,6 +180,6 @@ Evidencias (`05-instalacion-comunicaciones/evidencies/`, prefijo `2026-11-17-pro
 | Crear el clúster y comprobar el quórum | ✅ |
 | Crear una VM Debian sin entorno gráfico y un contenedor | ✅ |
 | Migrar el contenedor y la VM entre nodos; medir tiempo y espacio en disco; valorar mejoras | ✅ Medido; mejoras valoradas (apartados 8 y 9) |
-| Copiar configuraciones al servidor de copias | ⬜ |
+| Copiar configuraciones al servidor de copias | ✅ Desde `pve1` (apartado 10.1) |
 
 **Limitación esperada:** los nodos son VM de VirtualBox; sin virtualización anidada, la VM de prueba se ejecutará sin aceleración (KVM desactivado en sus opciones), más lenta. Los tiempos medidos no serán los de un servidor real y así se hará constar.
