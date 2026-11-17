@@ -11,7 +11,7 @@ Definir qué necesita demostrar el laboratorio antes de elegir e instalar todos 
 | Virtualización | Ejecutar sistemas de prueba en VirtualBox y un clúster Proxmox de tres nodos | ✅ En uso |
 | Clientes | Acceder a servicios desde un sistema cliente | ✅ Windows 11 y Debian |
 | Servidores | Probar servicios de red y administración | ✅ Debian Server, Linux-Servicios, Linux-Datos, Windows Server 2025 |
-| Identidades | Investigar usuarios y permisos | 🟡 Usuarios y permisos en Windows Server y OPNsense; sin dominio ni LDAP |
+| Identidades | Investigar usuarios y permisos | ✅ Cuentas de usuario de administración en cada sistema; sin dominio |
 | Datos y almacenamiento | Comparar sistemas de archivos y redundancia | ✅ Tarea 6 (RAID) |
 | Recuperación | Diseñar y probar un procedimiento de recuperación | ✅ Tarea 6 y copias en TrueNAS |
 | Supervisión | Medir recursos y revisar registros | ✅ Tarea 7 y registros de nftables |
