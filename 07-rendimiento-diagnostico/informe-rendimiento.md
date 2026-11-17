@@ -21,7 +21,7 @@ Solo cuentan las 14 VM del grupo `/ISOFHW` de VirtualBox; las 5 de otras activid
 
 ## 3. Datos válidos
 
-El `host.csv` completo está en `datos/`. En la ejecución de `escalado.sh` había cuatro VM ya encendidas (`Debian Server`, `MikroTik`, `Linux-Servicios` y `Linux-Datos`), por lo que una parte de las filas no corresponde a lo que indica el nombre de su etapa (VirtualBox rechazó arrancar las que ya estaban encendidas). Para el informe se usan solo las ventanas de tiempo en las que `instantaneas.txt` confirma que las VM encendidas coinciden con la etapa. Las demás filas se conservan en `datos/` como medidas repetidas del estado de cuatro VM, que sirven para comprobar que el resultado es estable: 4 VM usan 4,4 GiB en las tres repeticiones, frente a 4,5 GiB en la etapa E4.
+El `host.csv` completo está en `datos/`. En la ejecución de `escalado.sh` había cuatro VM ya encendidas (`Debian Server`, `MikroTik`, `Linux-Servicios` y `Linux-Datos`), por lo que una parte de las filas no corresponde a lo que indica el nombre de su etapa (VirtualBox rechazó arrancar las que ya estaban encendidas). Para el informe se usan solo las ventanas de tiempo en las que `instantaneas.txt` confirma que las VM encendidas coinciden con la etapa. Las demás filas se conservan en `datos/` como medidas repetidas del estado de cuatro VM.
 
 | Etapa | Máquinas encendidas | Muestras (cada 5 s) |
 |---|---|---:|
@@ -44,7 +44,7 @@ El `host.csv` completo está en `datos/`. En la ejecución de `escalado.sh` hab�
 | E1 + MikroTik | 3,2 GiB | 12,4 GiB | 0,8 % / 1 % | 0,02 / 0,2 MB/s | 381 MB |
 | E2 + Linux-Servicios | 3,5 GiB | 12,1 GiB | 1,2 % / 2 % | 0,02 / 0,1 MB/s | 380 MB |
 | E3 + Linux-Datos | 4,2 GiB | 11,4 GiB | 1,2 % / 2 % | 0,07 / 0,6 MB/s | 380 MB |
-| E4 + Debian Server | 4,5 GiB | 11,0 GiB | 7,2 % / 15 % | 0,1 / 0,7 MB/s | 376 MB |
+| E4 + Debian Server | 4,5 GiB | 11,0 GiB | 7,2 % / 15 % | 0,15 / 0,7 MB/s | 376 MB |
 | E5 + Windows Server 2025 | 8,7 GiB | 6,8 GiB | 30,2 % / 34 % | 46,9 / 173,7 MB/s | 376 MB |
 | Proxmox, reposo | 12,4 GiB | 3,1 GiB | 11,2 % / 14 % | 0,4 / 1,9 MB/s | 490 MB |
 | Proxmox, migración | 12,4 GiB | 3,1 GiB | 31,7 % / 69 % | 16,5 / 164,9 MB/s | 490 MB |
@@ -65,7 +65,7 @@ Las VM de Linux gastan mucho menos de lo que tienen asignado, porque solo ocupan
 
 ## 5. Recursos saturados
 
-- **Memoria: es el recurso que se agota.** Con el clúster Proxmox (tres nodos de 3 GB y las máquinas de dentro) el anfitrión usa 12,4 GiB de 15,5 GiB. La memoria libre cae a 186-298 MB y el uso de swap sube de 376-381 MB a 490 MB. Durante la migración se registran movimientos de swap (`si+so`), señal de que el sistema empieza a descargar memoria a disco. Es el límite del equipo.
+- **Memoria: es el recurso que se agota.** Con el clúster Proxmox (tres nodos de 3 GB y las máquinas de dentro) el anfitrión usa 12,4 GiB de 15,5 GiB. La memoria libre cae a 186-298 MB y el uso de swap sube de 376-381 MB a 490 MB. El uso de swap pasa de 376-381 MB a 490 MB, señal de que el sistema ya descarga memoria a disco. Es el límite del equipo.
 - **CPU: con holgura.** Una media de 30 % con Windows Server y picos del 69 % en la migración, sobre 8 hilos. La espera de disco (`wa`) no pasa del 2 %.
 - **Disco: picos altos, pero sin saturación sostenida.** Las escrituras llegan a 165-174 MB/s cuando Windows Server arranca y durante la migración (la copia del disco de 4 GB), y vuelven a valores mínimos después. El uso del disco (`util`) fue del 17,2 % y del 6,1 % en esas etapas. Como todo el laboratorio vive en un SSD por USB, esos picos están cerca del rendimiento esperable de ese dispositivo.
 - **Red: no es limitante.** El máximo medido en la tarjeta física fue de 4 MB/s de entrada (Windows Server, con Windows Update y telemetría en su primer arranque). El tráfico entre VM por la red interna `asir_lab` no pasa por la tarjeta física, así que esta medida solo refleja la salida a Internet.
