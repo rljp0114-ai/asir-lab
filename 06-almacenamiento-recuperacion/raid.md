@@ -84,8 +84,59 @@ Evidencia: `evidencies/2026-11-17-raid-mkfs-montaje-datos.png`.
 
 **Limitación del entorno:** los siete discos virtuales son ficheros del mismo SSD físico, así que no hay independencia real de fallos ni la mejora de velocidad de RAID 0 es representativa. Se demuestra el funcionamiento lógico, no el rendimiento real.
 
-## 6. Pendiente
+## 6. Prueba de fallo y recuperación
 
-- Prueba de fallo: marcar un disco como fallido en RAID 1 y en RAID 5, comprobar que los datos siguen accesibles (array degradado) y reconstruir con el disco repuesto; mostrar que RAID 0 no admite fallos.
+Se simuló el fallo de un disco en RAID 1 y en RAID 5 con `mdadm --fail`, se comprobó que los datos seguían accesibles con el array degradado, y se repuso el disco con `--remove` y `--add`.
+
+### RAID 1 (08:55 del 17/11/2026)
+
+```bash
+mdadm /dev/md1 --fail /dev/sde
+```
+
+| Comprobación | Resultado |
+|---|---|
+| `/proc/mdstat` | `md1 : active raid1 sde[1](F) sdd[0]` con `[2/1] [U_]`: un disco activo y otro marcado como fallido |
+| Lectura de `/mnt/raid1/prueba.txt` | Correcta: `datos de prueba raid1` |
+| `mdadm --detail /dev/md1` | `State : clean, degraded`; `Active Devices : 1`; `Failed Devices : 1`; `/dev/sde` en estado `faulty` |
+
+Evidencia: `evidencies/2026-11-17-raid1-fallo-disco-degradado.png`.
+
+### RAID 5 (08:57 del 17/11/2026)
+
+```bash
+mdadm /dev/md5 --fail /dev/sdh
+```
+
+| Comprobación | Resultado |
+|---|---|
+| `/proc/mdstat` | `md5 : active raid5 sdh[3](F) sdg[1] sdf[0]` con `[3/2] [UU_]` |
+| Lectura de `/mnt/raid5/prueba.txt` | Correcta: `datos de prueba raid5` |
+| `mdadm --detail /dev/md5` | `State : clean, degraded`; `Active Devices : 2`; `Failed Devices : 1`; `/dev/sdh` en estado `faulty` |
+
+Evidencias: `evidencies/2026-11-17-raid5-fallo-disco-mdstat-datos.png` (estado y lectura del fichero) y `evidencies/2026-11-17-raid5-fallo-disco-mdadm-detail.png` (detalle). En la segunda captura aparece un segundo `--fail` sobre `/dev/sdh`, que ya estaba fallido y no tiene efecto.
+
+### Recuperación
+
+```bash
+mdadm /dev/md1 --remove /dev/sde
+mdadm /dev/md1 --add /dev/sde
+mdadm /dev/md5 --remove /dev/sdh
+mdadm /dev/md5 --add /dev/sdh
+cat /proc/mdstat
+```
+
+Tras reponer los discos, `/proc/mdstat` muestra los dos arrays de nuevo completos: `md1` con `[2/2] [UU]` y `md5` con `[3/3] [UUU]`. La resincronización de 1 GB fue tan rápida que ya había terminado al consultar el estado, por lo que no hay captura del porcentaje intermedio ni se midió el tiempo.
+
+Evidencia: `evidencies/2026-11-17-raid-recuperacion-mdstat.png`.
+
+### Conclusión
+
+- **RAID 1 y RAID 5** toleraron el fallo de un disco: el array siguió funcionando en modo degradado, los datos se pudieron leer y se reconstruyó al reponer el disco.
+- **RAID 0** no se probó porque no tiene redundancia: el fallo de cualquiera de sus discos haría perder el volumen completo.
+- En un fallo real, entre el fallo y el fin de la reconstrucción el array está sin protección: otro fallo en ese intervalo perdería los datos.
+
+## 7. Pendiente
+
 - Persistencia tras reiniciar: los arrays y los montajes no están guardados en `/etc/mdadm/mdadm.conf` ni en `/etc/fstab`; tras reiniciar habría que reensamblarlos y montarlos a mano.
 - Punto 3 (Apte+): espejo entre discos de dos equipos distintos.

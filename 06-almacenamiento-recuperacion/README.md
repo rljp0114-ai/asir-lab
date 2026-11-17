@@ -4,7 +4,7 @@ Parte individual obligatoria: crear tres tipos de RAID en uno de los equipos, ve
 
 | Documento | Contenido | Estado |
 |---|---|---|
-| [`raid.md`](raid.md) | RAID 0, 1 y 5 con `mdadm` en `Linux-Datos`: creación, capacidad, datos de prueba y comparación | 🟡 creados y verificados; falta la prueba de fallo |
+| [`raid.md`](raid.md) | RAID 0, 1 y 5 con `mdadm` en `Linux-Datos`: creación, capacidad, datos de prueba, comparación, fallo simulado y recuperación | ✅ (obligatorio individual); falta guardar la configuración para que sobreviva a un reinicio |
 | Espejo entre dos equipos (Apte+) | Investigación e implementación | ⬜ pendiente |
 
 Evidencias: [`evidencies/`](evidencies/).
