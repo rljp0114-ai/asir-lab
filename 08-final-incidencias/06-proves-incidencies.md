@@ -102,3 +102,15 @@ Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No
 - **Verificación:** la prueba TCP al 443 desde `pve1` dio `abierto` y el instalador alcanzó el espejo.
 - **Prevención:** reservar una tabla de direcciones del laboratorio y comprobar con `ip neigh` que la MAC de la puerta de enlace es la del router. Un `ping` que responde no demuestra que la puerta de enlace sea la correcta.
 
+### 5.5. La VM anidada no sale por el router: modo promiscuo de VirtualBox
+
+- **Título breve:** una VM dentro de un nodo Proxmox tiene IP pero no alcanza al router.
+- **Fecha:** 17/11/2026.
+- **Sistema afectado:** VM `vm-debian` (101) dentro del nodo `pve1`, que es a su vez una VM de VirtualBox con el adaptador 1 en la red interna `asir_lab`.
+- **Objetivo:** que la VM anidada llegara a `192.168.34.3` (MikroTik) y a Internet.
+- **Síntoma observado:** `ping 192.168.34.3` desde la VM daba `Destination Host Unreachable`, y MikroTik no mostraba ninguna conexión de `192.168.34.40`, aunque la VM tenía IP y era alcanzable desde `pve1`.
+- **Causa identificada:** VirtualBox descarta por defecto las tramas con direcciones MAC distintas de la del adaptador de la VM (modo promiscuo en *Denegar*). La VM anidada usa su propia MAC (`bc:24:11:…`), de modo que sus tramas no pasaban a la red interna.
+- **Solución aplicada:** `VBoxManage controlvm "Proxmox N<n>" nicpromisc1 allow-all` en los tres nodos, con las VM encendidas. Tras ello, `ping` al router y a `1.1.1.1` respondió desde la VM. Para que persista tras apagar, se aplica `VBoxManage modifyvm "Proxmox N<n>" --nicpromisc1 allow-all` con los nodos apagados.
+- **Verificación:** la VM llegó a `192.168.34.3` y a `1.1.1.1` (`ttl=63`, pasando por el router).
+- **Prevención:** al anidar máquinas virtuales en VirtualBox, poner el modo promiscuo del adaptador de red de la VM anfitriona en *Permitir todo*.
+

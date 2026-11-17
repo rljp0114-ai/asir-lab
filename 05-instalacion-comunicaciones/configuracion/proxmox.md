@@ -127,14 +127,47 @@ Observaciones:
 
 Evidencias (`05-instalacion-comunicaciones/evidencies/`): `2026-11-17-proxmox-ct100-resumen-creacion.png`, `2026-11-17-proxmox-ct100-tarea-creada.png`, `2026-11-17-proxmox-ct100-consola-antes-migrar.png` y las cuatro de la migración (`2026-11-17-proxmox-ct100-migracion-1-lvs-pve1-antes.png`, `-2-tarea.png`, `-3-lvs-pve2-despues.png`, `-4-consola-pve2.png`).
 
-## 9. Pendiente de realizar
+## 9. VM Debian y migración en caliente (17/11/2026)
+
+**VM.** `vm-debian` (ID 101), Debian 13 sin entorno gráfico (solo el sistema base, instalado desde la ISO `debian-13.1.0-amd64-netinst`). 1 núcleo (tipo `x86-64-v2-AES`), 1024 MB de RAM, disco `scsi0` de 4 GB en `local-lvm` (VirtIO SCSI), red `virtio` en `vmbr0` con IP `192.168.34.40/24`, gateway `192.168.34.3`. Con la VM arrancada: 3,4 GB de partición raíz con 674 MB usados (22 %) y 180 MB de RAM en uso de 967 MB.
+
+**Migración en línea (VM encendida).** Primero `pve1` → `pve2` y después `pve2` → `pve3`, con disco local (Proxmox copia el disco con un espejo de bloques mientras la VM sigue ejecutándose y transfiere el estado de la memoria al final).
+
+| Medida | `pve1` → `pve2` | `pve2` → `pve3` |
+|---|---|---|
+| Duración total | 36 s | 38 s |
+| Tiempo de parada de la VM (*downtime*) | 60 ms | 54 ms |
+| Estado de memoria transferido | 216,2 MiB | 215,5 MiB |
+| Velocidad media de la migración de memoria | 520,4 MiB/s | 520,4 MiB/s |
+| Disco copiado | 4 GiB (espejo `mirror-scsi0`, completado) | 4 GiB (completado) |
+| Volumen en el nodo de origen | Eliminado (`successfully removed`) | Eliminado |
+| IP y servicio tras migrar | `192.168.34.40/24`, mismos 674 MB usados | igual |
+
+Comparación de espacio del volumen `vm-101-disk-0` (4,00 GB):
+
+| Nodo | `Data%` del volumen |
+|---|---|
+| `pve1` (antes) | 25,83 |
+| `pve3` (después) | 100,00 |
+
+Observaciones:
+
+- **La VM no se paró.** La parada fue de decenas de milisegundos, frente a los unos 37 s en que el contenedor estuvo detenido en su migración con reinicio (apartado 8). La migración en línea de una VM es posible con discos locales, pero hay que quitar antes la unidad de CD/DVD con la ISO de instalación, que solo existe en `pve1` (`No se puede migrar la VM con CD/DVD local`).
+- **El destino ocupa más espacio.** En el nodo de origen solo estaba asignado el 25,83 % del volumen de aprovisionamiento ligero (`thin`); tras la copia por bloques, el volumen de `pve3` figura asignado al 100 %. La copia por espejo escribe todos los bloques, también los vacíos, porque el disco de la VM no tiene activado `discard`. Mejora posible: activar `discard` en el disco y ejecutar `fstrim -av` en la VM, que devuelve al pool los bloques vacíos.
+- **Aviso de Proxmox.** El diálogo advierte de que "la migración con disco local puede tardar mucho tiempo" para el disco de 4 GiB. Con almacenamiento compartido (TrueNAS por NFS) no habría que copiar el disco y la migración se limitaría al estado de memoria.
+- Los nodos son VM de VirtualBox con 3 GB de RAM, por lo que los tiempos no son los de servidores reales.
+- Los registros de la segunda migración muestran una hora una hora posterior a los de la primera, aunque se hicieron con minutos de diferencia. No afecta a las duraciones, que las calcula Proxmox en el mismo nodo.
+
+Evidencias (`05-instalacion-comunicaciones/evidencies/`, prefijo `2026-11-17-proxmox-vm101-`): `resumen-creacion.png`, `resumen-pve1.png`, `antes-consola.png`, `migracion-0-lvs-pve1-antes.png`, `migracion-bloqueo-cdrom.png`, `migracion-1-pve1-pve2.png`, `migracion-2-pve2-pve3.png`, `migracion-3-lvs-pve3-despues.png` y `migracion-4-consola-tras-migrar.png`.
+
+## 10. Pendiente de realizar
 
 | Paso | Estado |
 |---|---|
 | Instalar Proxmox VE en los tres nodos (versión, usuario `root`, red) | ✅ |
 | Crear el clúster y comprobar el quórum | ✅ |
-| Crear una VM Debian sin entorno gráfico y un contenedor | 🟡 Contenedor creado; falta la VM |
-| Migrar el contenedor y la VM entre nodos; medir tiempo y espacio en disco; valorar mejoras | 🟡 Contenedor migrado y medido; falta la VM |
+| Crear una VM Debian sin entorno gráfico y un contenedor | ✅ |
+| Migrar el contenedor y la VM entre nodos; medir tiempo y espacio en disco; valorar mejoras | ✅ Medido; mejoras valoradas (apartados 8 y 9) |
 | Copiar configuraciones al servidor de copias | ⬜ |
 
 **Limitación esperada:** los nodos son VM de VirtualBox; sin virtualización anidada, la VM de prueba se ejecutará sin aceleración (KVM desactivado en sus opciones), más lenta. Los tiempos medidos no serán los de un servidor real y así se hará constar.
