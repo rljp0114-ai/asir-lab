@@ -25,7 +25,7 @@ Las tareas 1 (necesidades y sistemas) y 3 (rack e interconexión) aparecen en el
 
 ## Entorno
 
-Dos equipos con Linux Mint y VirtualBox 7.0.20: PC doméstico (Ryzen 5 3400G, 16 GB) y portátil ASUS (Core Ultra 5 125H, 32 GB). Los discos de las máquinas virtuales se comparten entre equipos. Detalle en [`00-entorno-pruebas/04-entorn-virtualitzacio.md`](00-entorno-pruebas/04-entorn-virtualitzacio.md).
+Linux Mint y VirtualBox 7.0.20 instalados en un SSD externo SanDisk que se conecta al PC doméstico (Ryzen 5 3400G, 16 GB) o al portátil ASUS (Core Ultra 5 125H, 32 GB); las máquinas virtuales están en ese mismo disco, por lo que el laboratorio se ejecuta en un equipo cada vez. Detalle en [`00-entorno-pruebas/04-entorn-virtualitzacio.md`](00-entorno-pruebas/04-entorn-virtualitzacio.md).
 
 La red interna del laboratorio es `192.168.34.0/24` (puesto 34 del aula).
 

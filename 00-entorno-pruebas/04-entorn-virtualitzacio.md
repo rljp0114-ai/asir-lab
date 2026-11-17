@@ -2,7 +2,7 @@
 
 ## 1. Plataforma y equipos anfitriones
 
-Se utilizarán dos equipos físicos con Linux Mint y VirtualBox para ejecutar y repartir las máquinas virtuales del laboratorio.
+Se utilizan dos equipos físicos que arrancan el mismo Linux Mint con VirtualBox, instalado en un SSD externo SanDisk que se conecta a uno u otro. Las máquinas virtuales están en ese mismo disco, por lo que el laboratorio se ejecuta en un equipo cada vez.
 
 | Característica | PC doméstico | Portátil ASUS |
 |---|---|---|
@@ -10,14 +10,14 @@ Se utilizarán dos equipos físicos con Linux Mint y VirtualBox para ejecutar y 
 | Virtualizador | VirtualBox 7.0.20 r163906 | VirtualBox 7.0.20 (misma versión que el PC, según indica el alumno) |
 | Procesador | AMD Ryzen 5 3400G, 4 núcleos/8 hilos | Intel Core Ultra 5 125H, 14 núcleos/18 hilos |
 | Memoria RAM | 16 GB | 32 GB |
-| Almacenamiento | SSD, aproximadamente 700 GB según estimación; falta medir el espacio libre | SanDisk Portable SSD de 931,5 GB por USB 3.2 |
-| Espacio libre | Pendiente de confirmar | 87 GB en `/` (medido el 17/11/2026); `/home` pendiente de medir |
+| Almacenamiento | El mismo SanDisk Portable SSD de 931,5 GB | SanDisk Portable SSD de 931,5 GB por USB 3.2 |
+| Espacio libre | 87 GB en `/` y 559 GB en `/home` (el disco es el mismo) | 87 GB en `/` y 559 GB en `/home` (medido el 17/11/2026) |
 
 El SSD Samsung interno de 1 TB del portátil queda excluido del proyecto. El sistema Linux Mint que se utilizará está instalado en el SanDisk Portable SSD.
 
 ## 2. Distribución de la carga
 
-Se repartirán las máquinas virtuales entre los dos anfitriones según sus recursos disponibles. El portátil tiene más memoria RAM y capacidad de CPU, mientras que el PC doméstico dispone de 16 GB de RAM. La distribución definitiva se decidirá según los requisitos de cada VM y las mediciones de rendimiento (tarea 7).
+Al compartir el disco, las VM no se reparten entre los dos equipos a la vez: se ejecutan en el que tenga el SSD conectado. El portátil tiene más memoria RAM y capacidad de CPU (32 GB), mientras que el PC doméstico dispone de 16 GB. Se decide qué cargas van a cada uno según los requisitos de cada VM y las mediciones de rendimiento (tarea 7): el clúster Proxmox, el más exigente, en el portátil.
 
 No se debe asumir que todas las máquinas virtuales pueden ejecutarse simultáneamente. Habrá que reservar memoria y CPU para los sistemas anfitriones y comprobar el consumo real.
 
@@ -69,7 +69,7 @@ Resumen:
 |---|---|---|
 | VirtualBox en los dos anfitriones | PC doméstico: 7.0.20 r163906. Portátil: 7.0.20 (misma versión que el PC) | `VBoxManage --version` |
 | Inventario de VM del PC doméstico | Documentado (apartado 3) | Salida de `VBoxManage` |
-| Inventario de VM del portátil | Pendiente de revisar si hay VM en el portátil | `VBoxManage list vms` |
+| Inventario de VM del portátil | Las mismas 19 VM que en el PC: el SanDisk es el mismo (17/11/2026) | `VBoxManage list vms` |
 | Router Ubuntu con nftables | Configurado y probado | `evidencies/Comandos.md` |
 | Router MikroTik | Configurado y probado | `evidencies/Comandos.md` |
 | Router OPNsense | Configurado y probado | `evidencies/Comandos.md` |
@@ -79,7 +79,7 @@ Resumen:
 | Windows 11 (cliente) | Instalado y probado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/windows-11.md` |
 | Cliente GNU/Linux | Debian Server, documentado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/debian-cliente.md` |
 | Servidores GNU/Linux de infraestructura | `Linux-Servicios` y `Linux-Datos` instalados y probados | `05-instalacion-comunicaciones/configuracion/linux-infraestructura.md` |
-| Reparto de VM entre anfitriones | Pendiente de decidir y probar | Tarea 7 |
+| Qué cargas van en cada equipo | Pendiente de decidir y probar | Tarea 7 |
 
 ## 7. Comandos útiles
 
@@ -121,7 +121,7 @@ VBoxManage showvminfo "NOMBRE_VM" --machinereadable
 
 ## 9. Portabilidad entre equipos
 
-Los discos de las máquinas virtuales se comparten entre el PC doméstico, el portátil y los equipos del aula, así que todo lo que se monte debe poder ejecutarse también en el portátil (32 GB) y en clase. Reglas que se siguen:
+El SSD con Linux Mint y las máquinas virtuales se conecta al PC doméstico, al portátil o a los equipos del aula, así que todo lo que se monte debe poder ejecutarse también en el portátil (32 GB) y en clase. Reglas que se siguen:
 
 - **Misma versión de VirtualBox** en los dos equipos propios (7.0.20).
 - **Adaptador puente:** está asociado a la tarjeta física de cada equipo (`enp8s0` en el PC, `eno1` en el portátil). Al abrir una VM en otro equipo hay que volver a elegir el adaptador físico en `Configuración → Red`.

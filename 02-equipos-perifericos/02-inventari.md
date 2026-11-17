@@ -9,11 +9,11 @@ Este inventario recoge los dos equipos físicos que se utilizarán como anfitrio
 | Procesador | AMD Ryzen 5 3400G |
 | Núcleos/hilos | 4 núcleos y 8 hilos |
 | Memoria RAM | 16 GB |
-| Almacenamiento | SSD, aproximadamente 700 GB disponibles según la estimación actual |
-| Sistema operativo anfitrión | Linux Mint |
-| Virtualizador | VirtualBox |
+| Almacenamiento | El mismo SanDisk Portable SSD de 931,5 GB que usa el portátil (ver apartado 2) |
+| Sistema operativo anfitrión | Linux Mint 22.3, la misma instalación que el portátil |
+| Virtualizador | VirtualBox 7.0.20 |
 
-La capacidad y el espacio libre exactos del SSD quedan pendientes de comprobar mediante `lsblk` y `df -h`. La cifra de 700 GB es aproximada y no debe interpretarse como espacio libre confirmado.
+**Un único sistema, dos equipos.** Linux Mint y las máquinas virtuales están en un SSD externo que se conecta al PC o al portátil: se arranca la misma instalación (el nombre de equipo es `JuanpaPC` en ambos) y se ven las mismas 19 VM (`VBoxManage list vms`, 17/11/2026). Solo puede estar conectado a un equipo a la vez, por lo que el laboratorio se ejecuta en uno u otro, no en los dos a la vez. La estimación anterior de 700 GB para el PC se sustituye por los datos medidos del SanDisk (apartado 2).
 
 ## 2. Portátil ASUS ExpertBook B3605CCA
 
@@ -47,7 +47,14 @@ La capacidad y el espacio libre exactos del SSD quedan pendientes de comprobar m
 
 El disco interno aparece sin montar, lo que confirma que no se está utilizando. Las tres redes host-only existen también en este equipo, por lo que las VM de gestión podrán arrancar aquí con los mismos direccionamientos.
 
-**Observación:** el nombre de equipo del portátil es `JuanpaPC`, igual que el del PC doméstico; la instalación de Linux Mint de este SSD externo parece ser la misma que se utiliza en el otro equipo. Pendiente de confirmar.
+**Observación (confirmada por el alumno):** el nombre de equipo del portátil es `JuanpaPC`, igual que el del PC doméstico, porque es la misma instalación de Linux Mint en el mismo SanDisk, conectado a uno u otro equipo. `VBoxManage list vms` muestra las mismas 19 VM en el portátil.
+
+| Partición | Tamaño | Usado | Libre | Medido el |
+|---|---|---|---|---|
+| `/` (`sda2`) | 121 GB | 28 GB | 87 GB | 17/11/2026 |
+| `/home` (`sda3`) | 795 GB | 197 GB | 559 GB | 17/11/2026 |
+
+Las VM están en `/home`, por lo que el espacio relevante para crear nuevos discos virtuales son los 559 GB libres de esa partición.
 
 **Disco excluido:** el SSD interno Samsung de aproximadamente 1 TB no se tendrá en cuenta ni se modificará para este proyecto. El sistema Linux Mint utilizado para el laboratorio está instalado en el SanDisk Portable SSD.
 
@@ -57,29 +64,29 @@ El disco interno aparece sin montar, lo que confirma que no se está utilizando.
 |---|---|---|
 | CPU | Ryzen 5 3400G, 4 núcleos/8 hilos | Core Ultra 5 125H, 14 núcleos/18 hilos |
 | RAM | 16 GB | 32 GB |
-| Almacenamiento utilizado | SSD, unos 700 GB estimados | SanDisk externo, 931,5 GB |
-| Espacio libre confirmado | Pendiente de medir | 87 GB en `/` (medido el 17/11/2026); `/home`: pendiente de medir con `df -h /home` |
+| Almacenamiento utilizado | SanDisk externo, 931,5 GB (el mismo disco) | SanDisk externo, 931,5 GB |
+| Espacio libre confirmado | 87 GB en `/` y 559 GB en `/home` (el disco es el mismo) | 87 GB en `/` y 559 GB en `/home` (medido el 17/11/2026) |
 
 ### Limitaciones y decisiones
 
 - Los recursos de cada equipo deben compartirse entre Linux Mint y las máquinas virtuales. No se puede asignar toda la RAM ni todos los recursos de CPU a las VM.
-- El PC doméstico dispone de 16 GB de RAM, por lo que será necesario limitar el número de máquinas virtuales encendidas simultáneamente o repartirlas entre los dos equipos.
-- El portátil dispone de 32 GB de RAM y un procesador con más núcleos e hilos, por lo que permite asumir una parte mayor de la carga de virtualización.
-- En el portátil, el sistema se ejecuta desde un SSD externo conectado por USB. Esto añade dependencia del cable y del puerto USB y puede influir en el rendimiento de las operaciones de disco frente a una unidad interna. El impacto real dependerá de la unidad y se comprobará durante las pruebas.
-- El espacio del PC doméstico es una estimación; se verificará antes de crear nuevos discos virtuales.
-- Se utilizarán ambos equipos para distribuir las máquinas virtuales y evitar concentrar toda la carga en un solo anfitrión.
+- El PC doméstico dispone de 16 GB de RAM, por lo que será necesario limitar el número de máquinas virtuales encendidas simultáneamente. Como el disco es el mismo, no se pueden repartir las VM entre los dos equipos a la vez: se ejecutan en el que tenga el SanDisk conectado.
+- El portátil dispone de 32 GB de RAM y un procesador con más núcleos e hilos, por lo que permite una carga de virtualización mayor; allí tiene sentido ejecutar el clúster Proxmox.
+- En ambos equipos, el sistema se ejecuta desde un SSD externo conectado por USB. Esto añade dependencia del cable y del puerto USB y puede influir en el rendimiento de las operaciones de disco frente a una unidad interna. El impacto real dependerá de la unidad y se comprobará durante las pruebas.
+- El espacio libre (559 GB en `/home`) se verificará antes de crear nuevos discos virtuales.
+- Se mide el rendimiento en cada equipo por separado (tarea 7): en el PC se ve el límite de 16 GB y en el portátil el margen de 32 GB.
 
 ## 4. Comprobaciones realizadas y pendientes
 
 | Comprobación | Estado |
 |---|---|
 | CPU y RAM del PC doméstico | Datos identificados |
-| Almacenamiento del PC doméstico | Estimación de unos 700 GB; falta confirmar capacidad y espacio libre exactos |
+| Almacenamiento del PC doméstico | Es el mismo SanDisk que el portátil: 931,5 GB y 559 GB libres en `/home` |
 | CPU y RAM del portátil | Identificados |
-| Almacenamiento del portátil | Medido el 17/11/2026 con `lsblk` y `df -h /`; falta `df -h /home` |
+| Almacenamiento del portátil | Medido el 17/11/2026 con `lsblk` y `df -h` |
 | Disco Samsung interno del portátil | Excluido del laboratorio |
 | Interfaces de red y conectividad de ambos equipos | Portátil documentado (`eno1`, Wi-Fi, host-only); PC doméstico pendiente |
-| Prueba de ejecución simultánea de VM en ambos equipos | Pendiente |
+| Prueba de ejecución de VM en cada equipo | Pendiente (tarea 7) |
 
 ## 5. Comandos de diagnóstico
 

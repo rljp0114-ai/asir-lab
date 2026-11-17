@@ -4,7 +4,7 @@
 # Ejemplo: ./medir.sh E1-mikrotik 120
 E=${1:?Indica la etapa, por ejemplo E0-solo-anfitrion}
 S=${2:-120}
-D="$HOME/medidas"; mkdir -p "$D"
+D="${MEDIDAS_DIR:-$HOME/medidas}"; mkdir -p "$D"
 CSV="$D/host.csv"
 N=$((S/5))
 
