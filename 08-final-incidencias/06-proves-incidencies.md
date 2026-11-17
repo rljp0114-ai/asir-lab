@@ -89,3 +89,16 @@ Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No
 - **Verificación:** la migración repetida terminó con `TASK OK` en 37 s.
 - **Prevención:** tras crear el clúster, comprobar con `ls -l /root/.ssh/id_rsa` que la clave de cada nodo no está vacía antes de migrar.
 
+### 5.4. Sin salida a Internet desde pve1 por una IP duplicada con el router
+
+- **Título breve:** el instalador de Debian en la VM no encuentra el espejo y `pve1` no sale a Internet.
+- **Fecha:** 17/11/2026.
+- **Sistema afectado:** nodo `pve1`, VM `vm-debian` (101) y router MikroTik (`192.168.34.3`).
+- **Objetivo:** instalar Debian sin entorno gráfico en la VM de prueba, descargando paquetes del espejo.
+- **Síntoma observado:** el instalador mostraba `ERROR: Réplica de Debian inválida`. Desde `pve1`, `ping 192.168.34.3` respondía, pero `timeout 5 bash -c 'cat < /dev/null > /dev/tcp/1.1.1.1/443'` daba `CERRADO` y `getent hosts deb.debian.org` fallaba. `pve3` sí salía a Internet.
+- **Comprobaciones realizadas:** MikroTik tenía WAN con DHCP (`192.168.1.40`), ruta por defecto, `masquerade` y llegaba a `1.1.1.1`; su única regla de filtro estaba deshabilitada; no aparecía ninguna conexión de `192.168.34.32` en su tabla. La tabla de vecinos de `pve1` (`ip neigh show`) asociaba `192.168.34.3` con la MAC `bc:24:11:7f:56:af`, cuyo prefijo `BC:24:11` es el que Proxmox asigna a sus VM.
+- **Causa identificada:** durante la instalación se había configurado la VM con la IP `192.168.34.3` (la del gateway) en lugar de `192.168.34.40`. La VM respondía a las peticiones ARP y a los `ping` en lugar de MikroTik, pero no reenvía tráfico.
+- **Solución aplicada:** detener la VM, limpiar la tabla de vecinos con `ip neigh flush 192.168.34.3` y repetir el instalador con IP `192.168.34.40/24` y gateway `192.168.34.3`.
+- **Verificación:** la prueba TCP al 443 desde `pve1` dio `abierto` y el instalador alcanzó el espejo.
+- **Prevención:** reservar una tabla de direcciones del laboratorio y comprobar con `ip neigh` que la MAC de la puerta de enlace es la del router. Un `ping` que responde no demuestra que la puerta de enlace sea la correcta.
+
