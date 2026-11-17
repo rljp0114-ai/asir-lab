@@ -1,38 +1,59 @@
 # Esquema de red individual
 
-Esquema del montaje virtual individual, con la configuración de cada interfaz y las direcciones previstas. Se basa en la arquitectura de referencia del aula, adaptada a un único anfitrión (PC doméstico) con VirtualBox.
-
-El número de puesto del aula es el **34**, por lo que la LAN es `192.168.34.0/24`.
-
-Los datos de interfaces y adaptadores se han obtenido con `VBoxManage showvminfo` y `VBoxManage list hostonlyifs` (16/11/2026) y de las pruebas registradas en `evidencies/Comandos.md`.
+Montaje virtual individual en VirtualBox, basado en la arquitectura de referencia del aula. Puesto del aula: **34**, LAN `192.168.34.0/24`.
 
 ## 1. Esquema general
 
-Los tres routers (Ubuntu con nftables, MikroTik y OPNsense) se prueban **de uno en uno**: comparten la red interna `asir_lab` y, en algunos casos, la misma IP de LAN, por lo que no se encienden a la vez. El cliente Debian toma como puerta de enlace el router que esté activo.
+Los tres routers (Ubuntu con nftables, MikroTik y OPNsense) se prueban de uno en uno: comparten la red interna `asir_lab` y la misma IP en algunos casos. Router activo: MikroTik.
 
 ```mermaid
 flowchart TB
     NET(["Red exterior<br/>Internet / red del aula"])
 
     subgraph HOST["PC doméstico JuanpaPC - Linux Mint - VirtualBox 7.0.20"]
-        subgraph ROUTERS["Router activo - se prueba uno cada vez"]
-            UBU["Ubuntu Server + nftables<br/>WAN enp0s3: DHCP, NAT 10.0.2.15/24<br/>LAN enp0s8: 192.168.34.3/24"]
-            MKT["MikroTik RouterOS<br/>WAN ether1: DHCP, puente enp8s0<br/>LAN ether2: 192.168.34.3/24"]
-            OPN["OPNsense<br/>WAN em0: DHCP, puente enp8s0<br/>LAN em1: 192.168.34.2/24"]
+        subgraph ROUTERS["Router activo - uno cada vez"]
+            UBU["Ubuntu Server + nftables<br/>WAN NAT 10.0.2.15/24<br/>LAN 192.168.34.3/24"]
+            MKT["MikroTik RouterOS<br/>WAN DHCP, puente enp8s0<br/>LAN 192.168.34.3/24"]
+            OPN["OPNsense<br/>WAN DHCP, puente enp8s0<br/>LAN 192.168.34.2/24"]
         end
         LAN{{"Red interna asir_lab<br/>192.168.34.0/24"}}
-        DEB["Debian Server - cliente de pruebas<br/>192.168.34.4/24<br/>puerta de enlace: router activo"]
-        NAS["TrueNAS - servidor de copias<br/>192.168.34.20/24"]
+
+        subgraph CLI["Clientes"]
+            W11["Windows 11<br/>192.168.34.100"]
+            DEB["Debian 13 cliente<br/>192.168.34.4"]
+        end
+
+        subgraph SRV["Servidores"]
+            WS["Windows Server 2025<br/>192.168.34.21"]
+            LS["Linux-Servicios<br/>192.168.34.22"]
+            LD["Linux-Datos<br/>192.168.34.23"]
+            NAS["TrueNAS - copias<br/>192.168.34.20"]
+        end
+
+        subgraph PVE["Clúster Proxmox asirlab - 3 nodos"]
+            N1["pve1<br/>192.168.34.32"]
+            N2["pve2<br/>192.168.34.33"]
+            N3["pve3<br/>192.168.34.34"]
+            GUESTS["VM vm-debian 192.168.34.40<br/>CT ct-prueba 192.168.34.41<br/>(migran entre nodos)"]
+        end
     end
 
-    NET -->|"NAT VirtualBox"| UBU
+    NET -->|"NAT"| UBU
     NET -->|"puente"| MKT
     NET -->|"puente"| OPN
     UBU --- LAN
     MKT --- LAN
     OPN --- LAN
+    LAN --- W11
     LAN --- DEB
+    LAN --- WS
+    LAN --- LS
+    LAN --- LD
     LAN --- NAS
+    LAN --- N1
+    LAN --- N2
+    LAN --- N3
+    N1 -.- GUESTS
 ```
 
 ## 2. Configuración de cada interfaz
@@ -50,47 +71,40 @@ flowchart TB
 | Debian Server | `enp0s3` | Red interna `asir_lab` | LAN | Estática: `192.168.34.4/24`; puerta de enlace `192.168.34.3` (Ubuntu o MikroTik) o `192.168.34.2` (OPNsense); DNS `8.8.8.8` y `1.1.1.1` |
 | TrueNAS | - | Red interna `asir_lab` | LAN | `192.168.34.20/24` |
 | TrueNAS | - | Host-only `vboxnet2` | Gestión | `192.168.58.5/24` (según la pestaña del navegador) |
+| Windows Server 2025 | `Ethernet` | Red interna `asir_lab` | LAN | Estática: `192.168.34.21/24` |
+| Windows 11 | `Ethernet` | Red interna `asir_lab` | LAN | Estática: `192.168.34.100/24` |
+| Linux-Servicios | - | Red interna `asir_lab` | LAN | Estática: `192.168.34.22/24` |
+| Linux-Datos | - | Red interna `asir_lab` | LAN | Estática: `192.168.34.23/24` |
+| Nodos Proxmox `pve1`-`pve3` | `vmbr0` | Red interna `asir_lab` (modo promiscuo: permitir todo) | LAN y clúster | Estática: `192.168.34.32/24`, `.33`, `.34` |
+| Nodos Proxmox `pve1`-`pve3` | segundo adaptador | Host-only `vboxnet1` | Gestión web | `192.168.57.32/24`, `.33`, `.34` |
 
 La WAN de MikroTik y OPNsense toma la dirección por DHCP de la red a la que esté conectado el anfitrión. En la red doméstica MikroTik obtuvo `192.168.30.193`; en la red del aula, `172.16.222.221`.
 
-## 3. Red local
+## 3. Direccionamiento de la LAN
 
-- **LAN:** `192.168.34.0/24`, máscara `255.255.255.0`, red interna de VirtualBox `asir_lab`.
-- Los routers ocupan el rango bajo (`.2`, `.3`), el servidor de copias `.20` y el cliente de pruebas `.4`, siguiendo la idea del esquema del aula (comunicaciones en `.1-.15`, servidores en `.16-.99` y puestos por DHCP en `.100-.200`).
+| Rango | Uso | Equipos |
+|---|---|---|
+| `.2` - `.4` | Comunicaciones y cliente de pruebas | OPNsense `.2`, router MikroTik/Ubuntu `.3`, Debian cliente `.4` |
+| `.20` - `.23` | Servidores | TrueNAS `.20`, Windows Server 2025 `.21`, Linux-Servicios `.22`, Linux-Datos `.23` |
+| `.32` - `.34` | Nodos Proxmox | `pve1`, `pve2`, `pve3` |
+| `.40` - `.41` | Invitados de Proxmox | `vm-debian` `.40`, `ct-prueba` `.41` |
+| `.100` | Cliente | Windows 11 (estática) |
+| `.101` - `.200` | Reservado para otros puestos por DHCP | Sin usar |
+
+Máscara `255.255.255.0`. Los clientes y servidores usan como puerta de enlace el router activo.
 
 ## 4. Redes de gestión (host-only)
 
 | Red VirtualBox | Direccionamiento | VM conectadas |
 |---|---|---|
 | `vboxnet0` | `192.168.56.0/24` (anfitrión `.1`) | OPNsense |
-| `vboxnet1` | `192.168.57.0/24` (anfitrión `.1`) | TrueNAS, Proxmox N1 |
+| `vboxnet1` | `192.168.57.0/24` (anfitrión `.1`) | TrueNAS, nodos Proxmox (`.57.32` a `.57.34`) |
 | `vboxnet2` | `192.168.58.0/24` (anfitrión `.1`) | Ubuntu Server, TrueNAS, clones de recuperación |
 
-Cada VM de gestión se conecta a la red host-only cuyo direccionamiento coincide con su IP de gestión. La gestión de OPNsense (`192.168.56.2`) está en `vboxnet0`.
-
-## 5. Direcciones previstas
-
-Siguiendo el patrón del esquema del aula, adaptado a la LAN `192.168.34.0/24`. El clúster Proxmox se documenta como diseño (ver `00-entorno-pruebas/04-entorn-virtualitzacio.md`, apartado 8).
-
-| Elemento | Dirección prevista | Estado |
-|---|---|---|
-| Nodo 1 Proxmox VE | `192.168.34.32/24` | Previsto |
-| Nodo 2 Proxmox VE | `192.168.34.33/24` | Previsto |
-| Nodo 3 Proxmox VE | `192.168.34.34/24` | Previsto |
-| VM Windows Server 2025 | `192.168.34.21/24` | Configurada y probada (16/11/2026) |
-| VM Debian (servicios) | `192.168.34.22/24` | Configurada y probada (16/11/2026) |
-| VM Debian (datos) | `192.168.34.23/24` | Configurada y probada (16/11/2026) |
-| Cliente Windows 11 | `192.168.34.100/24` (estática) | Configurado y probado (16/11/2026) |
-| Otros puestos de trabajo (clientes) | DHCP, `192.168.34.101-200` | Previsto |
-
-En todos los casos, puerta de enlace en el router activo y DNS configurado.
-
-## 6. Montaje virtual
+## 5. Montaje virtual
 
 | Recurso | Valor |
 |---|---|
 | Anfitrión | PC doméstico, AMD Ryzen 5 3400G, 16 GB de RAM, Linux Mint |
 | Hipervisor | VirtualBox 7.0.20 |
-| Máquinas del montaje | Ubuntu Server, MikroTik, OPNsense, Debian Server y TrueNAS (más los clones de recuperación y los tres nodos Proxmox creados) |
-
-El inventario completo, con vCPU, RAM y disco de cada VM, está en `00-entorno-pruebas/04-entorn-virtualitzacio.md`.
+| Máquinas | 14 VM del grupo `/ISOFHW`; inventario con vCPU, RAM y disco en [`../../00-entorno-pruebas/04-entorn-virtualitzacio.md`](../../00-entorno-pruebas/04-entorn-virtualitzacio.md) |

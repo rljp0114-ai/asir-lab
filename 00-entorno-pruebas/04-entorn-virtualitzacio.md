@@ -79,7 +79,7 @@ Resumen:
 | Windows 11 (cliente) | Instalado y probado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/windows-11.md` |
 | Cliente GNU/Linux | Debian Server, documentado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/debian-cliente.md` |
 | Servidores GNU/Linux de infraestructura | `Linux-Servicios` y `Linux-Datos` instalados y probados | `05-instalacion-comunicaciones/configuracion/linux-infraestructura.md` |
-| Qué cargas van en cada equipo | Pendiente de decidir y probar | Tarea 7 |
+| Qué cargas van en cada equipo | Medido en el PC; el portátil no se ha medido | `07-rendimiento-diagnostico/informe-rendimiento.md` |
 
 ## 7. Comandos útiles
 
@@ -115,7 +115,7 @@ VBoxManage showvminfo "NOMBRE_VM" --machinereadable
 - **Memoria.** Los tres nodos reservan 9 GB de RAM (3 + 3 + 3) solo para los propios nodos, sin contar las VM que se ejecutan dentro. Con todo el clúster encendido, el PC doméstico (16 GB) llegó a 12 GiB usados y 230 MiB libres (medido el 17/11/2026), y la suma de todas las VM del laboratorio (unos 44 GB) supera la RAM de ambos anfitriones.
 - **Recursos compartidos con el resto del laboratorio.** Mantener el clúster encendido impediría ejecutar a la vez el router, TrueNAS y el cliente de pruebas.
 
-**Qué se documentará** (pendiente): configuración de usuario, red y clúster, ventajas e inconvenientes de virtualizar servidores, diferencia entre contenedor y máquina virtual y cuándo usar cada uno, migración de un contenedor y de una VM (con tiempo y espacio medidos) y qué se copia al servidor de copias y por qué.
+**Documentación:** `05-instalacion-comunicaciones/configuracion/proxmox.md`.
 
 **Limitación conocida.** Dentro de VirtualBox, las VM de Proxmox necesitan virtualización anidada para ejecutar VM con aceleración; los contenedores no la necesitan. Si no está disponible, se desactiva la aceleración KVM en la VM de prueba (más lenta, pero válida con un Debian sin entorno gráfico). Los tiempos medidos no serán los de un servidor real y así se hará constar.
 

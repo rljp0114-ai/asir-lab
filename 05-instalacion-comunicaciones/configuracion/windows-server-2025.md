@@ -53,7 +53,7 @@ Montaje: MikroTik, `Windows Server 2025` y TrueNAS encendidos; OPNsense, Ubuntu 
 
 Evidencias: `05-instalacion-comunicaciones/evidencies/2026-11-16-winserver2025-pruebas-mikrotik-truenas.png` y `05-instalacion-comunicaciones/evidencies/2026-11-16-winserver2025-prueba-tcp443-internet.png`.
 
-La salida a Internet se prueba con TCP y no con ping, como en el resto del laboratorio (ver `08-final-incidencias/06-proves-incidencies.md`).
+La salida a Internet se prueba con TCP y no con ping, como en el resto del laboratorio (ver `incidencias/incidencias.md`).
 
 ## 6. Incidencia durante la prueba
 
@@ -110,5 +110,4 @@ Un **dominio** (en Windows, un dominio de Active Directory) es un conjunto de eq
 ## 10. Pendiente
 
 - Cambiar el nombre del equipo (ahora tiene uno aleatorio).
-- Usar la VM en la medición de recursos (tarea 7).
 - Prueba de recuperación: no realizada.

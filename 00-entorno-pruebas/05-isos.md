@@ -13,11 +13,11 @@ Todas las imágenes proceden de la página de recursos del centro (Batoi): `http
 | `debian-13.1.0-amd64-netinst(1).iso` | Debian 13.1 (netinst) | Debian Server: cliente de pruebas y base de servidores Linux | 821 035 008 | 0.76 GiB | 2026-09-22 | Usada |
 | `mikrotik-7.24.5.iso` | MikroTik RouterOS 7.24.5 | Router MikroTik | 71 475 200 | 0.07 GiB | 2026-11-03 | Usada |
 | `OPNsense-26.7-dvd-amd64.iso` | OPNsense 26.7 (DVD, amd64) | Router y firewall OPNsense | 2 101 714 944 | 1.96 GiB | 2026-11-05 | Usada |
-| `proxmox-ve_9.2-1.iso` | Proxmox VE 9.2-1 | Nodos Proxmox (diseño; sin despliegue) | 1 706 178 560 | 1.59 GiB | 2026-10-21 | VM creadas; instalación no completada |
+| `proxmox-ve_9.2-1.iso` | Proxmox VE 9.2-1 | Nodos Proxmox | 1 706 178 560 | 1.59 GiB | 2026-10-21 | Usada (tres nodos) |
 | `TrueNAS-13.0-U5.3.iso` | TrueNAS 13.0-U5.3 | Servidor de copias | 1 047 345 152 | 0.98 GiB | 2026-10-21 | Usada |
 | `ubuntu-26.04-live-server-amd64.iso` | Ubuntu Server 26.04 | Router con nftables | 2 918 598 656 | 2.72 GiB | 2026-10-21 | Usada |
-| `w11.iso` | Windows 11 | Cliente Windows 11 | 6 807 373 824 | 6.34 GiB | 2026-09-22 | Pendiente de usar en el laboratorio |
-| `win_server_2025.iso` | Windows Server 2025 | Servidor Windows | 6 019 420 160 | 5.61 GiB | 2026-10-13 | Pendiente de instalar |
+| `w11.iso` | Windows 11 | Cliente Windows 11 | 6 807 373 824 | 6.34 GiB | 2026-09-22 | Usada |
+| `win_server_2025.iso` | Windows Server 2025 | Servidor Windows | 6 019 420 160 | 5.61 GiB | 2026-10-13 | Usada |
 
 ## 3. Huellas SHA256
 

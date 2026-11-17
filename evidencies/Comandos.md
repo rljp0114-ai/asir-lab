@@ -1125,7 +1125,7 @@ Con esto se da por finalizada la implementación de OPNsense.
 
 ### 5.1. Instalación y preparación de la máquina virtual
 
-Se instaló TrueNAS SCALE en una máquina virtual de VirtualBox para utilizarlo como servidor centralizado de almacenamiento.
+Se instaló TrueNAS 13.0-U5.3 (CORE) en una máquina virtual de VirtualBox para utilizarlo como servidor centralizado de almacenamiento.
 
 Su función dentro del laboratorio es proporcionar un espacio compartido donde guardar copias de seguridad de las configuraciones y los archivos importantes de los diferentes equipos.
 
@@ -1443,7 +1443,7 @@ TrueNAS queda configurado como servidor centralizado de almacenamiento para el l
 
 Se han completado las siguientes operaciones:
 
-- Instalación del sistema operativo TrueNAS SCALE.
+- Instalación del sistema operativo TrueNAS 13.0-U5.3 (CORE).
 - Configuración de la red interna y de la interfaz de administración.
 - Creación del pool `NAS_DATA` utilizando el disco adicional.
 - Creación del dataset `copias_seguridad`.

@@ -20,7 +20,7 @@ Definir qué necesita demostrar el laboratorio antes de elegir e instalar todos 
 
 El laboratorio se ejecutará en dos equipos personales:
 
-- **PC doméstico:** AMD Ryzen 5 3400G (4 núcleos/8 hilos), 16 GB de RAM, Linux Mint, VirtualBox y SSD con aproximadamente 700 GB según la estimación actual. Falta confirmar el espacio libre exacto.
+- **PC doméstico:** AMD Ryzen 5 3400G (4 núcleos/8 hilos), 16 GB de RAM, Linux Mint, VirtualBox y SanDisk Portable SSD de 931,5 GB compartido con el portátil (559 GB libres en `/home`).
 - **Portátil ASUS ExpertBook B3605CCA:** Intel Core Ultra 5 125H (14 núcleos/18 hilos), 32 GB de RAM, Linux Mint 22.3 y VirtualBox. El sistema se ejecuta desde un SanDisk Portable SSD de 931,5 GB conectado por USB 3.2; dispone de unos 89 GB libres en `/` y 613 GB en `/home`.
 - El SSD Samsung interno de 1 TB del portátil queda excluido y no se utilizará para el laboratorio.
 - Los recursos deben repartirse entre los sistemas anfitriones y las máquinas virtuales. No se deben asignar todos los núcleos o toda la memoria RAM a las VM.

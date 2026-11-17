@@ -110,7 +110,7 @@ Para devolver el router a su estado anterior se retiró el bloqueo y se repitió
 
 ## 5. Incidencia durante las pruebas
 
-El `ping` a `1.1.1.1` fallaba desde Debian y desde el propio MikroTik en la red del aula. Se resolvió comprobando la salida con TCP en lugar de ICMP. La ficha completa está en `08-final-incidencias/06-proves-incidencies.md`.
+El `ping` a `1.1.1.1` fallaba desde Debian y desde el propio MikroTik en la red del aula. Se resolvió comprobando la salida con TCP en lugar de ICMP. La ficha completa está en `incidencias/incidencias.md`.
 
 ## 6. Copias de seguridad y recuperación
 

@@ -1,12 +1,10 @@
-# Tarea 0 — Montaje del entorno de pruebas
-
-Entorno de virtualización del laboratorio: anfitriones, máquinas virtuales, imágenes ISO y reglas para mover las VM entre equipos.
+# Tarea 0 — Entorno de pruebas
 
 | Documento | Contenido | Estado |
 |---|---|---|
-| [`04-entorn-virtualitzacio.md`](04-entorn-virtualitzacio.md) | Anfitriones, inventario de VM con recursos, decisión sobre Proxmox, portabilidad entre equipos | ✅ |
-| [`05-isos.md`](05-isos.md) | Inventario de ISO con tamaño y SHA256, origen y comprobación con la huella oficial | 🟡 (4 verificadas, 4 sin comparación posible o no coincidente, con motivo) |
-| [`00-prediccions.md`](00-prediccions.md) | Predicciones iniciales, a revisar al final | ✅ revisadas el 17/11/2026 |
-| [`01-requisits.md`](01-requisits.md) | Necesidades y requisitos del laboratorio | ✅ |
+| [`00-prediccions.md`](00-prediccions.md) | Predicciones iniciales y revisión final | ✅ |
+| [`01-requisits.md`](01-requisits.md) | Necesidades y requisitos | ✅ |
+| [`04-entorn-virtualitzacio.md`](04-entorn-virtualitzacio.md) | Anfitriones, inventario de VM, Proxmox, portabilidad entre equipos | ✅ |
+| [`05-isos.md`](05-isos.md) | ISO con tamaño y SHA256 | 🟡 |
 
-**Reparto de VM:** las mediciones de la tarea 7 (en el PC de 16 GB) están en [`../07-rendimiento-diagnostico/informe-rendimiento.md`](../07-rendimiento-diagnostico/informe-rendimiento.md). El laboratorio está en un único SSD que se conecta a un equipo cada vez.
+**Pendiente:** espacio realmente ocupado por los discos virtuales; verificar huellas de MikroTik, OPNsense, Windows 11 y Windows Server 2025 (ver `05-isos.md`).

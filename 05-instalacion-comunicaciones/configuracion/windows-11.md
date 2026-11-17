@@ -67,7 +67,7 @@ Con MikroTik y TrueNAS encendidos:
 | `Test-NetConnection 192.168.34.20` | `PingSucceeded: True` (1 ms) | `192.168.34.100`, `Ethernet` | Comunicación con TrueNAS |
 | `Test-NetConnection 1.1.1.1 -Port 443` | `TcpTestSucceeded: True` | `192.168.34.100`, `Ethernet` | Salida a Internet por TCP a través de MikroTik |
 
-Evidencias: `05-instalacion-comunicaciones/evidencies/2026-11-16-windows11-prueba-mikrotik.png`, `05-instalacion-comunicaciones/evidencies/2026-11-16-windows11-prueba-truenas.png` y `05-instalacion-comunicaciones/evidencies/2026-11-16-windows11-prueba-tcp443-internet.png`. La salida a Internet se prueba con TCP y no con ping (ver `08-final-incidencias/06-proves-incidencies.md`).
+Evidencias: `05-instalacion-comunicaciones/evidencies/2026-11-16-windows11-prueba-mikrotik.png`, `05-instalacion-comunicaciones/evidencies/2026-11-16-windows11-prueba-truenas.png` y `05-instalacion-comunicaciones/evidencies/2026-11-16-windows11-prueba-tcp443-internet.png`. La salida a Internet se prueba con TCP y no con ping (ver `incidencias/incidencias.md`).
 
 ## 7. Copia al servidor de copias
 

@@ -144,7 +144,7 @@ date; sudo nft flush ruleset
 
 ### Comprobación desde el cliente Debian
 
-Prueba de conexión TCP al puerto 443 de `1.1.1.1` (no se usa `ping` porque la red del aula filtra ICMP; ver `08-final-incidencias/06-proves-incidencies.md`):
+Prueba de conexión TCP al puerto 443 de `1.1.1.1` (no se usa `ping` porque la red del aula filtra ICMP; ver `incidencias/incidencias.md`):
 
 ```bash
 timeout 5 bash -c 'cat < /dev/null > /dev/tcp/1.1.1.1/443' && echo abierto || echo CERRADO
@@ -216,7 +216,7 @@ Capturas disponibles en `evidencies/`:
 
 - `2026-11-17-ubuntu-nftables-interfaces.png`: ruleset completo (`input` con `policy drop`, `forward` solo desde la LAN `enp0s8` hacia `enp0s3`, `masquerade` en `enp0s3`) e interfaces: `enp0s3` 10.0.2.15 (WAN), `enp0s8` 192.168.34.3 (LAN) y `enp0s9` 192.168.58.3 (gestión).
 - `2026-11-17-ubuntu-ipforward.png`: `net.ipv4.ip_forward = 1`.
-- `2026-11-17-debian-ping-bloqueado-tcp-abierto.png`: desde Debian, con Ubuntu como router, el `ping` a `1.1.1.1` no recibe respuesta y la conexión TCP al 443 sale (`abierto`). Es el mismo comportamiento que el incidente 5.1: el ICMP hacia el exterior no vuelve, pero el tráfico TCP sale por el router.
+- `2026-11-17-debian-ping-bloqueado-tcp-abierto.png`: desde Debian, con Ubuntu como router, el `ping` a `1.1.1.1` no recibe respuesta y la conexión TCP al 443 sale (`abierto`). Es el mismo comportamiento que el incidente 1: el ICMP hacia el exterior no vuelve, pero el tráfico TCP sale por el router.
 
 - Prueba de bloqueo temporal (17/11/2026), en cinco capturas con el prefijo `05-instalacion-comunicaciones/evidencies/2026-11-17-`:
   1. `ubuntu-bloqueo-1-regla-creada.png`: regla insertada al principio de `forward`, con contador a 0.
@@ -245,6 +245,6 @@ Resultado:
 
 Notas:
 
-- Se bloquea TCP 443 y no ICMP porque en esta red el ping a Internet ya falla (incidente 5.1), así que no se vería diferencia.
+- Se bloquea TCP 443 y no ICMP porque en esta red el ping a Internet ya falla (incidente 1), así que no se vería diferencia.
 - El prefijo se escribe sin `:` ni espacio final: con los dos se obtuvo un error de sintaxis de `nft` al pasar la orden por el shell. Por eso el registro muestra `PRUEBA-BLOQUEOIN=enp0s8` pegado, y el filtro `grep -i PRUEBA` lo encuentra igualmente.
 - La regla es temporal: se creó con `nft insert` y no se guardó en el fichero de configuración, así que un reinicio también la elimina.

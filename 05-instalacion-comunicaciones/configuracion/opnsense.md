@@ -48,7 +48,7 @@ Comprobar que OPNsense aplica una regla de filtrado, que bloquea solo el tráfic
 
 - OPNsense, Debian y TrueNAS encendidos; Ubuntu Server y MikroTik apagados.
 - Debian con OPNsense (`192.168.34.2`) como puerta de enlace y sin el adaptador NAT conectado.
-- Prueba con TCP y no con ping, porque en la red del aula el ICMP hacia Internet está filtrado (ver `08-final-incidencias/06-proves-incidencies.md`).
+- Prueba con TCP y no con ping, porque en la red del aula el ICMP hacia Internet está filtrado (ver `incidencias/incidencias.md`).
 
 ### Regla
 

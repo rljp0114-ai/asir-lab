@@ -16,7 +16,7 @@ Este documento recoge las predicciones antes de investigar y diseñar el laborat
 
 El laboratorio doméstico utilizará dos equipos anfitriones:
 
-- **PC doméstico:** AMD Ryzen 5 3400G (4 núcleos/8 hilos), 16 GB de RAM, Linux Mint y SSD con unos 700 GB según estimación; falta confirmar el espacio libre exacto.
+- **PC doméstico:** AMD Ryzen 5 3400G (4 núcleos/8 hilos), 16 GB de RAM, Linux Mint y el mismo SanDisk Portable SSD de 931,5 GB que usa el portátil.
 - **Portátil ASUS ExpertBook B3605CCA:** Intel Core Ultra 5 125H (14 núcleos/18 hilos), 32 GB de RAM, Linux Mint 22.3 y SanDisk Portable SSD de 931,5 GB conectado por USB 3.2. Tiene unos 89 GB libres en `/` y 613 GB en `/home`.
 - El SSD Samsung interno de 1 TB del portátil queda excluido del laboratorio.
 

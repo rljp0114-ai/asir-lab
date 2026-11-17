@@ -1,6 +1,6 @@
-# 06. Pruebas e incidencias
+# Incidencias del laboratorio
 
-## 1. Ficha para cada incidencia
+## Ficha de cada incidencia
 
 - **Título breve:**
 - **Fecha:**
@@ -17,37 +17,9 @@
 
 No indicar una causa como definitiva hasta haberla comprobado.
 
-## 2. Registro de pruebas
+## Incidencias registradas
 
-| Fecha | Prueba | Procedimiento | Resultado observado | ¿Correcta? | Evidencia |
-|---|---|---|---|---|---|
-| Pendiente | Verificar interfaces | `ip -br address` | Pendiente de repetir y guardar | Pendiente | Pendiente |
-| Pendiente | Verificar rutas | `ip route` | Pendiente | Pendiente | Pendiente |
-
-## 3. Almacenamiento y recuperación
-
-Cuando se realicen las actividades, documentar:
-- Sistemas de archivos comparados y fuentes.
-- Configuración de cada tipo de RAID que se pruebe.
-- Resultado de comprobaciones y estado de discos.
-- Plan de contingencia y elementos que se pretende recuperar.
-- Prueba de restauración, duración medida y limitaciones.
-
-No realizar pruebas destructivas sobre discos con datos importantes. Utilizar discos virtuales de prueba y comprobar el dispositivo seleccionado antes de modificar particiones o sistemas de archivos.
-
-## 4. Monitorización
-
-Registrar una línea base y comparar reposo con carga controlada:
-
-| Fecha | Máquina | Estado | CPU | RAM | Disco | Red | Herramienta |
-|---|---|---|---|---|---|---|---|
-| Pendiente | Debian Server | Pendiente | Pendiente | Pendiente | Pendiente | Pendiente | Pendiente |
-
-Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No afirmar que existe una mejora sin comparar mediciones antes y después.
-
-## 5. Incidencias registradas
-
-### 5.1. El ping a Internet falla a través de MikroTik en la red del aula
+### 1. El ping a Internet falla a través de MikroTik en la red del aula
 
 - **Título breve:** `ping` a `1.1.1.1` sin respuesta, con conexión al router correcta.
 - **Fecha:** 16/11/2026.
@@ -65,7 +37,7 @@ Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No
 - **Evidencia:** `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-prueba-tcp443-bloqueo-mikrotik.png` (la primera línea muestra la conexión TCP al 443 abierta), `05-instalacion-comunicaciones/evidencies/2026-11-16-mikrotik-log-lista-prueba-bloqueo.png` y `05-instalacion-comunicaciones/evidencies/2026-11-16-mikrotik-log-entrada-detalle.png`.
 - **Qué se ha aprendido:** un `ping` fallido no demuestra que no haya salida a Internet. Hay que distinguir entre fallo de ICMP y fallo de conectividad probando con otro protocolo, y probar desde el propio router para localizar dónde está el problema.
 
-## 5.2 Pruebas de red de Windows Server salían por la NAT en lugar de por la LAN
+### 2. Pruebas de red de Windows Server salían por la NAT en lugar de por la LAN
 
 - **Objetivo:** comprobar que Windows Server 2025 (`192.168.34.21`) llega a MikroTik, a TrueNAS y a Internet a través de MikroTik.
 - **Síntoma observado:** `Test-NetConnection 192.168.34.20` falló con `DestinationHostUnreachable`, y `Test-NetConnection 1.1.1.1 -Port 443` funcionó.
@@ -75,7 +47,7 @@ Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No
 - **Verificación posterior:** las tres pruebas dieron resultado correcto con `SourceAddress: 192.168.34.21` (ver `05-instalacion-comunicaciones/configuracion/windows-server-2025.md`).
 - **Qué se ha aprendido:** con dos adaptadores, una prueba que funciona no demuestra que el tráfico pase por el router. Hay que mirar siempre el `SourceAddress` y el `InterfaceAlias` del resultado.
 
-### 5.3. La migración en Proxmox falla por una clave SSH vacía en pve1
+### 3. La migración en Proxmox falla por una clave SSH vacía en pve1
 
 - **Título breve:** migración abortada por `error in libcrypto`.
 - **Fecha:** 17/11/2026.
@@ -89,7 +61,7 @@ Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No
 - **Verificación:** la migración repetida terminó con `TASK OK` en 37 s.
 - **Prevención:** tras crear el clúster, comprobar con `ls -l /root/.ssh/id_rsa` que la clave de cada nodo no está vacía antes de migrar.
 
-### 5.4. Sin salida a Internet desde pve1 por una IP duplicada con el router
+### 4. Sin salida a Internet desde pve1 por una IP duplicada con el router
 
 - **Título breve:** el instalador de Debian en la VM no encuentra el espejo y `pve1` no sale a Internet.
 - **Fecha:** 17/11/2026.
@@ -102,7 +74,7 @@ Anotar valores medidos, condiciones de la prueba y optimizaciones realizadas. No
 - **Verificación:** la prueba TCP al 443 desde `pve1` dio `abierto` y el instalador alcanzó el espejo.
 - **Prevención:** reservar una tabla de direcciones del laboratorio y comprobar con `ip neigh` que la MAC de la puerta de enlace es la del router. Un `ping` que responde no demuestra que la puerta de enlace sea la correcta.
 
-### 5.5. La VM anidada no sale por el router: modo promiscuo de VirtualBox
+### 5. La VM anidada no sale por el router: modo promiscuo de VirtualBox
 
 - **Título breve:** una VM dentro de un nodo Proxmox tiene IP pero no alcanza al router.
 - **Fecha:** 17/11/2026.

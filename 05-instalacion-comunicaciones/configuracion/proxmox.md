@@ -1,6 +1,6 @@
 # Proxmox VE: clúster de tres nodos
 
-**Estado:** teoría redactada; instalación, clúster y migración **pendientes** (apartado 6). Las tres VM de los nodos están creadas y no se ha completado la instalación.
+**Estado:** instalado, clúster creado, contenedor y VM migrados y configuración copiada a TrueNAS (apartados 6 a 10).
 
 ## 1. Objetivo
 

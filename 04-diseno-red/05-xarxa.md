@@ -3,46 +3,10 @@
 ## 1. Objetivo
 Documentar los adaptadores virtuales, el direccionamiento y las pruebas de comunicación del laboratorio.
 
-## 2. Diseño conocido
-- La VM Debian Server tiene un adaptador NAT.
-- Se configuró un segundo adaptador como red interna de VirtualBox.
-- Nombre de la red interna: `asir_lab`.
-- La IP de la red interna está pendiente de confirmar.
-
-NAT y red interna son modos distintos; se documentarán por separado.
-
-> Actualización (16/11/2026): este apartado y el siguiente recogen el diseño inicial. El mapa real de adaptadores de todas las VM está en el apartado 7.
-
-## 3. Plan de direccionamiento
-
-| Máquina/interfaz | Red/modo | IP | Máscara/prefijo | Puerta de enlace | Estado |
-|---|---|---|---|---|---|
-| Debian Server, `enp0s3` | NAT | `10.0.2.15` observada | `/24` | Pendiente de verificar | Observado anteriormente |
-| Debian Server, segundo adaptador | Interna `asir_lab` | Pendiente | Pendiente | Según diseño final | Pendiente |
-| VM cliente | `asir_lab` prevista | Pendiente | Pendiente | Según diseño final | Pendiente |
-
-## 4. Comprobaciones en Debian
-
-```bash
-ip -br address
-ip route
-ping -c 4 10.0.2.2
-```
-
-`10.0.2.2` suele ser la puerta de enlace de una configuración NAT habitual de VirtualBox, pero comprueba la ruta real antes de sacar conclusiones. Si el ping falla, registra el resultado; por sí solo no demuestra que toda la red esté caída.
-
-Cuando exista una segunda VM en `asir_lab`, probar la conectividad entre ambas con sus IP reales.
-
-## 5. Registro de pruebas
-
-| Fecha | Origen | Destino | Comando/prueba | Resultado | Conclusión |
-|---|---|---|---|---|---|
-| Pendiente | Debian Server | Interfaces | `ip -br address` | En una comprobación anterior se observó `enp0s3` con `10.0.2.15/24` | Falta comprobar el segundo adaptador |
-
-## 6. Diagrama
+## 2. Diagrama
 El esquema de red individual, con la configuración de cada interfaz y las direcciones previstas, está en `diagramas/esquema-red-individual.md`. Las pruebas de ping, traceroute y tablas de rutas están en `06-pruebas-conectividad.md`.
 
-## 7. Mapa real de adaptadores (16/11/2026)
+## 3. Mapa real de adaptadores
 
 Obtenido con `VBoxManage showvminfo --machinereadable` en el equipo con el adaptador puente `enp8s0` (PC doméstico).
 
@@ -55,16 +19,16 @@ Obtenido con `VBoxManage showvminfo --machinereadable` en el equipo con el adapt
 | TrueNAS | Red interna `asir_lab` | Host-only `vboxnet1` | Host-only `vboxnet2` |
 | Mikrotik-RECUPERACION | NAT (WAN) | Red interna `asir_lab` (LAN) | Host-only `vboxnet2` (gestión) |
 | OPNsense-RECUPERACION | Puente `enp8s0` (WAN) | Red interna `asir_lab` (LAN) | Host-only `vboxnet2` (gestión) |
-| Proxmox N1 | NAT | Red interna `asir_lab` | Host-only `vboxnet1` |
-| Proxmox N2 | NAT | Red interna `asir_lab` | — |
-| Proxmox N3 | NAT | Red interna `asir_lab` | — |
+| Proxmox N1 | Red interna `asir_lab` | Host-only `vboxnet1` | — |
+| Proxmox N2 | Red interna `asir_lab` | Host-only `vboxnet1` | — |
+| Proxmox N3 | Red interna `asir_lab` | Host-only `vboxnet1` | — |
 
 ### Redes host-only
 
 | Red | Uso | Direccionamiento |
 |---|---|---|
 | `vboxnet0` | Gestión de OPNsense | `192.168.56.0/24` (anfitrión `192.168.56.1`, OPNsense `192.168.56.2`) |
-| `vboxnet1` | Gestión de TrueNAS y Proxmox N1 | `192.168.57.0/24` (anfitrión `192.168.57.1`) |
+| `vboxnet1` | Gestión de TrueNAS y de los nodos Proxmox | `192.168.57.0/24` (anfitrión `192.168.57.1`) |
 | `vboxnet2` | Gestión de Ubuntu Server, TrueNAS y los clones de recuperación | `192.168.58.0/24` (anfitrión `192.168.58.1`) |
 
 Datos obtenidos con `VBoxManage list hostonlyifs` (las tres redes en estado `Up`, máscara `255.255.255.0`).
@@ -92,6 +56,11 @@ Direcciones documentadas en pruebas anteriores. Cada router se prueba por separa
 | Mikrotik-RECUPERACION | `192.168.34.3` |
 | Debian Server (cliente de pruebas) | `192.168.34.4` |
 | TrueNAS | `192.168.34.20` |
+| Windows Server 2025 | `192.168.34.21` |
+| Linux-Servicios | `192.168.34.22` |
+| Linux-Datos | `192.168.34.23` |
+| Nodos Proxmox | `192.168.34.32` a `.34` |
+| Windows 11 | `192.168.34.100` |
 
 ### Reglas de uso
 

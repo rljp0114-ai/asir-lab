@@ -85,23 +85,5 @@ Las VM están en `/home`, por lo que el espacio relevante para crear nuevos disc
 | CPU y RAM del portátil | Identificados |
 | Almacenamiento del portátil | Medido el 17/11/2026 con `lsblk` y `df -h` |
 | Disco Samsung interno del portátil | Excluido del laboratorio |
-| Interfaces de red y conectividad de ambos equipos | Portátil documentado (`eno1`, Wi-Fi, host-only); PC doméstico pendiente |
-| Prueba de ejecución de VM en cada equipo | Pendiente (tarea 7) |
-
-## 5. Comandos de diagnóstico
-
-En Linux se pueden utilizar estos comandos para consultar los recursos del anfitrión:
-
-```bash
-lscpu
-free -h
-lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINTS,MODEL
-df -h
-ip -br address
-```
-
-Antes de publicar las salidas, revisar que no incluyan información privada.
-
-## 6. Evidencias
-
-Cuando se complete la implementación, guardar las capturas o salidas de comandos seleccionadas en `evidencies/`. No incluir contraseñas, claves privadas ni información sensible.
+| Interfaces de red y conectividad de ambos equipos | Portátil documentado (`eno1`, Wi-Fi, host-only); PC: `enp8s0` (adaptador puente) |
+| Prueba de ejecución de VM en cada equipo | PC medido (tarea 7); portátil pendiente |

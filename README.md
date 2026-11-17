@@ -1,37 +1,23 @@
 # ASIR ThinkLab — Parte individual
 
-Laboratorio individual del proyecto **ASIX ThinkLab** (enunciado V2.0, 19/10/2026), montado en VirtualBox sobre hardware doméstico. El repositorio está organizado **por tareas del enunciado**: cada carpeta lleva el número y el título de su tarea, un `README.md` con lo que contiene y su estado, y su propia carpeta `evidencies/` con las capturas.
+Laboratorio individual de **ASIX ThinkLab** (enunciado V2.0, 19/10/2026) montado en VirtualBox. Una carpeta por tarea, cada una con su `README.md`, documentos y `evidencies/`. Las tareas 1 y 3 no aparecen en la rúbrica individual.
 
-Leyenda: ✅ hecho y comprobado · 🟡 parcial o con puntos pendientes · ⬜ pendiente
+✅ hecho · 🟡 con pendientes · ⬜ sin empezar
 
-| Tarea | Título del enunciado | Carpeta | Estado |
+| Tarea | Carpeta | Estado | Pendiente |
 |---|---|---|---|
-| 0 | Montaje del entorno de pruebas | [`00-entorno-pruebas/`](00-entorno-pruebas/) | 🟡 |
-| 2 | Equipos y periféricos | [`02-equipos-perifericos/`](02-equipos-perifericos/) | 🟡 |
-| 4 | Diseño físico y lógico | [`04-diseno-red/`](04-diseno-red/) | ✅ |
-| 5 | Instalación y comunicaciones | [`05-instalacion-comunicaciones/`](05-instalacion-comunicaciones/) | ✅ |
-| 6 | Almacenamiento y recuperación | [`06-almacenamiento-recuperacion/`](06-almacenamiento-recuperacion/) | 🟡 |
-| 7 | Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ✅ (sin ampliación) |
-| 8 | Final | [`08-final-incidencias/`](08-final-incidencias/) | ⬜ (caso final el 25/11/2026) |
+| 0 Entorno de pruebas | [`00-entorno-pruebas/`](00-entorno-pruebas/) | ✅ | Espacio real ocupado por los discos; huellas de ISO sin verificar (MikroTik, OPNsense, Windows 11, Windows Server) |
+| 2 Equipos y periféricos | [`02-equipos-perifericos/`](02-equipos-perifericos/) | 🟡 | Comparación con el equipo de clase; medidas de memoria, disco y red en el portátil |
+| 4 Diseño físico y lógico | [`04-diseno-red/`](04-diseno-red/) | ✅ | — |
+| 5 Instalación y comunicaciones | [`05-instalacion-comunicaciones/`](05-instalacion-comunicaciones/) | 🟡 | Capturas y zona horaria de TrueNAS; Windows Server: nombre del equipo; comparación de sistemas (`03-sistemes.md`) sin completar |
+| 6 Almacenamiento y recuperación | [`06-almacenamiento-recuperacion/`](06-almacenamiento-recuperacion/) | 🟡 | RAID sin persistencia tras reinicio; espejo entre equipos (Apte+) |
+| 7 Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ✅ | Medidas del portátil; optimizaciones (Apte+) |
+| 8 Final | [`08-final/`](08-final/) | ⬜ | Caso final del 25/11/2026 |
 
-Las tareas 1 (necesidades y sistemas) y 3 (rack e interconexión) aparecen en el enunciado, pero no en la rúbrica de autoevaluación individual, por lo que no tienen carpeta propia.
-
-## Cómo está organizado cada apartado
-
-- `README.md` de cada tarea: qué documentos y evidencias contiene y qué está hecho o pendiente.
-- Documentos `.md`: explicación de lo realizado, con tablas de configuración y resultados de las pruebas.
-- `evidencies/` dentro de cada tarea: capturas, con nombre `fecha-sistema-prueba.png`. Cada documento cita sus capturas por su ruta.
-- [`evidencies/Comandos.md`](evidencies/Comandos.md): registro general de comandos utilizados durante el laboratorio (se conserva íntegro).
+Otros apartados: [`incidencias/`](incidencias/) (registro de incidencias) y [`evidencies/Comandos.md`](evidencies/Comandos.md) (registro de comandos).
 
 ## Entorno
 
-Linux Mint y VirtualBox 7.0.20 instalados en un SSD externo SanDisk que se conecta al PC doméstico (Ryzen 5 3400G, 16 GB) o al portátil ASUS (Core Ultra 5 125H, 32 GB); las máquinas virtuales están en ese mismo disco, por lo que el laboratorio se ejecuta en un equipo cada vez. Detalle en [`00-entorno-pruebas/04-entorn-virtualitzacio.md`](00-entorno-pruebas/04-entorn-virtualitzacio.md).
+Linux Mint y VirtualBox 7.0.20 en un SSD SanDisk de 931,5 GB que se conecta al PC (Ryzen 5 3400G, 16 GB) o al portátil ASUS (Core Ultra 5 125H, 32 GB), un equipo cada vez. Red interna: `192.168.34.0/24`. Detalle en [`00-entorno-pruebas/04-entorn-virtualitzacio.md`](00-entorno-pruebas/04-entorn-virtualitzacio.md).
 
-La red interna del laboratorio es `192.168.34.0/24` (puesto 34 del aula).
-
-## Forma de trabajo
-
-1. Avanzar siguiendo el orden y los criterios de la rúbrica individual.
-2. No marcar una tarea como completada si no se ha probado.
-3. Registrar las incidencias relevantes y las soluciones que han funcionado.
-4. No subir contraseñas, claves privadas, tokens, discos virtuales ni imágenes ISO.
+No se suben contraseñas, claves, discos virtuales ni ISO.
