@@ -139,4 +139,4 @@ Evidencia: `evidencies/2026-11-17-raid-recuperacion-mdstat.png`.
 ## 7. Pendiente
 
 - Persistencia tras reiniciar: los arrays y los montajes no están guardados en `/etc/mdadm/mdadm.conf` ni en `/etc/fstab`; tras reiniciar habría que reensamblarlos y montarlos a mano.
-- Punto 3 (Apte+): espejo entre discos de dos equipos distintos.
+- Punto 3 (Apte+): espejo entre discos de dos equipos distintos. Descartado.
