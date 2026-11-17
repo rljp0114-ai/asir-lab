@@ -73,8 +73,17 @@ Las VM están en `/home`, por lo que el espacio relevante para crear nuevos disc
 - El PC doméstico dispone de 16 GB de RAM, por lo que será necesario limitar el número de máquinas virtuales encendidas simultáneamente. Como el disco es el mismo, no se pueden repartir las VM entre los dos equipos a la vez: se ejecutan en el que tenga el SanDisk conectado.
 - El portátil dispone de 32 GB de RAM y un procesador con más núcleos e hilos, por lo que permite una carga de virtualización mayor. Aun así, el clúster Proxmox se prueba primero en el PC de 16 GB: lo que funcione allí funcionará aquí.
 - En ambos equipos, el sistema se ejecuta desde un SSD externo conectado por USB. Esto añade dependencia del cable y del puerto USB y puede influir en el rendimiento de las operaciones de disco frente a una unidad interna. El impacto real dependerá de la unidad y se comprobará durante las pruebas.
-- El espacio libre (559 GB en `/home`) se verificará antes de crear nuevos discos virtuales.
-- Se mide el rendimiento en cada equipo por separado (tarea 7): en el PC se ve el límite de 16 GB y en el portátil el margen de 32 GB.
+- Equipo de clase: portátil ASUS. Equipo de casa: PC de 16 GB.
+
+### Colls de botella y soluciones
+
+| Cuello de botella | Dónde | Dato medido | Solución |
+|---|---|---|---|
+| RAM | PC de 16 GB | Con el clúster Proxmox y el router: 12,4 GiB usados y 186-298 MB libres | No encender a la vez clúster y servidores; nodos de 3 GB; Windows Server fuera de Proxmox |
+| Disco USB | Ambos | Escrituras de 165-174 MB/s al arrancar Windows Server y al migrar | No arrancar varias VM pesadas a la vez; discos dimensionados al uso |
+| Una sola tarjeta de disco y de red por equipo | Ambos | Red máxima 4 MB/s, sin saturar | Sin cambios |
+
+Medidas completas en [`../07-rendimiento-diagnostico/informe-rendimiento.md`](../07-rendimiento-diagnostico/informe-rendimiento.md).
 
 ## 4. Comprobaciones realizadas y pendientes
 

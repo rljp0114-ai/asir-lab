@@ -6,12 +6,12 @@ Laboratorio individual de **ASIX ThinkLab** (enunciado V2.0, 19/10/2026) montado
 
 | Tarea | Carpeta | Estado | Pendiente |
 |---|---|---|---|
-| 0 Entorno de pruebas | [`00-entorno-pruebas/`](00-entorno-pruebas/) | ✅ | Espacio real ocupado por los discos; huellas de ISO sin verificar (MikroTik, OPNsense, Windows 11, Windows Server) |
-| 2 Equipos y periféricos | [`02-equipos-perifericos/`](02-equipos-perifericos/) | 🟡 | Comparación con el equipo de clase; medidas de memoria, disco y red en el portátil |
+| 0 Entorno de pruebas | [`00-entorno-pruebas/`](00-entorno-pruebas/) | ✅ | Espacio real ocupado por los discos |
+| 2 Equipos y periféricos | [`02-equipos-perifericos/`](02-equipos-perifericos/) | ✅ | Tests de memoria, disco y red en ambos equipos (Apte+) |
 | 4 Diseño físico y lógico | [`04-diseno-red/`](04-diseno-red/) | ✅ | — |
-| 5 Instalación y comunicaciones | [`05-instalacion-comunicaciones/`](05-instalacion-comunicaciones/) | 🟡 | Capturas y zona horaria de TrueNAS; Windows Server: nombre del equipo; comparación de sistemas (`03-sistemes.md`) sin completar |
-| 6 Almacenamiento y recuperación | [`06-almacenamiento-recuperacion/`](06-almacenamiento-recuperacion/) | 🟡 | RAID sin persistencia tras reinicio; espejo entre equipos (Apte+) |
-| 7 Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ✅ | Medidas del portátil; optimizaciones (Apte+) |
+| 5 Instalación y comunicaciones | [`05-instalacion-comunicaciones/`](05-instalacion-comunicaciones/) | 🟡 | Capturas y zona horaria de TrueNAS; Windows Server: nombre del equipo |
+| 6 Almacenamiento y recuperación | [`06-almacenamiento-recuperacion/`](06-almacenamiento-recuperacion/) | ✅ | Espejo entre equipos (Apte+) |
+| 7 Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ✅ | Optimizaciones (Apte+) |
 | 8 Final | [`08-final/`](08-final/) | ⬜ | Caso final del 25/11/2026 |
 
 Otros apartados: [`incidencias/`](incidencias/) (registro de incidencias) y [`evidencies/Comandos.md`](evidencies/Comandos.md) (registro de comandos).

@@ -6,7 +6,7 @@ Sistemas instalados y configurados en la red `192.168.34.0/24`. Los routers se p
 
 | Sistema | Documento | Incluye | Estado |
 |---|---|---|---|
-| Ubuntu Server + nftables (LAN `.3`) | [`configuracion/ubuntunftables.md`](configuracion/ubuntunftables.md) | Instalación, reglas y NAT, bloqueo con registro, copia en TrueNAS, fallo y recuperación, persistencia | 🟡 capturas de reglas por confirmar |
+| Ubuntu Server + nftables (LAN `.3`) | [`configuracion/ubuntunftables.md`](configuracion/ubuntunftables.md) | Instalación, reglas y NAT, bloqueo con registro, copia en TrueNAS, fallo y recuperación, persistencia | 🟡 ✅ |
 | MikroTik RouterOS 7.24.5 (LAN `.3`) | [`configuracion/mikrotik.md`](configuracion/mikrotik.md) | Versión, red, regla de bloqueo con registro, pruebas desde Debian | ✅ |
 | OPNsense 26.7.9 (LAN `.2`) | [`configuracion/opnsense.md`](configuracion/opnsense.md) | Versión, usuarios, red, bloqueo y permitido, registro, copia y recuperación | ✅ |
 
@@ -31,12 +31,9 @@ Clúster `asirlab` de tres nodos (`pve1`, `pve2`, `pve3`) sobre VirtualBox en el
 
 ## Otros documentos
 
-- [`03-sistemes.md`](03-sistemes.md): comparación de sistemas. 🟡 plantilla sin completar.
 - Evidencias: [`evidencies/`](evidencies/).
 
 ## Pendiente
 
 - TrueNAS: capturas del disco adicional y de la versión; zona horaria.
 - Windows Server 2025: nombre del equipo.
-- `03-sistemes.md` sin completar.
-- Verificación de huellas de ISO (ver `../00-entorno-pruebas/05-isos.md`).
