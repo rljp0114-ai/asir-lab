@@ -8,7 +8,7 @@ Servidor de copias de seguridad del laboratorio. El procedimiento paso a paso co
 |---|---|
 | Sistema | TrueNAS 13.0-U5.3 (CORE) |
 | Imagen | `TrueNAS-13.0-U5.3.iso`, huella SHA256 verificada ([`../../00-entorno-pruebas/05-isos.md`](../../00-entorno-pruebas/05-isos.md)) |
-| Discos | Disco 1 del sistema; disco 2 adicional solo para copias |
+| Discos | `ada0` (20 GiB, `boot-pool`, sistema) y `ada1` (20 GiB, `NAS_DATA`, solo copias) |
 | Pool y dataset | Pool `NAS_DATA`, dataset `copias_seguridad` (`/mnt/NAS_DATA/copias_seguridad`) |
 | Redundancia del pool | Ninguna: un único disco virtual |
 | Usuario de administración | `root` (web) |
@@ -20,7 +20,7 @@ Servidor de copias de seguridad del laboratorio. El procedimiento paso a paso co
 | Adaptador | Red | Dirección |
 |---|---|---|
 | Interno | `asir_lab` | `192.168.34.20/24` |
-| Gestión | host-only | Acceso web desde el anfitrión |
+| Gestión | host-only `vboxnet1` | `192.168.57.3/24`; web en `https://192.168.57.3` |
 
 ## 3. Qué es una copia, cómo y dónde
 
@@ -31,8 +31,12 @@ Servidor de copias de seguridad del laboratorio. El procedimiento paso a paso co
 
 Carpetas actuales en `copias_seguridad`: `debian`, `linux`, `linux-datos`, `linux-servicios`, `mikrotik`, `opnsense`, `ubuntu`, `windows`, y el paquete de configuración de `pve1`.
 
-## 4. Pendiente
+## 4. Evidencias
 
-- Captura del disco adicional y del pool en la interfaz de TrueNAS.
-- Captura de la versión instalada.
+- Versión, pool, interfaces y usuario: `05-instalacion-comunicaciones/evidencies/2026-11-17-truenas-version.png`.
+- Pool `NAS_DATA` (ONLINE, 16,94 GiB libres) y dataset `copias_seguridad`: `05-instalacion-comunicaciones/evidencies/2026-11-17-truenas-pool.png`.
+- Los dos discos y el pool de cada uno: `05-instalacion-comunicaciones/evidencies/2026-11-17-truenas-discos.png`.
+
+## 5. Pendiente
+
 - Zona horaria en `Europe/Madrid` (ahora en hora del Pacífico).

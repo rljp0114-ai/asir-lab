@@ -70,7 +70,7 @@ flowchart TB
 | OPNsense | `em2` (OPT1) | Host-only `vboxnet0` | Gestión | Estática: `192.168.56.2/24` |
 | Debian Server | `enp0s3` | Red interna `asir_lab` | LAN | Estática: `192.168.34.4/24`; puerta de enlace `192.168.34.3` (Ubuntu o MikroTik) o `192.168.34.2` (OPNsense); DNS `8.8.8.8` y `1.1.1.1` |
 | TrueNAS | - | Red interna `asir_lab` | LAN | `192.168.34.20/24` |
-| TrueNAS | - | Host-only `vboxnet2` | Gestión | `192.168.58.5/24` (según la pestaña del navegador) |
+| TrueNAS | `em0` | Host-only `vboxnet1` | Gestión | `192.168.57.3/24` |
 | Windows Server 2025 | `Ethernet` | Red interna `asir_lab` | LAN | Estática: `192.168.34.21/24` |
 | Windows 11 | `Ethernet` | Red interna `asir_lab` | LAN | Estática: `192.168.34.100/24` |
 | Linux-Servicios | - | Red interna `asir_lab` | LAN | Estática: `192.168.34.22/24` |
