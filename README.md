@@ -1,5 +1,7 @@
 # ASIR ThinkLab — Parte individual
 
+**Autor:** Juan Pablo Rosas Lorenzo · 1.º ASIR
+
 Laboratorio individual de **ASIX ThinkLab** (enunciado V2.0, 19/10/2026) montado en VirtualBox. Una carpeta por tarea, cada una con su `README.md`, documentos y `evidencies/`. Las tareas 1 y 3 no aparecen en la rúbrica individual.
 
 ✅ hecho · ⬜ sin empezar
@@ -21,3 +23,5 @@ Otros apartados: [`incidencias/`](incidencias/) (registro de incidencias) y [`ev
 Linux Mint y VirtualBox 7.0.20 en un SSD SanDisk de 931,5 GB que se conecta al PC (Ryzen 5 3400G, 16 GB) o al portátil ASUS (Core Ultra 5 125H, 32 GB), un equipo cada vez. Red interna: `192.168.34.0/24`. Detalle en [`00-entorno-pruebas/04-entorn-virtualitzacio.md`](00-entorno-pruebas/04-entorn-virtualitzacio.md).
 
 No se suben contraseñas, claves, discos virtuales ni ISO.
+
+La documentación se ha redactado con ayuda de una herramienta de IA a partir de las pruebas, salidas y capturas que realicé en mi propio laboratorio.
