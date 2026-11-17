@@ -10,7 +10,7 @@ Leyenda: ✅ hecho y comprobado · 🟡 parcial o con puntos pendientes · ⬜ p
 | 2 | Equipos y periféricos | [`02-equipos-perifericos/`](02-equipos-perifericos/) | 🟡 |
 | 4 | Diseño físico y lógico | [`04-diseno-red/`](04-diseno-red/) | ✅ |
 | 5 | Instalación y comunicaciones | [`05-instalacion-comunicaciones/`](05-instalacion-comunicaciones/) | 🟡 |
-| 6 | Almacenamiento y recuperación | [`06-almacenamiento-recuperacion/`](06-almacenamiento-recuperacion/) | ⬜ |
+| 6 | Almacenamiento y recuperación | [`06-almacenamiento-recuperacion/`](06-almacenamiento-recuperacion/) | 🟡 |
 | 7 | Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ⬜ |
 | 8 | Final | [`08-final-incidencias/`](08-final-incidencias/) | ⬜ (caso final el 25/11/2026) |
 

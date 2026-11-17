@@ -1,5 +1,10 @@
 # Tarea 6 — Almacenamiento y recuperación
 
-**Estado: pendiente.**
+Parte individual obligatoria: crear tres tipos de RAID en uno de los equipos, verificar su funcionamiento y explicar qué aporta cada uno. Ampliación (Apte+): espejo entre dos discos de dos equipos distintos.
 
-Parte individual obligatoria: crear tres tipos de RAID en uno de los equipos, comprobar que funcionan y explicar qué aporta cada uno. Previsto: RAID 0, 1 y 5 con `mdadm` sobre discos virtuales pequeños en `Linux-Datos`.
+| Documento | Contenido | Estado |
+|---|---|---|
+| [`raid.md`](raid.md) | RAID 0, 1 y 5 con `mdadm` en `Linux-Datos`: creación, capacidad, datos de prueba y comparación | 🟡 creados y verificados; falta la prueba de fallo |
+| Espejo entre dos equipos (Apte+) | Investigación e implementación | ⬜ pendiente |
+
+Evidencias: [`evidencies/`](evidencies/).

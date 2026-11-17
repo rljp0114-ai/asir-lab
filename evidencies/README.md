@@ -6,6 +6,7 @@ Las capturas están en la carpeta `evidencies/` de cada tarea, junto a los docum
 
 - [`04-diseno-red/evidencies/`](../04-diseno-red/evidencies/)
 - [`05-instalacion-comunicaciones/evidencies/`](../05-instalacion-comunicaciones/evidencies/)
+- [`06-almacenamiento-recuperacion/evidencies/`](../06-almacenamiento-recuperacion/evidencies/)
 
 ## Convención de nombres
 
