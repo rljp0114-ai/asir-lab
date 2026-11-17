@@ -74,7 +74,7 @@ Resumen:
 | Router MikroTik | Configurado y probado | `evidencies/Comandos.md` |
 | Router OPNsense | Configurado y probado | `evidencies/Comandos.md` |
 | TrueNAS (copias) | Instalado y en uso | `evidencies/Comandos.md` |
-| Proxmox | Decisión de diseño/simulación (apartado 8) | Pendiente de autorización del profesorado |
+| Proxmox | Plan: clúster de tres nodos y migración (apartado 8) | VM creadas; instalación pendiente |
 | Windows Server 2025 | Instalado y probado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/windows-server-2025.md` |
 | Windows 11 (cliente) | Instalado y probado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/windows-11.md` |
 | Cliente GNU/Linux | Debian Server, documentado (16/11/2026) | `05-instalacion-comunicaciones/configuracion/debian-cliente.md` |
@@ -103,18 +103,21 @@ VBoxManage list hdds
 VBoxManage showvminfo "NOMBRE_VM" --machinereadable
 ```
 
-## 8. Decisión sobre Proxmox: diseño y simulación en lugar de clúster operativo
+## 8. Proxmox: clúster de tres nodos y migración
 
-**Estado.** Se crearon tres VM para los nodos Proxmox (N1, N2 y N3). Se decide no desplegar el clúster sobre VirtualBox y documentarlo como diseño o simulación identificada, a falta de la autorización del profesorado (el enunciado contempla el diseño o la simulación cuando no hay nodos suficientes).
+**Actualización (17/11/2026).** La decisión del 16/11 (documentar solo el diseño) se sustituye por el plan de **desplegar el clúster de tres nodos** y hacer pruebas reales: crear un contenedor y migrar un contenedor y una VM entre nodos, como pide el enunciado. La rúbrica exige que la VM migrada sea un Ubuntu Server o Debian sin entorno gráfico, para que sea más rápido. El diseño o la simulación solo se usaría como alternativa autorizada si el despliegue no fuera viable.
 
-**Motivos.**
+**Estado.** Se crearon tres VM para los nodos Proxmox (N1, N2 y N3); la instalación no está completada. El despliegue está **pendiente** y se hará, previsiblemente, en el portátil (32 GB).
+
+**Riesgos que motivaron la decisión anterior y que hay que controlar:**
+
 - **Doble capa de virtualización.** Proxmox es un hipervisor; ejecutarlo dentro de una VM de VirtualBox añade una segunda capa de virtualización. El rendimiento es inferior al de un servidor real y los tiempos y consumos medidos en una migración no serían representativos, por lo que la tarea de medir tiempo y espacio perdería valor.
 - **Memoria.** Los tres nodos reservan 12 GB de RAM (6 + 3 + 3) solo para los propios nodos, sin contar las VM que se ejecutarían dentro. El PC doméstico tiene 16 GB, y la suma de todas las VM del laboratorio (unos 35 GB) supera la RAM de ambos anfitriones.
 - **Recursos compartidos con el resto del laboratorio.** Mantener el clúster encendido impediría ejecutar a la vez el router, TrueNAS y el cliente de pruebas.
 
-**Qué se documenta en su lugar** (pendiente de redactar): diseño del clúster (nodos, red de gestión, quórum y almacenamiento compartido), máquinas virtuales previstas, ventajas e inconvenientes de virtualizar servidores, diferencia entre contenedor y máquina virtual y cuándo usar cada uno, procedimiento previsto de migración y qué copias se guardarían en el servidor de copias y por qué.
+**Qué se documentará** (pendiente): configuración de usuario, red y clúster, ventajas e inconvenientes de virtualizar servidores, diferencia entre contenedor y máquina virtual y cuándo usar cada uno, migración de un contenedor y de una VM (con tiempo y espacio medidos) y qué se copia al servidor de copias y por qué.
 
-**Limitación reconocida.** Al no haber nodos operativos, la migración de un contenedor y una VM entre nodos y su medición no se ejecutan en el laboratorio. Si el profesorado no autoriza esta alternativa, el criterio quedaría pendiente y habría que replantear el despliegue (por ejemplo, en el portátil de 32 GB).
+**Limitación conocida.** Dentro de VirtualBox, las VM de Proxmox necesitan virtualización anidada para ejecutar VM con aceleración; los contenedores no la necesitan. Si no está disponible, se desactiva la aceleración KVM en la VM de prueba (más lenta, pero válida con un Debian sin entorno gráfico). Los tiempos medidos no serán los de un servidor real y así se hará constar.
 
 ## 9. Portabilidad entre equipos
 
@@ -124,5 +127,5 @@ Los discos de las máquinas virtuales se comparten entre el PC doméstico, el po
 - **Adaptador puente:** está asociado a la tarjeta física de cada equipo (`enp8s0` en el PC, `eno1` en el portátil). Al abrir una VM en otro equipo hay que volver a elegir el adaptador físico en `Configuración → Red`.
 - **Redes host-only:** las VM de gestión necesitan que existan `vboxnet0`, `vboxnet1` y `vboxnet2` con los mismos direccionamientos (`192.168.56.0/24`, `192.168.57.0/24`, `192.168.58.0/24`). Si no existen en el otro equipo, hay que crearlas antes de arrancar.
 - **Red interna `asir_lab`:** no depende del equipo; se crea sola al usarla.
-- **Recursos:** cada VM nueva se dimensiona para caber en el equipo de 16 GB, aunque se pueda mover al de 32 GB. No se activa virtualización anidada, que depende del procesador (AMD en el PC, Intel en el portátil).
+- **Recursos:** cada VM nueva se dimensiona para caber en el equipo de 16 GB, aunque se pueda mover al de 32 GB. No se activa virtualización anidada, que depende del procesador (AMD en el PC, Intel en el portátil), salvo en los nodos Proxmox (apartado 8), que se ejecutarán en el portátil.
 - **Ruta de los discos:** las VM están en `/home/batoi/VirtualBox VMs/ISOFHW/`.

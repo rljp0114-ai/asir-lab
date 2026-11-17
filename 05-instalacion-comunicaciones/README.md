@@ -25,7 +25,7 @@ TrueNAS 13.0-U5.3 (`192.168.34.20`). Su instalación, la creación de usuario y 
 
 ## Proxmox
 
-No se despliega sobre VirtualBox (virtualización anidada). Se documenta como diseño o simulación, a falta de autorización del profesorado. Justificación en [`../00-entorno-pruebas/04-entorn-virtualitzacio.md`](../00-entorno-pruebas/04-entorn-virtualitzacio.md) (apartado 8). **Pendiente:** redactar el diseño del clúster y obtener la autorización.
+Plan: clúster de tres nodos sobre VirtualBox, con creación de un contenedor y migración de un contenedor y de una VM Debian sin entorno gráfico entre nodos, midiendo tiempo y espacio. Previsto en el portátil. Detalle y riesgos en [`../00-entorno-pruebas/04-entorn-virtualitzacio.md`](../00-entorno-pruebas/04-entorn-virtualitzacio.md) (apartado 8). **Estado: pendiente** (las tres VM están creadas; falta instalar).
 
 ## Otros documentos
 
