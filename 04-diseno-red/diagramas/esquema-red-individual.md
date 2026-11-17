@@ -4,6 +4,10 @@ Montaje virtual individual en VirtualBox, basado en la arquitectura de referenci
 
 ## 1. Esquema general
 
+![Esquema de red individual](esquema-red-individual.png)
+
+Versión editable: [`esquema-red-individual.svg`](esquema-red-individual.svg). El mismo esquema en texto:
+
 Los tres routers (Ubuntu con nftables, MikroTik y OPNsense) se prueban de uno en uno: comparten la red interna `asir_lab` y la misma IP en algunos casos. Router activo: MikroTik.
 
 ```mermaid
