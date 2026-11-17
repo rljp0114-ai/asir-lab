@@ -37,6 +37,6 @@ Carpetas actuales en `copias_seguridad`: `debian`, `linux`, `linux-datos`, `linu
 - Pool `NAS_DATA` (ONLINE, 16,94 GiB libres) y dataset `copias_seguridad`: `05-instalacion-comunicaciones/evidencies/2026-11-17-truenas-pool.png`.
 - Los dos discos y el pool de cada uno: `05-instalacion-comunicaciones/evidencies/2026-11-17-truenas-discos.png`.
 
-## 5. Pendiente
+## 5. Zona horaria
 
-- Zona horaria en `Europe/Madrid` (ahora en hora del Pacífico).
+Las copias aparecían con la hora del Pacífico. Se cambió en *System → General → Localization* a `Europe/Madrid` y se guardó ("Settings saved", hora mostrada 20:01:06). Captura: `05-instalacion-comunicaciones/evidencies/2026-11-17-truenas-zona-horaria.png`.

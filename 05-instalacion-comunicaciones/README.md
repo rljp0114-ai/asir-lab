@@ -14,7 +14,7 @@ Sistemas instalados y configurados en la red `192.168.34.0/24`. Los routers se p
 
 | Sistema | Documento | IP | Estado |
 |---|---|---|---|
-| TrueNAS 13.0-U5.3 | [`configuracion/truenas.md`](configuracion/truenas.md) | `192.168.34.20` | 🟡 zona horaria |
+| TrueNAS 13.0-U5.3 | [`configuracion/truenas.md`](configuracion/truenas.md) | `192.168.34.20` | ✅ |
 
 ## Servidores y clientes
 
@@ -35,5 +35,4 @@ Clúster `asirlab` de tres nodos (`pve1`, `pve2`, `pve3`) sobre VirtualBox en el
 
 ## Pendiente
 
-- TrueNAS: zona horaria.
 - Windows Server 2025: nombre del equipo.
