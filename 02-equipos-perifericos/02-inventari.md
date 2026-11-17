@@ -30,6 +30,25 @@ La capacidad y el espacio libre exactos del SSD quedan pendientes de comprobar m
 | Red cableada | Intel Ethernet Gigabit |
 | Red inalámbrica | Wi-Fi 6 |
 
+### Medidas realizadas en el portátil (17/11/2026, en el aula)
+
+| Dato | Valor | Comando |
+|---|---|---|
+| Modelo | ASUS ExpertBook B3605CCA, firmware B3605CCA.303 (11/06/2025) | `hostnamectl` |
+| Sistema | Linux Mint 22.3, kernel 6.8.0-149-generic | `hostnamectl` |
+| CPU | Intel Core Ultra 5 125H, 1 socket, 18 hilos lógicos, frecuencia de 400 MHz a 4500 MHz | `lscpu` |
+| Memoria | 30 GiB visibles (32 GB nominales), 4,5 GiB en uso, 26 GiB disponibles | `free -h` |
+| Swap | 7,6 GB en zram (en memoria comprimida), sin uso | `lsblk`, `free -h` |
+| SanDisk externo | `sda`, 931,5 GB: `sda1` 509 MB (EFI), `sda2` 122,6 GB (`/`), `sda3` 808,4 GB (`/home`) | `lsblk` |
+| Raíz `/` | 121 GB, 28 GB usados, 87 GB libres (25 %) | `df -h /` |
+| SSD interno | `nvme0n1`, 953,9 GB, **sin puntos de montaje** (no se usa) | `lsblk` |
+| Red | `eno1` (cable) activa; `wlp1s0` (Wi-Fi) apagada; `docker0` sin uso; `vboxnet0`, `vboxnet1` y `vboxnet2` creadas | `ip -br link` |
+| VirtualBox | 7.0.20 r163906 | `VBoxManage --version` |
+
+El disco interno aparece sin montar, lo que confirma que no se está utilizando. Las tres redes host-only existen también en este equipo, por lo que las VM de gestión podrán arrancar aquí con los mismos direccionamientos.
+
+**Observación:** el nombre de equipo del portátil es `JuanpaPC`, igual que el del PC doméstico; la instalación de Linux Mint de este SSD externo parece ser la misma que se utiliza en el otro equipo. Pendiente de confirmar.
+
 **Disco excluido:** el SSD interno Samsung de aproximadamente 1 TB no se tendrá en cuenta ni se modificará para este proyecto. El sistema Linux Mint utilizado para el laboratorio está instalado en el SanDisk Portable SSD.
 
 ## 3. Comparación y diagnóstico de recursos
@@ -39,7 +58,7 @@ La capacidad y el espacio libre exactos del SSD quedan pendientes de comprobar m
 | CPU | Ryzen 5 3400G, 4 núcleos/8 hilos | Core Ultra 5 125H, 14 núcleos/18 hilos |
 | RAM | 16 GB | 32 GB |
 | Almacenamiento utilizado | SSD, unos 700 GB estimados | SanDisk externo, 931,5 GB |
-| Espacio libre confirmado | Pendiente de medir | 89 GB en `/` y 613 GB en `/home` |
+| Espacio libre confirmado | Pendiente de medir | 87 GB en `/` (medido el 17/11/2026); `/home`: pendiente de medir con `df -h /home` |
 
 ### Limitaciones y decisiones
 
@@ -57,9 +76,9 @@ La capacidad y el espacio libre exactos del SSD quedan pendientes de comprobar m
 | CPU y RAM del PC doméstico | Datos identificados |
 | Almacenamiento del PC doméstico | Estimación de unos 700 GB; falta confirmar capacidad y espacio libre exactos |
 | CPU y RAM del portátil | Identificados |
-| Almacenamiento del portátil | Identificado mediante `lsblk` y `df -h` |
+| Almacenamiento del portátil | Medido el 17/11/2026 con `lsblk` y `df -h /`; falta `df -h /home` |
 | Disco Samsung interno del portátil | Excluido del laboratorio |
-| Interfaces de red y conectividad de ambos equipos | Pendiente de documentar |
+| Interfaces de red y conectividad de ambos equipos | Portátil documentado (`eno1`, Wi-Fi, host-only); PC doméstico pendiente |
 | Prueba de ejecución simultánea de VM en ambos equipos | Pendiente |
 
 ## 5. Comandos de diagnóstico

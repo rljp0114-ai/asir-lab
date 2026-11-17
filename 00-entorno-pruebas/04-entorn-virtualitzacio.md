@@ -11,7 +11,7 @@ Se utilizarán dos equipos físicos con Linux Mint y VirtualBox para ejecutar y 
 | Procesador | AMD Ryzen 5 3400G, 4 núcleos/8 hilos | Intel Core Ultra 5 125H, 14 núcleos/18 hilos |
 | Memoria RAM | 16 GB | 32 GB |
 | Almacenamiento | SSD, aproximadamente 700 GB según estimación; falta medir el espacio libre | SanDisk Portable SSD de 931,5 GB por USB 3.2 |
-| Espacio libre | Pendiente de confirmar | 89 GB en `/` y 613 GB en `/home` |
+| Espacio libre | Pendiente de confirmar | 87 GB en `/` (medido el 17/11/2026); `/home` pendiente de medir |
 
 El SSD Samsung interno de 1 TB del portátil queda excluido del proyecto. El sistema Linux Mint que se utilizará está instalado en el SanDisk Portable SSD.
 
