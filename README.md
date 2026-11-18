@@ -16,6 +16,14 @@ Laboratorio individual de **ASIX ThinkLab** (enunciado V2.0, 19/10/2026) montado
 | 7 Rendimiento y diagnóstico | [`07-rendimiento-diagnostico/`](07-rendimiento-diagnostico/) | ✅ |
 | 8 Final | [`08-final/`](08-final/) | ⬜ caso final del 25/11/2026 |
 
+## Dónde está cada cosa
+
+- **Capturas:** en la carpeta `evidencies/` de cada tarea (por ejemplo, `05-instalacion-comunicaciones/evidencies/`). Los documentos las citan con su ruta completa.
+- **Documentos de cada sistema:** `05-instalacion-comunicaciones/configuracion/`.
+- **Esquema de red:** `04-diseno-red/diagramas/esquema-red-individual.png`.
+- **Scripts y datos de medida:** `07-rendimiento-diagnostico/scripts/` y `07-rendimiento-diagnostico/datos/`.
+- **Copias de configuración de los sistemas:** en TrueNAS (`/mnt/NAS_DATA/copias_seguridad/`), no en el repositorio.
+
 Otros apartados: [`incidencias/`](incidencias/) (registro de incidencias).
 
 ## Entorno

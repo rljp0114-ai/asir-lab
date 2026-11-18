@@ -138,12 +138,12 @@ La configuración de IP, puerta de enlace y DNS se comprobó después de reinici
 
 ## 8. Evidencias
 
-- `2026-11-16-debian-red-rutas-mikrotik.png`: dirección IP y tabla de rutas con MikroTik como puerta de enlace.
-- `2026-11-16-debian-version-hostnamectl.png`: versión del sistema.
-- `2026-11-16-debian-su-root.png`: acceso de administración con `su -`.
-- `2026-11-16-debian-prueba-bloqueo-opnsense.png` y `2026-11-16-debian-prueba-tcp443-bloqueo-mikrotik.png`: pruebas de conexión permitida y bloqueada.
-- `2026-11-16-debian-prueba-fallo-recuperacion-ubuntu.png`: fallo y recuperación con Ubuntu como router.
-- `2026-11-16-debian-usuario-copia-sftp-truenas.png`: copia de la configuración en TrueNAS.
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-red-rutas-mikrotik.png`: dirección IP y tabla de rutas con MikroTik como puerta de enlace.
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-version-hostnamectl.png`: versión del sistema.
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-su-root.png`: acceso de administración con `su -`.
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-prueba-bloqueo-opnsense.png` y `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-prueba-tcp443-bloqueo-mikrotik.png`: pruebas de conexión permitida y bloqueada.
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-prueba-fallo-recuperacion-ubuntu.png`: fallo y recuperación con Ubuntu como router.
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-usuario-copia-sftp-truenas.png`: copia de la configuración en TrueNAS.
 
 ## 9. Uso como cliente GNU/Linux de la tarea 5
 
