@@ -4,7 +4,7 @@
 Documentar los adaptadores virtuales, el direccionamiento y las pruebas de comunicación del laboratorio.
 
 ## 2. Diagrama
-El esquema de red individual, con la configuración de cada interfaz y las direcciones previstas, está en `diagramas/esquema-red-individual.md`. Las pruebas de ping, traceroute y tablas de rutas están en `06-pruebas-conectividad.md`.
+El esquema de red individual, con la configuración de cada interfaz y las direcciones previstas, está en `diagramas/esquema-red-individual.md`. Las pruebas de ping, traceroute y tablas de rutas están en `04-diseno-red/06-pruebas-conectividad.md`.
 
 ## 3. Mapa real de adaptadores
 

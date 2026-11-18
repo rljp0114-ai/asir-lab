@@ -21,7 +21,7 @@ Solo cuentan las 14 VM del grupo `/ISOFHW` de VirtualBox; las 5 de otras activid
 
 ## 3. Datos válidos
 
-El `host.csv` completo está en `datos/`. En la ejecución de `escalado.sh` había cuatro VM ya encendidas (`Debian Server`, `MikroTik`, `Linux-Servicios` y `Linux-Datos`), por lo que una parte de las filas no corresponde a lo que indica el nombre de su etapa (VirtualBox rechazó arrancar las que ya estaban encendidas). Para el informe se usan solo las ventanas de tiempo en las que `instantaneas.txt` confirma que las VM encendidas coinciden con la etapa. Las demás filas se conservan en `datos/` como medidas repetidas del estado de cuatro VM.
+El `07-rendimiento-diagnostico/datos/host.csv` completo está en `datos/`. En la ejecución de `07-rendimiento-diagnostico/scripts/escalado.sh` había cuatro VM ya encendidas (`Debian Server`, `MikroTik`, `Linux-Servicios` y `Linux-Datos`), por lo que una parte de las filas no corresponde a lo que indica el nombre de su etapa (VirtualBox rechazó arrancar las que ya estaban encendidas). Para el informe se usan solo las ventanas de tiempo en las que `07-rendimiento-diagnostico/datos/instantaneas.txt` confirma que las VM encendidas coinciden con la etapa. Las demás filas se conservan en `datos/` como medidas repetidas del estado de cuatro VM.
 
 | Etapa | Máquinas encendidas | Muestras (cada 5 s) |
 |---|---|---:|
@@ -49,7 +49,7 @@ El `host.csv` completo está en `datos/`. En la ejecución de `escalado.sh` hab�
 | Proxmox, reposo | 12,4 GiB | 3,1 GiB | 11,2 % / 14 % | 0,4 / 1,9 MB/s | 490 MB |
 | Proxmox, migración | 12,4 GiB | 3,1 GiB | 31,7 % / 69 % | 16,5 / 164,9 MB/s | 490 MB |
 
-Los datos de cada etapa están en `datos/resumen-etapas.csv`. La red y el uso de disco que mide `resumen.csv` (la tarjeta `enp8s0` y el disco `sda`) dan: 4,0 MB/s de entrada y 17,2 % de uso del disco con Windows Server (E5), 0,6 MB/s de entrada y 6,1 % de uso del disco durante la migración, y menos de 2 MB/s y 0,5 % en las demás etapas.
+Los datos de cada etapa están en `datos/resumen-etapas.csv`. La red y el uso de disco que mide `07-rendimiento-diagnostico/datos/resumen.csv` (la tarjeta `enp8s0` y el disco `sda`) dan: 4,0 MB/s de entrada y 17,2 % de uso del disco con Windows Server (E5), 0,6 MB/s de entrada y 6,1 % de uso del disco durante la migración, y menos de 2 MB/s y 0,5 % en las demás etapas.
 
 Coste de RAM de cada VM medido en el anfitrión (diferencia de RAM usada entre etapas consecutivas) frente a la RAM asignada en VirtualBox:
 
@@ -78,7 +78,7 @@ El criterio es que quede al menos 1,5 GB de memoria disponible y que el swap no 
 |---|---|---|
 | MikroTik + Linux-Servicios + Linux-Datos + Debian Server | 4,5 GiB usados, 11,0 GiB disponibles | Sí, con mucho margen |
 | Las cuatro anteriores + Windows Server 2025 (5 VM) | 8,7 GiB usados, 6,8 GiB disponibles, CPU 30 % | Sí |
-| Anterior + TrueNAS (8 GB asignados) | `escalado.sh` lo rechazó: quedaban 6,8 GiB disponibles y se exigen 9,7 | No sin ajustar |
+| Anterior + TrueNAS (8 GB asignados) | `07-rendimiento-diagnostico/scripts/escalado.sh` lo rechazó: quedaban 6,8 GiB disponibles y se exigen 9,7 | No sin ajustar |
 | Clúster Proxmox (MikroTik + 3 nodos, con contenedor y VM dentro) | 12,4 GiB usados, 3,1 GiB disponibles, swap 490 MB | Sí, pero en el límite: no cabe nada más |
 
 **Conclusión: en este PC caben 5 VM del proyecto a la vez (router, Debian, los dos servidores Linux y Windows Server) con 6,8 GiB de margen, o bien el router y los tres nodos Proxmox sin nada más.** No caben ambos a la vez. TrueNAS (8 GB) no se mide porque junto a Windows Server no cabe.

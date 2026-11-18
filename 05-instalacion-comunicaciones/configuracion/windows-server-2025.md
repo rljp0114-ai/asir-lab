@@ -67,7 +67,7 @@ Windows Server 2025 se ejecuta como VM independiente de VirtualBox y no dentro d
 
 ## 8. Copia al servidor de copias
 
-Se copió a TrueNAS (`192.168.34.20`) el fichero `config-red-winserver.txt` (salida de `ipconfig /all` y de `Get-LocalUser`), en la misma carpeta que la configuración del cliente Windows 11:
+Se copió a TrueNAS (`192.168.34.20`) el fichero `config-red-winserver.txt` (guardado en TrueNAS, no en el repositorio; salida de `ipconfig /all` y de `Get-LocalUser`), en la misma carpeta que la configuración del cliente Windows 11:
 
 ```powershell
 ipconfig /all > $env:USERPROFILE\config-red-winserver.txt

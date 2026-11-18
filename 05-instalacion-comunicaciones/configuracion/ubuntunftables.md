@@ -210,13 +210,13 @@ La configuración está copiada en el servidor de copias y se ha comprobado que 
 
 Capturas disponibles en `evidencies/`:
 
-- `2026-11-16-ubuntu-persistencia-copia-sftp-fallo.png`: reglas NAT, `ip_forward`, interfaces, copia por SFTP, fallo provocado y primera recuperación.
-- `2026-11-16-ubuntu-recuperacion-ruleset-persistencia.png`: repetición del fallo y la recuperación, reglas cargadas, `is-enabled` y `who -b`.
-- `2026-11-16-debian-prueba-fallo-recuperacion-ubuntu.png`: resultados de Debian antes, durante y después del fallo.
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-ubuntu-persistencia-copia-sftp-fallo.png`: reglas NAT, `ip_forward`, interfaces, copia por SFTP, fallo provocado y primera recuperación.
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-ubuntu-recuperacion-ruleset-persistencia.png`: repetición del fallo y la recuperación, reglas cargadas, `is-enabled` y `who -b`.
+- `05-instalacion-comunicaciones/evidencies/2026-11-16-debian-prueba-fallo-recuperacion-ubuntu.png`: resultados de Debian antes, durante y después del fallo.
 
-- `2026-11-17-ubuntu-nftables-interfaces.png`: ruleset completo (`input` con `policy drop`, `forward` solo desde la LAN `enp0s8` hacia `enp0s3`, `masquerade` en `enp0s3`) e interfaces: `enp0s3` 10.0.2.15 (WAN), `enp0s8` 192.168.34.3 (LAN) y `enp0s9` 192.168.58.3 (gestión).
-- `2026-11-17-ubuntu-ipforward.png`: `net.ipv4.ip_forward = 1`.
-- `2026-11-17-debian-ping-bloqueado-tcp-abierto.png`: desde Debian, con Ubuntu como router, el `ping` a `1.1.1.1` no recibe respuesta y la conexión TCP al 443 sale (`abierto`). Es el mismo comportamiento que el incidente 1: el ICMP hacia el exterior no vuelve, pero el tráfico TCP sale por el router.
+- `05-instalacion-comunicaciones/evidencies/2026-11-17-ubuntu-nftables-interfaces.png`: ruleset completo (`input` con `policy drop`, `forward` solo desde la LAN `enp0s8` hacia `enp0s3`, `masquerade` en `enp0s3`) e interfaces: `enp0s3` 10.0.2.15 (WAN), `enp0s8` 192.168.34.3 (LAN) y `enp0s9` 192.168.58.3 (gestión).
+- `05-instalacion-comunicaciones/evidencies/2026-11-17-ubuntu-ipforward.png`: `net.ipv4.ip_forward = 1`.
+- `05-instalacion-comunicaciones/evidencies/2026-11-17-debian-ping-bloqueado-tcp-abierto.png`: desde Debian, con Ubuntu como router, el `ping` a `1.1.1.1` no recibe respuesta y la conexión TCP al 443 sale (`abierto`). Es el mismo comportamiento que el incidente 1: el ICMP hacia el exterior no vuelve, pero el tráfico TCP sale por el router.
 
 - Prueba de bloqueo temporal (17/11/2026), en cinco capturas con el prefijo `05-instalacion-comunicaciones/evidencies/2026-11-17-`:
   1. `ubuntu-bloqueo-1-regla-creada.png`: regla insertada al principio de `forward`, con contador a 0.

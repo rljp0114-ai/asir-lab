@@ -71,7 +71,7 @@ Evidencias: `05-instalacion-comunicaciones/evidencies/2026-11-16-windows11-prueb
 
 ## 7. Copia al servidor de copias
 
-Se copió a TrueNAS (`192.168.34.20`) el fichero `config-red-win11.txt`, que contiene la salida de `ipconfig /all` y de `Get-LocalUser`:
+Se copió a TrueNAS (`192.168.34.20`) el fichero `config-red-win11.txt` (guardado en TrueNAS, no en el repositorio), que contiene la salida de `ipconfig /all` y de `Get-LocalUser`:
 
 ```powershell
 ipconfig /all > $env:USERPROFILE\config-red-win11.txt
@@ -99,4 +99,4 @@ La copia es manual; no hay tarea programada para Windows 11.
 
 ## 8. Integración en dominio
 
-No se hace. La rúbrica la exige solo si el diseño la prevé, y en este diseño no se instala el controlador de dominio (ver `windows-server-2025.md`, apartado 9).
+No se hace. La rúbrica la exige solo si el diseño la prevé, y en este diseño no se instala el controlador de dominio (ver `05-instalacion-comunicaciones/configuracion/windows-server-2025.md`, apartado 9).

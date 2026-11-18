@@ -82,8 +82,8 @@ Decisiones y observaciones:
 
 Evidencias (`05-instalacion-comunicaciones/evidencies/`):
 
-- `2026-11-17-proxmox-pve1-consola-version-red.png`, `2026-11-17-proxmox-pve2-consola-version-red.png`, `2026-11-17-proxmox-pve3-consola-version-red.png`: versión (`pveversion`) y direcciones (`ip -br a`).
-- `2026-11-17-proxmox-pve1-web-panel.png`, `2026-11-17-proxmox-pve2-web-panel.png`, `2026-11-17-proxmox-pve3-web-panel.png`: panel web de cada nodo con el usuario `root@pam`.
+- `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-pve1-consola-version-red.png`, `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-pve2-consola-version-red.png`, `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-pve3-consola-version-red.png`: versión (`pveversion`) y direcciones (`ip -br a`).
+- `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-pve1-web-panel.png`, `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-pve2-web-panel.png`, `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-pve3-web-panel.png`: panel web de cada nodo con el usuario `root@pam`.
 
 ## 7. Clúster (17/11/2026)
 
@@ -101,7 +101,7 @@ Resultado de `pvecm status` (ejecutado en `pve3`):
 
 Con tres votos y quórum de 2, el clúster sigue funcionando si cae un nodo. Con dos nodos no sería posible sin un dispositivo de quórum externo.
 
-Evidencias (`05-instalacion-comunicaciones/evidencies/`): `2026-11-17-proxmox-cluster-creacion.png` (tarea "Crear cluster" terminada en `TASK OK`) y `2026-11-17-proxmox-pvecm-status-quorum.png` (`pvecm status` y `pvecm nodes`).
+Evidencias (`05-instalacion-comunicaciones/evidencies/`): `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-cluster-creacion.png` (tarea "Crear cluster" terminada en `TASK OK`) y `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-pvecm-status-quorum.png` (`pvecm status` y `pvecm nodes`).
 
 ## 8. Contenedor de prueba y migración (17/11/2026)
 
@@ -125,7 +125,7 @@ Observaciones:
 - El contenedor está parado durante la mayor parte de los 37 s (modo reinicio). Una migración en caliente sin parada solo es posible con almacenamiento compartido (por ejemplo, el servidor TrueNAS por NFS), que no se ha montado en este laboratorio.
 - Los nodos tienen 3 GB de RAM y 20-32 GB de disco, de modo que los tiempos medidos no son los de servidores reales.
 
-Evidencias (`05-instalacion-comunicaciones/evidencies/`): `2026-11-17-proxmox-ct100-resumen-creacion.png`, `2026-11-17-proxmox-ct100-tarea-creada.png`, `2026-11-17-proxmox-ct100-consola-antes-migrar.png` y las cuatro de la migración (`2026-11-17-proxmox-ct100-migracion-1-lvs-pve1-antes.png`, `-2-tarea.png`, `-3-lvs-pve2-despues.png`, `-4-consola-pve2.png`).
+Evidencias (`05-instalacion-comunicaciones/evidencies/`): `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-ct100-resumen-creacion.png`, `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-ct100-tarea-creada.png`, `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-ct100-consola-antes-migrar.png` y las cuatro de la migración (`05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-ct100-migracion-1-lvs-pve1-antes.png`, `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-ct100-migracion-2-tarea.png`, `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-ct100-migracion-3-lvs-pve2-despues.png`, `05-instalacion-comunicaciones/evidencies/2026-11-17-proxmox-ct100-migracion-4-consola-pve2.png`).
 
 ## 9. VM Debian y migración en caliente (17/11/2026)
 
